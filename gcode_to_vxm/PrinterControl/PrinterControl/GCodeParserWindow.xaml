@@ -1,0 +1,46 @@
+﻿<Window x:Class="PrinterControl.GCodeParserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PrinterControl"
+        mc:Ignorable="d"
+        Title="GCodeParserWindow" Height="475.667" Width="384">
+    <Grid>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="24" Margin="298,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <Label x:Name="label" Content="Height:" HorizontalAlignment="Left" Margin="250,72,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,0.269"/>
+        <Label x:Name="label1" Content="All distance units in cm" HorizontalAlignment="Left" Margin="230,373,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="22" Margin="298,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <Label x:Name="label_Copy" Content="Number of perimeter lines (layer):" HorizontalAlignment="Left" Margin="110,102,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,0.269"/>
+        <TextBox x:Name="textBox_Copy1" HorizontalAlignment="Left" Height="22" Margin="298,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <Label x:Name="label_Copy1" Content="Infill square size:" HorizontalAlignment="Left" Margin="200,166,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,0.269"/>
+        <TextBox x:Name="textBox_Copy2" HorizontalAlignment="Left" Height="22" Margin="298,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <Label x:Name="label_Copy2" Content="Layer thickness:" HorizontalAlignment="Left" Margin="206,40,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,0.269"/>
+        <TextBox x:Name="textBox_Copy3" HorizontalAlignment="Left" Height="24" Margin="298,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <Label x:Name="label_Copy3" Content="Spot size:" HorizontalAlignment="Left" Margin="238,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,0.269"/>
+        <TextBox x:Name="textBox_Copy4" HorizontalAlignment="Left" Height="24" Margin="298,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <Label x:Name="label_Copy4" Content="Number of infill squares (x):" HorizontalAlignment="Left" Margin="142,198,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,0.269"/>
+        <TextBox x:Name="textBox_Copy5" HorizontalAlignment="Left" Height="24" Margin="298,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <Label x:Name="label_Copy5" Content="Number of infill squares (y):" HorizontalAlignment="Left" Margin="142,228,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,0.269"/>
+        <TextBox x:Name="textBox_Copy9" HorizontalAlignment="Left" Height="24" Margin="298,310,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <Label x:Name="label_Copy9" Content="Defect size (x, y, z):" HorizontalAlignment="Left" Margin="46,308,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,0.269"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="242,136,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem>Checkerboard</ComboBoxItem>
+            <ComboBoxItem>Random</ComboBoxItem>
+            <ComboBoxItem>None</ComboBoxItem>
+        </ComboBox>
+        <Label x:Name="label2" Content="Hatch direction alternation:" HorizontalAlignment="Left" Margin="88,134,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBox_Copy" HorizontalAlignment="Left" Margin="242,262,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label2_Copy" Content="Infill square order:" HorizontalAlignment="Left" Margin="136,258,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox" Content="Defect?" HorizontalAlignment="Left" Margin="300,290,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_Copy10" HorizontalAlignment="Left" Height="24" Margin="226,310,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <TextBox x:Name="textBox_Copy11" HorizontalAlignment="Left" Height="24" Margin="154,310,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <TextBox x:Name="textBox_Copy8" HorizontalAlignment="Left" Height="24" Margin="298,344,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <Label x:Name="label_Copy8" Content="Defect location (x, y, z):" HorizontalAlignment="Left" Margin="24,342,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.882,0.269"/>
+        <TextBox x:Name="textBox_Copy12" HorizontalAlignment="Left" Height="24" Margin="226,344,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <TextBox x:Name="textBox_Copy13" HorizontalAlignment="Left" Height="24" Margin="154,344,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64"/>
+        <Button x:Name="button" Content="Export gCode" HorizontalAlignment="Left" Margin="274,409,0,0" VerticalAlignment="Top" Width="88" RenderTransformOrigin="-0.169,0.417" Click="button_Click"/>
+        <Button x:Name="button1" Content="Close" HorizontalAlignment="Left" Margin="194,409,0,0" VerticalAlignment="Top" Width="74"/>
+
+    </Grid>
+</Window>
