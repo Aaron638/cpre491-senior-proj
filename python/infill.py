@@ -79,6 +79,7 @@ def drawHatch(x0, y0, length, border, ccw=0):
         
         x += 1
         writePoint(x0+border+(x*voxel), y0+border+(y*voxel))
+        
     if ccw == 1:
 
         # Draw border
@@ -90,7 +91,6 @@ def drawHatch(x0, y0, length, border, ccw=0):
 
         # 0,6 is the border top left
         (x, y) = (0, 6)
-        # print( str((x, y)) )
         writePoint(x0+border+(x*voxel), y0+border+(y*voxel))
 
         # Draw infill zig-zag
@@ -104,15 +104,14 @@ def drawHatch(x0, y0, length, border, ccw=0):
             else:
                 x += 1
                 decr_y = True
-            # print( str((x, y)) )
+                
             writePoint(x0+border+(x*voxel), y0+border+(y*voxel))
             x = 6-x
             y = 6-y
             (x, y) = (y, x) # Swap
-            # print( str((x, y)) )
             writePoint(x0+border+(x*voxel), y0+border+(y*voxel))
+
         x += 1
-        # print( str((x, y)) )
         writePoint(x0+border+(x*voxel), y0+border+(y*voxel))
 
     print("END OF INFILL")
