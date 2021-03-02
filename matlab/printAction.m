@@ -1,3 +1,5 @@
+% DEPRECATED: Bigelow doesn't want classes, so we split it up into methods
+
 % Methods to send commands to the vxm motors
 % For now, we're excluding units
 classdef printAction
@@ -7,7 +9,7 @@ classdef printAction
         % Move from previous point (x0, y0) to new point (x1, y1)
         % Returns the VXM command string array:
         % "F, PM-1, S2M{0}, S3M{1}, (I3M{2},I2M{3},)R"
-        function vxmCMD = move(x0, y0, x1, y1)
+        function vxmCMD = vxmMove(x0, y0, x1, y1)
             
             deltaX = x1 - x0;
             deltaY = y1 - y0;
@@ -44,10 +46,10 @@ classdef printAction
 
             % They took the z elevation multiplied by 5 * 400
             % 400 is the BED_CONVERSION_FACTOR, whatever that is
-            stepsMoved = z * 5 * 400
+            stepsMoved = z * 5 * 400;
 
             % Write the vxm command
-            vxmCMD = ''
+            vxmCMD = "";
             % Move the left bed up by stepsMoved
             L1 = strcat("F, PM-1, S1M2000, I1M-", stepsMoved, ", R");
             % Move the right bed down by stepsMoved
