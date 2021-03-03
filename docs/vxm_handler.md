@@ -1,3 +1,10 @@
+# Velmex Motor Handler Documentation
+
+## Overview
+
+## Previous Group's work:
+
+This is a snippet of code from the previous group written in C#:
 ```cs
     // If X does not move, the Velmex command only updates Y (motor 3)
     else if (Math.Round(deltaX) == 0)

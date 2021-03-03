@@ -1,4 +1,4 @@
-# Understanding Powderbed Metal 3D Printer Software from previous Senior Design Groups
+# Understanding C# Code written by previous Senior Design Groups
 By Aaron Martin
 <hr></hr>
 
@@ -7,7 +7,7 @@ By Aaron Martin
 
 Given certain dimensions of an object, the software will generate a set of instructions for the 3D printer in a text file. 
 
-These instructions are decoded into serial instructions for the Velmex Step control motors, and the Laser.
+These instructions are decoded into serial instructions for the Velmex Step control motors and the Laser.
 
 Sensors connected to an Arduino provide additional information of the conditions of the 3D printing chamber. Certain temperature, pressure, and oxygen levels must be satisfied before any printing is done.
 
