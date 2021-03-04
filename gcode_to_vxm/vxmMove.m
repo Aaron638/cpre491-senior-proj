@@ -1,8 +1,6 @@
 % Move from previous point (x0, y0) to new point (x1, y1)
 % Returns a cell string (a string array that actually works)
 
-
-
 % The previous group was insane and did not regulate their formatting whatsoever
 % Redefining command convention with spacing for readability (spaces are ignored by vxm motors):
 % BEFORE:
@@ -19,6 +17,7 @@ function vxmCMD = vxmMove(x0, y0, x1, y1)
     
     % Apparently averageSpeed is set by user
     % One example shows that it's 25 * 400????
+    % 25 mm/s * 400 steps
     % Need to look at vxm-2 manual
     avgSpeed = 25 * 400;
 
