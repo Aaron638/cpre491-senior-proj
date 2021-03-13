@@ -23,10 +23,31 @@ function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defe
 %gcode - gcode string that draws the infill pattern
     
     %checks for illegal input arguments
-    if length <= 0 || width <= 0 || height <= 0 || total_vertical_bars < 3 || mod(total_vertical_bars,2) == 0
-        disp("Illegal Argument(s) for gen_voxel()");
+    if length <= 0
+        disp("Illegal Argument for length in gen_voxel(), length must be > 0");
         return;
     end
+    if width <= 0
+        disp("Illegal Argument for width in gen_voxel(), width must be > 0");
+        return;
+    end
+    if height <= 0
+        disp("Illegal Argument for height in gen_voxel(), height must be > 0");
+        return;
+    end
+    if total_vertical_bars < 3
+        disp("Illegal Argument for total_vertical_bars in gen_voxel(), must be >= 3");
+        return;
+    end
+    if mod(total_vertical_bars,2) == 0
+        disp("Illegal Argument for total_vertical_bars in gen_voxel(), must be odd value");
+        return;
+    end
+    if total_vertical_bars ~= floor(total_vertical_bars)
+        disp("Illegal Argument for total_vertical_bars in gen_voxel(), must be integer value");
+        return;
+    end
+    
     gcode = "M201\n"; %turn on laser
     %number_of_bars = 11; %at the moment, there are 11 bars for each voxel
     bar_heights = length/total_vertical_bars; %height of the downward portions
