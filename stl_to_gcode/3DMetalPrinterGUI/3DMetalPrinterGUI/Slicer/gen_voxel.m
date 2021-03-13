@@ -104,7 +104,7 @@ function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defe
         rightward_gcode = "G01 X" + x_coord + " Y" + y_start + "\n";  
     end
     
-    %Function returns downward sweep gcod in infill pattern and updated y
+    %Function returns upward sweep gcod in infill pattern and updated y
     %coord value
     function [upward_gcode, y_coord] = upward(x_start, y_start, bar_heights)
         upward_gcode = "";
