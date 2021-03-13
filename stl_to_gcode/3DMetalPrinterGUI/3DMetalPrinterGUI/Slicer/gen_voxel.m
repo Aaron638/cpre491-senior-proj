@@ -1,34 +1,43 @@
-function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defect)
+function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defect, total_vertical_bars)
 %This function generates the voxel pattern. In this case, we are generating
 %a 0 degree pattern. Here is an illustration of the pattern this function 
 %is generating, it is the top left diagram:
 %https://ars.els-cdn.com/content/image/1-s2.0-S2238785419301905-gr2.jpg
 %Inputs:
-%x_origin - start of the x coordinate for infill pattern
-%y_origin - start of the y coordinate for infill pattern
-%length - this is the total length from the start of the infill pattern to
+%x_origin (float) - start of the x coordinate for infill pattern
+%y_origin (float) - start of the y coordinate for infill pattern
+%length (float) - this is the total length from the start of the infill pattern to
 %the bottom of the infill pattern (note this does NOT start and end at the 
 %borders of the pattern, the square in the diagram)
-%width - this is the width of the infill pattern, just like the length it
+%width (float) - this is the width of the infill pattern, just like the length it
 %does not start and end at the border of the infill pattern, but starts at
 %the beginning of the infill pattern and ends at the point the pattern
 %starts to move downwards
-%height - height of the cube (may not need this input)
-%has_defect - boolean varaible to see if there are any defects in this
+%height (float) - height of the cube (may not need this input)
+%has_defect (boolean) - boolean varaible to see if there are any defects in this
 %voxel
+%total_vertical_bars (int) - total amount of vertical bars you want in this voxel
+%needs to be odd value and at least 3
+%(default should be set to 11)
 %Outputs:
 %gcode - gcode string that draws the infill pattern
     
+    %checks for illegal input arguments
+    if length <= 0 || width <= 0 || height <= 0 || total_vertical_bars < 3 || mod(total_vertical_bars,2) == 0
+        disp("Illegal Argument(s) for gen_voxel()");
+        return;
+    end
     gcode = "M201\n"; %turn on laser
-    number_of_bars = 11; %at the moment, there are 11 bars for each voxel
-    bar_heights = length/number_of_bars; %height of the downward portions
+    %number_of_bars = 11; %at the moment, there are 11 bars for each voxel
+    bar_heights = length/total_vertical_bars; %height of the downward portions
+    number_of_right_up_left_up_patterns = fix(total_vertical_bars/2);
     i = 0;
     x_value = x_origin; %current x coord value
     y_value = y_origin; %current y coord value
     
     gcode = gcode + "G01 X" + x_origin + " Y" + y_origin + "\n";
     
-    while(i < 5) %the pattern right-down-left-down is repeated 5 times
+    while(i < number_of_right_up_left_up_patterns) %the pattern right-up-left-up is repeated 5 times
         
         [right_gcode, x] = rightward(x_value, y_value, width);
         gcode = gcode + right_gcode;
@@ -51,7 +60,7 @@ function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defe
         i = i+1;
     end
     
-    %pattern right-down-left finishes the infill pattern
+    %pattern right-up-left finishes the infill pattern
     [right_gcode, x] = rightward(x_value, y_value, width);
     gcode = gcode + right_gcode;
     x_value = x;
@@ -91,4 +100,3 @@ function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defe
     end
 
 end
-
