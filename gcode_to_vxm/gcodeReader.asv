@@ -31,8 +31,8 @@ function gcodeReader(filename)
         return;
     end
 
-    % Open the COM Ports
     [ThreeAxisRollerCOM, PowderBedsCOM, SensorSystemCOM] = OpenCOMPorts;
+
 
     % For each line starting at line 2, call the corresponding command
     xCur  = 0.0; yCur  = 0.0; zCur = 0.0;
@@ -51,16 +51,8 @@ function gcodeReader(filename)
 
             vxmCMD = vxmMove(xPrev, yPrev, xCur, yCur);
             disp("Sending through COM port:");
-            isComplete = false;
-            while isComplete
-                line = readline(ThreeAxisRollerCOM);
-                if line == "^"
-                    isComplete = true;
-                end
-                % Loop will continue as long as action isn't complete
-            end
+            if (ThreeAxisRollerCom.
             disp(vxmCMD);
-            writeline(ThreeAxisRollerCOM, vxmCMD);
 
         % Increase elevation by z
         % I think it should also reset position to (0,0)?
@@ -70,16 +62,7 @@ function gcodeReader(filename)
 
             vxmCMD = vxmLayer(zCur);
             disp("Sending through COM port:");
-            isComplete = false;
-            while isComplete
-                line = readline(PowderBedsCOM);
-                if line == "^"
-                    isComplete = true;
-                end
-                % Loop will continue as long as action isn't complete
-            end
             disp(vxmCMD);
-            writeline(PowderBedsCOM, vxmCMD);
 
             xCur = 0.0; yCur = 0.0;
             xPrev = 0.0; yPrev = 0.0;
