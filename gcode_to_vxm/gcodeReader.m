@@ -52,7 +52,7 @@ function gcodeReader(filename)
             vxmCMD = vxmMove(xPrev, yPrev, xCur, yCur);
             disp("Sending through COM port:");
             isComplete = false;
-            while isComplete
+            while isComplete == false
                 line = readline(ThreeAxisRollerCOM);
                 if line == "^"
                     isComplete = true;
@@ -71,7 +71,7 @@ function gcodeReader(filename)
             vxmCMD = vxmLayer(zCur);
             disp("Sending through COM port:");
             isComplete = false;
-            while isComplete
+            while isComplete == false
                 line = readline(PowderBedsCOM);
                 if line == "^"
                     isComplete = true;
