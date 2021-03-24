@@ -11,10 +11,9 @@
 
 function vxmCMD = vxmLayer(z)
 
-    % They took the z elevation multiplied by 5 * 400
-    % 400 is the BED_CONVERSION_FACTOR, whatever that is
-    % We force stepsMoved to be an int, not sure if this is dangerous
-    stepsMoved = z * 5 * 400;
+    % Convert z to Steps (See VXM_STEP_SIZE.m)
+    stepsMoved = z / VXM_STEP_SIZE;
+    % Convert to string, format as integer
     stepsMoved = compose("%d", stepsMoved);
 
     % Write the vxm command's 4 lines

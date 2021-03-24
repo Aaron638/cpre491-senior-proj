@@ -1,4 +1,5 @@
 % Move from previous point (x0, y0) to new point (x1, y1)
+%   gcode units are in mm. So the point (1, 1), is 1mm in the x and y direction.
 % Returns a cell string (a string array that actually works)
 
 % The previous group was insane and did not regulate their formatting whatsoever
@@ -11,25 +12,25 @@
 
 function vxmCMD = vxmMove(x0, y0, x1, y1)
     
+    % Calculate the distance to travel (mm)
+    % "dist_" is used because "dist" is a built in matlab function
     deltaX = x1 - x0;
     deltaY = y1 - y0;
-    dist = sqrt(deltaX.^2 + deltaY.^2);
+    dist_ = sqrt(deltaX.^2 + deltaY.^2); 
     
-    % Apparently averageSpeed is set by user
-    % One example shows that it's 25 * 400????
-    % 25 mm/s * 400 steps
-    % Need to look at vxm-2 manual
-    avgSpeed = 25 * 400;
+    % TODO: User should set average speed
+    avgSpeed = 1;
+    % Speed to move in the x or y direction (mm/s)
+    speedX = abs(avgSpeed * (deltaX / dist_));
+    speedY = abs(avgSpeed * (deltaY / dist_));
 
-    speedX = abs(avgSpeed * (deltaX / dist));
-    speedY = abs(avgSpeed * (deltaY / dist));
-
-    % Formatting the strings
-    % We force them to be ints, not sure if this is dangerous
-    deltaX = compose("%d", deltaX);
-    deltaY = compose("%d", deltaY);
-    speedX = compose("%d", speedX);
-    speedY = compose("%d", speedY);
+    % Convert to Steps (See VXM_STEP_SIZE.m)
+    % Convert to String
+    % Speeds and distances must be integer
+    deltaX = compose("%d", deltaX / VXM_STEP_SIZE);
+    deltaY = compose("%d", deltaY / VXM_STEP_SIZE);
+    speedX = compose("%d", speedX / VXM_STEP_SIZE);
+    speedY = compose("%d", speedY / VXM_STEP_SIZE);
     
     % Write the vxm command
     % Only move motor 3 (y-axis)
