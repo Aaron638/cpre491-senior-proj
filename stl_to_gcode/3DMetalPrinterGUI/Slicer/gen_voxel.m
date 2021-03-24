@@ -94,7 +94,7 @@ function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defe
     gcode = gcode + left_gcode;
     x_value = x;
     
-    gcode = gcode + "M202"; %turn off laser
+    gcode = gcode + "M202\n"; %turn off laser
     
     %Function returns rightward sweep gcode in infill pattern and updated x
     %coord value

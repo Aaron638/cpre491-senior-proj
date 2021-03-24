@@ -83,7 +83,7 @@ function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, heigh
     gcode = gcode + up_gcode;
     y_value = y;
     
-    gcode = gcode + "M202";
+    gcode = gcode + "M202\n";
     
     %Function returns upward sweep gcode in infill pattern and updated y
     %coord value
