@@ -54,7 +54,7 @@ function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, heigh
     i = 0;
     x_value = x_origin; %current x coord value
     y_value = y_origin; %current y coord value
-    gcode = gcode + "G01 X" + x_origin + " Y" + y_origin + "\n";
+    gcode = gcode + "G01 X" + sprintf('%.4f',x_origin) + " Y" + sprintf('%.4f',y_origin) + "\n";
     
     while(i < number_of_up_left_down_left_patterns) %the pattern right-up-left-up is repeated 5 times
         
@@ -83,14 +83,14 @@ function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, heigh
     gcode = gcode + up_gcode;
     y_value = y;
     
-    gcode = gcode + "M202";
+    gcode = gcode + "M202\n";
     
     %Function returns upward sweep gcode in infill pattern and updated y
     %coord value
     function [upward_gcode, y_coord] = upward(x_start, y_start, length)
         upward_gcode = "";
         y_coord = y_start + length;
-        upward_gcode = "G01 X" + x_start + " Y" + y_coord + "\n";
+        upward_gcode = "G01 X" + sprintf('%.4f',x_start) + " Y" + sprintf('%.4f',y_coord) + "\n";
     end
 
     %Function returns leftward sweep gcode in infill pattern and updated x
@@ -98,7 +98,7 @@ function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, heigh
     function [leftward_gcode, x_coord] = leftward(x_start, y_start, bar_heights)
         leftward_gcode = "";
         x_coord = x_start - bar_heights;
-        leftward_gcode = "G01 X" + x_coord + " Y" + y_start + "\n";
+        leftward_gcode = "G01 X" + sprintf('%.4f',x_coord) + " Y" + sprintf('%.4f',y_start) + "\n";
     end
 
     %Function returns downward sweep gcode in infill pattern and updated y
@@ -106,7 +106,7 @@ function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, heigh
     function [downward_gcode, y_coord] = downward(x_start, y_start, length)
         downward_gcode = "";
         y_coord = y_start - length;
-        downward_gcode = "G01 X" + x_start + " Y" + y_coord + "\n";
+        downward_gcode = "G01 X" + sprintf('%.4f',x_start) + " Y" + sprintf('%.4f',y_coord) + "\n";
     end
 
 end

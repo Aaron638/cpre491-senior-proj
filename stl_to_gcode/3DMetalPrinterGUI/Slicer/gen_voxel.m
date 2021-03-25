@@ -56,7 +56,7 @@ function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defe
     x_value = x_origin; %current x coord value
     y_value = y_origin; %current y coord value
     
-    gcode = gcode + "G01 X" + x_origin + " Y" + y_origin + "\n";
+    gcode = gcode + "G01 X" + sprintf('%.4f',x_origin) + " Y" + sprintf('%.4f',y_origin) + "\n";
     
     while(i < number_of_right_up_left_up_patterns) %the pattern right-up-left-up is repeated 5 times
         
@@ -94,14 +94,14 @@ function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defe
     gcode = gcode + left_gcode;
     x_value = x;
     
-    gcode = gcode + "M202"; %turn off laser
+    gcode = gcode + "M202\n"; %turn off laser
     
     %Function returns rightward sweep gcode in infill pattern and updated x
     %coord value
     function [rightward_gcode, x_coord] = rightward(x_start, y_start, width)
         rightward_gcode = "";
         x_coord = x_start + width;
-        rightward_gcode = "G01 X" + x_coord + " Y" + y_start + "\n";  
+        rightward_gcode = "G01 X" + sprintf('%.4f',x_coord) + " Y" + sprintf('%.4f',y_start) + "\n";  
     end
     
     %Function returns upward sweep gcod in infill pattern and updated y
@@ -109,7 +109,7 @@ function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defe
     function [upward_gcode, y_coord] = upward(x_start, y_start, bar_heights)
         upward_gcode = "";
         y_coord = y_start + bar_heights;
-        upward_gcode = "G01 X" + x_start + " Y" + y_coord + "\n";
+        upward_gcode = "G01 X" + sprintf('%.4f',x_start) + " Y" + sprintf('%.4f',y_coord) + "\n";
     end
 
     %Function returns leftward sweep gcode in infill pattern and updated x
@@ -117,7 +117,7 @@ function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defe
     function [leftward_gcode, x_coord] = leftward(x_start, y_start, width)
         leftward_gcode = "";
         x_coord = x_start - width;
-        leftward_gcode = "G01 X" + x_coord + " Y" + y_start + "\n";
+        leftward_gcode = "G01 X" + sprintf('%.4f',x_coord) + " Y" + sprintf('%.4f',y_start) + "\n";
     end
 
 end
