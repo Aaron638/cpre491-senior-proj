@@ -4,93 +4,64 @@
 % M201 = laserOn()
 % M202 = laserOff()
 
-% CHANGING CONVENTION:
-% Add spaces btwn Width and Height in line 1 of our gcode files
-%   "Width: 30 Height: 30"
+% The strings are written to the file: "vxmCMDs.txt"
 
 function gcodeReader(filename)
 
-    % read file line by line as a string array
+    % Read file line by line as a string array
     fileData = readlines(filename);
 
-
-
-    % Update GUI with Line 1's width and height
     curLine = fileData(1);
-    disp(compose("\tLine [%d]: ",1) + curLine);
+    disp("Read Line [1]: " + curLine);
     
+    % Check if file is valid
     if (contains(curLine, 'Width: '))
         L1 = split(curLine);
         w = L1(2);
         h = L1(4);
-        disp("Update GUI: Width: " + w);
-        disp("Update GUI: Height: " + h);
     else
         disp("ERROR: gcode file does not properly define width/height.");
-        disp("Line 1 must start with 'Width: {x} Height: {y}'");
+        disp("Line 1 must start with: 'Width: {x} Height: {y}'");
         return;
     end
 
-    % Open the COM Ports
-    [ThreeAxisRollerCOM, PowderBedsCOM, SensorSystemCOM] = OpenCOMPorts;
-
-    % For each line starting at line 2, call the corresponding command
     xCur  = 0.0; yCur  = 0.0; zCur = 0.0;
     xPrev = 0.0; yPrev = 0.0;
     curLineStrArr = [];
+    vxmCMDResult = "";
+    vxmCMDArr = [];
 
+    % For each line starting at line 2, call the corresponding command
     for i = 2:size(fileData)
         curLine = fileData(i);
-        disp(compose("\tLine [%d]: ",i) + curLine);
+        disp(compose("Line [%d]: ",i) + curLine);
 
         % Move to (x,y)
-        if startsWith(curLine, 'G1')
+        if startsWith(curLine, 'G01')
             curLineStrArr = split(curLine);
             xCur = getNumsFromStr(curLineStrArr(2));
             yCur = getNumsFromStr(curLineStrArr(3));
 
-            vxmCMD = vxmMove(xPrev, yPrev, xCur, yCur);
-            disp("Sending through COM port:");
-            isComplete = false;
-            while isComplete == false
-                line = readline(ThreeAxisRollerCOM);
-                if line == "^"
-                    isComplete = true;
-                end
-                % Loop will continue as long as action isn't complete
-            end
-            disp(vxmCMD);
-            writeline(ThreeAxisRollerCOM, vxmCMD);
+            vxmCMDResult = vxmMove(xPrev, yPrev, xCur, yCur);
 
-        % Increase elevation by z
-        % I think it should also reset position to (0,0)?
+        % Increment elevation by z
+        % Reset position to (0,0)
         elseif startsWith(curLine, 'M200')
             curLineStrArr = split(curLine);
             zCur = zCur + getNumsFromStr(curLineStrArr(2));
 
-            vxmCMD = vxmLayer(zCur);
-            disp("Sending through COM port:");
-            isComplete = false;
-            while isComplete == false
-                line = readline(PowderBedsCOM);
-                if line == "^"
-                    isComplete = true;
-                end
-                % Loop will continue as long as action isn't complete
-            end
-            disp(vxmCMD);
-            writeline(PowderBedsCOM, vxmCMD);
-
             xCur = 0.0; yCur = 0.0;
             xPrev = 0.0; yPrev = 0.0;
 
+            vxmCMDResult = vxmLayer(zCur);
+
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
-            laserOn();
+            vxmCMDResult = laserOn();
 
         % Turn the laser off
         elseif startsWith(curLine, 'M202')
-            laserOff();
+            vxmCMDResult = laserOff();
         
         % Empty line, ignore
         elseif startsWith(curLine, "")
@@ -98,16 +69,24 @@ function gcodeReader(filename)
 
         % Encountered unexpected text, pause and wait for user
         else
-            laserOff();
-            disp("WARNING: Encountered unexpected text at line: " + i);
-            disp(curLine);
-            disp("Update GUI: PAUSED");
+            disp("ERROR: Encountered unexpected text. PAUSED.");
+            disp("Press any key to unpause");
+            pause;
+
         end
+
+        % Add the current command(s) to the end of array
+        disp(compose("Wrote: " + vxmCMDResult));
+        vxmCMDArr = horzcat(vxmCMDArr, vxmCMDResult);
 
         % Update previous (x,y) for vxmMove()
         xPrev = xCur; yPrev = yCur;
     end
 
     disp("Finished Reading gcode file");
+
+    % Write commands from array to vxmCMDs.txt
+    cmdFile = fopen("vxmCMDs.txt", "w");
+    fprintf(cmdFile, "%s", vxmCMDArr);
 
 end
