@@ -13,12 +13,12 @@ length = 13;
 width = 13;
 height = 3;
 
-% height of layer in range [10,200] microns
-layer_height = 10;
+% height of layer in range [10,200] microns ([.01,.2] mm)
+layer_height = 0.2;
 
 % num voxels per side
-voxel_length_num = 4;
-voxel_width_num = 4;
+voxel_length_num = 3;
+voxel_width_num = 3;
 
 % margin betwen voxel borders and outer border
 voxel_margin = 0.5;
@@ -44,64 +44,72 @@ gcode = "Width: 30 Length: 30\nM200 0.1\n";
 % Cube Generation
 % -------------------------------------------------------------------------
 
-% draw single layer
+% outer loop for each layer
 
-% draw outer border
-gcode = gcode + "G01 X0.0000 Y0.0000\n";
-gcode = gcode + "G01 X" + sprintf('%.4f',length) + " Y0.0000\n";
-gcode = gcode + "G01 X" + sprintf('%.4f',length) + " Y" + sprintf('%.4f',width) + "\n";
-gcode = gcode + "G01 X0.0000 Y" + sprintf('%.4f',width) + "\n";
-gcode = gcode + "G01 X0.0000 Y0.0000\n";
+for h = 0:layer_height:height
 
-voxels_drawn = zeros(voxel_num-1,2);
+    % draw single layer
+    
+    gcode = gcode + "G01 Z" + sprintf('%.4f',h) + "\n";
 
-for i = 0:voxel_num-1
+    % draw outer border
+    gcode = gcode + "G01 X0.0000 Y0.0000\n";
+    gcode = gcode + "G01 X" + sprintf('%.4f',length) + " Y0.0000\n";
+    gcode = gcode + "G01 X" + sprintf('%.4f',length) + " Y" + sprintf('%.4f',width) + "\n";
+    gcode = gcode + "G01 X0.0000 Y" + sprintf('%.4f',width) + "\n";
+    gcode = gcode + "G01 X0.0000 Y0.0000\n";
+
+    voxels_drawn = zeros(voxel_num-1,2);
+
+    for v = 0:voxel_num-1
     
-    % This approach only works when num_rows==num_cols :(
-    %v = randi(size(voxel_to_draw));
-    %v = voxel_to_draw(v);
-    %voxel_to_draw(voxel_to_draw == v) = []; % remove voxel we are currently drawing from eligible list
-    %row = floor(v/voxel_width_num);
-    %col = mod(v,voxel_length_num);
-    %disp(v + "," + row + " " + col);
+        % This approach only works when num_rows==num_cols :(
+        %v = randi(size(voxel_to_draw));
+        %v = voxel_to_draw(v);
+        %voxel_to_draw(voxel_to_draw == v) = []; % remove voxel we are currently drawing from eligible list
+        %row = floor(v/voxel_width_num);
+        %col = mod(v,voxel_length_num);
+        %disp(v + "," + row + " " + col);
     
-    % naiive approach for selecting voxel to draw
-    while 1
-       row = randi(voxel_length_num)-1;
-       col = randi(voxel_width_num)-1;
-       if ~(ismember([row,col],voxels_drawn,'rows'))
-          break 
-       end
-    end
-    voxels_drawn(i+1,:) = [row,col];
+        % naiive approach for selecting voxel to draw
+        while 1
+            row = randi(voxel_length_num)-1;
+            col = randi(voxel_width_num)-1;
+            if ~(ismember([row,col],voxels_drawn,'rows'))
+                break 
+            end
+        end
+        voxels_drawn(v+1,:) = [row,col];
     
-    % draw voxel border
-    x = voxel_margin + (row * (voxel_border_length + voxel_margin));
-    y = voxel_margin + (col * (voxel_border_width + voxel_margin));
+        % draw voxel border
+        x = voxel_margin + (row * (voxel_border_length + voxel_margin));
+        y = voxel_margin + (col * (voxel_border_width + voxel_margin));
         
-    gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
-    x = x + voxel_border_length;
-    gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
-    y = y + voxel_border_width;
-    gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
-    x = x - voxel_border_length;
-    gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
-    y = y - voxel_border_width;
-    gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
+        gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
+        x = x + voxel_border_length;
+        gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
+        y = y + voxel_border_width;
+        gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
+        x = x - voxel_border_length;
+        gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
+        y = y - voxel_border_width;
+        gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
         
-    % draw voxel
-    if mod(row,2)==0 && mod(col,2)==0
-        gcode_voxel = gen_voxel(x + voxel_padding, y + voxel_padding, voxel_length, voxel_width, 1, 0, 11);
-    else
-        gcode_voxel = gen_voxel_90_degrees(x + voxel_padding, y + voxel_padding, voxel_length, voxel_width, 1, 0, 10);
+        % draw voxel
+        if mod(row,2)==0 && mod(col,2)==0
+            gcode_voxel = gen_voxel(x + voxel_padding, y + voxel_padding, voxel_length, voxel_width, 1, 0, 11);
+        else
+            gcode_voxel = gen_voxel_90_degrees(x + voxel_padding, y + voxel_padding, voxel_length, voxel_width, 1, 0, 10);
+        end
+        gcode = gcode + gcode_voxel;
     end
-    gcode = gcode + gcode_voxel;
+
 end
 
 
 % Print gcode in correct format
 str = compose(gcode);
 
-fileID = fopen('test.g','w');
+fileID = fopen('test.gcode','w');
 fprintf(fileID, '%s', str);
 fclose(fileID);
