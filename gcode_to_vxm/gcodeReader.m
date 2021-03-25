@@ -4,7 +4,10 @@
 % M201 = laserOn()
 % M202 = laserOff()
 
-% The strings are written to the file: "vxmCMDs.txt"
+% Output Files:
+% vxm motors    "vxmCMDs.txt"
+% powder bed    "bedCMDs.txt"
+% laser         "lzrCMDs.txt"
 
 function gcodeReader(filename)
 
@@ -28,11 +31,14 @@ function gcodeReader(filename)
     xCur  = 0.0; yCur  = 0.0; zCur = 0.0;
     xPrev = 0.0; yPrev = 0.0;
     curLineStrArr = [];
-    vxmCMDResult = "";
-    vxmCMDArr = [];
+    vxmCMDArr = []; lzrCMDArr = []; bedCMDArr = [];
 
     % For each line starting at line 2, call the corresponding command
     for i = 2:size(fileData)
+        vxmCMDResult = compose("\n");
+        bedCMDResult = compose("\n");
+        lzrCMDResult = compose("LASER_OFF\n");
+
         curLine = fileData(i);
         disp(compose("Line [%d]: ",i) + curLine);
 
@@ -53,15 +59,17 @@ function gcodeReader(filename)
             xCur = 0.0; yCur = 0.0;
             xPrev = 0.0; yPrev = 0.0;
 
-            vxmCMDResult = vxmLayer(zCur);
+            bedCMDResult = vxmLayer(zCur);
+            vxmCMDResult = compose("\n\n\n\n");
+            lzrCMDResult = compose("\n\n\n\n");
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
-            vxmCMDResult = laserOn();
+            lzrCMDResult = laserOn();
 
         % Turn the laser off
         elseif startsWith(curLine, 'M202')
-            vxmCMDResult = laserOff();
+            lzrCMDResult = laserOff();
         
         % Empty line, ignore
         elseif startsWith(curLine, "")
@@ -75,18 +83,34 @@ function gcodeReader(filename)
 
         end
 
+        if vxmCMDResult == compose("\n\n\n\n")
+            disp(compose("BED CMD: " + bedCMDResult));
+        else
+            disp(compose("VXM CMD: " + vxmCMDResult));
+        end
+
         % Add the current command(s) to the end of array
-        disp(compose("Wrote: " + vxmCMDResult));
-        vxmCMDArr = horzcat(vxmCMDArr, vxmCMDResult);
+        vxmCMDArr = [vxmCMDArr; vxmCMDResult];
+        bedCMDArr = [bedCMDArr; bedCMDResult];
+        lzrCMDArr = [lzrCMDArr; lzrCMDResult];
 
         % Update previous (x,y) for vxmMove()
         xPrev = xCur; yPrev = yCur;
     end
 
     disp("Finished Reading gcode file");
+    
+    % Write commands from array to txt files
+    vxmCMDFile = fopen("vxmCMDs.txt", "w");
+    vxmCMDArr = compose(vxmCMDArr);
+    fprintf(vxmCMDFile, "%s", vxmCMDArr);
 
-    % Write commands from array to vxmCMDs.txt
-    cmdFile = fopen("vxmCMDs.txt", "w");
-    fprintf(cmdFile, "%s", vxmCMDArr);
+    bedCMDFile = fopen("bedCMDs.txt", "w");
+    bedCMDArr = compose(bedCMDArr);
+    fprintf(bedCMDFile, "%s", bedCMDArr);
+
+    lzrCMDFile = fopen("lzrCMDs.txt", "w");
+    lzrCMDArr = compose(lzrCMDArr);
+    fprintf(lzrCMDFile, "%s", lzrCMDArr);
 
 end

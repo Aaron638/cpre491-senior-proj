@@ -1,4 +1,4 @@
 % M201: Laser On
 function laserCMD = laserOn()
-    laserCMD = "\n";
+    laserCMD = "LASER_ON\n";
 end
