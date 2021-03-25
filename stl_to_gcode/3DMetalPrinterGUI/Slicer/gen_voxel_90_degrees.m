@@ -1,4 +1,4 @@
-function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, height, has_defect, total_horizontal_bars)
+function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, has_defect, total_horizontal_bars)
 %This function generates the voxel pattern. In this case, we are generating
 %a 90 degree rasterization pattern. Here is an illustration of the pattern this function 
 %is generating, it is the bottom left diagram:
@@ -29,10 +29,6 @@ function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, heigh
     end
     if width <= 0
         disp("Illegal Argument for width in gen_voxel_90_degrees(), width must be > 0");
-        return;
-    end
-    if height <= 0
-        disp("Illegal Argument for height in gen_voxel_90_degrees(), height must be > 0");
         return;
     end
     if total_horizontal_bars < 2
