@@ -14,7 +14,7 @@ width = 13;
 height = 3;
 
 % height of layer in range [10,200] microns ([.01,.2] mm)
-layer_height = 4;
+layer_height = .2;
 
 % num voxels per side
 voxel_length_num = 4;
