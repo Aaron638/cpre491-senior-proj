@@ -96,11 +96,14 @@ for h = 0:layer_height:height
         gcode = gcode + "G01 X" + sprintf('%.4f',x) + " Y" + sprintf('%.4f',y) + "\n";
         
         % draw voxel
-        if (mod(row,2)==0 && mod(col,2)==0) || (mod(row,2)~=0 && mod(col,2)~=0)
+        % every other layer will change orientation, as will every other
+        % voxel
+        if ((mod(row,2)==0 && mod(col,2)==0) || (mod(row,2)~=0 && mod(col,2)~=0) && mod(h,2)==0) || mod(h,2)~=0
             gcode_voxel = gen_voxel(x + voxel_padding, y + voxel_padding, voxel_width, voxel_length, 0, 11);
         else
             gcode_voxel = gen_voxel_90_degrees(x + voxel_padding, y + voxel_padding, voxel_width, voxel_length, 0, 10);
         end
+        
         gcode = gcode + gcode_voxel;
     end
 
