@@ -40,12 +40,12 @@ function vxmCMD = vxmMove(x0, y0, x1, y1)
     % Write the vxm command
     % Only move motor 3 (y-axis)
     if str2double(deltaX) == 0
-        vxmCMD = "F, PM-1, S3M " + speedY + " I3M " + deltaY + ", R,\n";
+        vxmCMD = "F, PM-1, S3M " + speedY + " I3M " + deltaY + ", R,\r\n";
     % Only move motor 2 (x-axis)
     elseif str2double(deltaY) == 0
-        vxmCMD = "F, PM-1, S2M " + speedX + " I2M " + deltaX + ", R,\n";
+        vxmCMD = "F, PM-1, S2M " + speedX + " I2M " + deltaX + ", R,\r\n";
     % Move both motor 2 and 3
     else
-        vxmCMD = "F, PM-1, S2M " + speedX + ", S3M " + speedY + ", (I2M " + deltaX + ", I3M " + deltaY + "), R,\n";
+        vxmCMD = "F, PM-1, S2M " + speedX + ", S3M " + speedY + ", (I2M " + deltaX + ", I3M " + deltaY + "), R,\r\n";
     end
 end

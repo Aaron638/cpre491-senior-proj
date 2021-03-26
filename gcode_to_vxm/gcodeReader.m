@@ -35,8 +35,8 @@ function gcodeReader(filename)
 
     % For each line starting at line 2, call the corresponding command
     for i = 2:size(fileData)
-        vxmCMDResult = compose("\n");
-        bedCMDResult = compose("\n");
+        vxmCMDResult = compose("\r\n");
+        bedCMDResult = compose("\r\n");
         lzrCMDResult = compose("LASER_OFF\n");
 
         curLine = fileData(i);
@@ -60,8 +60,8 @@ function gcodeReader(filename)
             xPrev = 0.0; yPrev = 0.0;
 
             bedCMDResult = vxmLayer(zCur);
-            vxmCMDResult = compose("\n\n\n\n");
-            lzrCMDResult = compose("\n\n\n\n");
+            vxmCMDResult = compose("\r\n\r\n\r\n\r\n");
+            lzrCMDResult = compose("\r\n\r\n\r\n\r\n");
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
@@ -83,7 +83,7 @@ function gcodeReader(filename)
 
         end
 
-        if vxmCMDResult == compose("\n\n\n\n")
+        if vxmCMDResult == compose("\r\n\r\n\r\n\r\n")
             disp(compose("BED CMD: " + bedCMDResult));
         else
             disp(compose("VXM CMD: " + vxmCMDResult));

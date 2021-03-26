@@ -21,11 +21,11 @@ function vxmCMD = vxmLayer(z)
 
     % Write the vxm command's 4 lines
     % Move the left bed up by stepsMoved
-    vxmCMD = vxmCMD + "F, PM-1, S1M 2000, I1M -" + stepsMoved + ", R,\n";
+    vxmCMD = vxmCMD + "F, PM-1, S1M 2000, I1M -" + stepsMoved + ", R,\r\n";
     % Move the right bed down by stepsMoved
-    vxmCMD = vxmCMD + "F, PM-1, S2M 2000, I2M " + stepsMoved + ", R,\n";
+    vxmCMD = vxmCMD + "F, PM-1, S2M 2000, I2M " + stepsMoved + ", R,\r\n";
     % ???
-    vxmCMD = vxmCMD + "F, PM-1, S1M 6000, I1M   0, R,\n";
-    vxmCMD = vxmCMD + "F, PM-1, S1M 6000, I1M  -0, R,\n";
+    vxmCMD = vxmCMD + "F, PM-1, S1M 6000, I1M   0, R,\r\n";
+    vxmCMD = vxmCMD + "F, PM-1, S1M 6000, I1M  -0, R,\r\n";
 
 end

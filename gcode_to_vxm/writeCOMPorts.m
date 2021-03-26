@@ -1,7 +1,7 @@
 % This function reads laserCMDs.txt, bedCMDs.txt, and vxmCMDs.txt line by line
 % It then sends their results through the com ports
 
-function writeCOMPorts(ThreeAxisRollerCOM, PowderBedsCOM, SensorSystemCOM)
+function writeCOMPorts(ThreeAxisRollerCOM, PowderBedsCOM)
 
     disp("Reading textfiles:");
 
@@ -35,7 +35,7 @@ function writeCOMPorts(ThreeAxisRollerCOM, PowderBedsCOM, SensorSystemCOM)
         isComplete = false;
         while isComplete == false
             ready = readline(device);
-            if ready == "^"
+            if contains(string(ready), "^")
                 isComplete = true;
             end
             % Loop will continue as long as action isn't complete
