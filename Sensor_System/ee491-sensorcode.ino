@@ -43,23 +43,29 @@ void setup()
     delay(100);
 }
 
-void loop() 
+// Calculating, and printing temperature value (in Celsius)
+void get_temp() 
 {
-    // Calculating, and printing temperature value (in Celsius)
     long Temper = HP20x.ReadTemperature();
     Serial.print("Temperature:\t");
     float t = Temper / 100.0;
     Serial.print(t_filter.Filter(t));
     Serial.println(" C");
+}
 
-    // Calculating, and printing pressure value (in Pascals)
+// Calculating, and printing pressure value (in Pascals)
+void get_pres
+{
     long Pressure = HP20x.ReadPressure();
     Serial.print("Pressure:\t");
     t = Pressure / 10.0;
     Serial.print(p_filter.Filter(t));
     Serial.println(" Pa");
+}
 
-    // Calculating and printing oxygen content in air
+// Calculating and printing oxygen content in air
+void get_ox()
+{
     // NOTE: 20-30 minute preheat time
     float concPercent = readO2Concentration();
     Serial.print("Oxygen:\t\t");
