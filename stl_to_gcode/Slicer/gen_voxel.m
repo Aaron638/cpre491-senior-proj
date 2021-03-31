@@ -1,4 +1,4 @@
-function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defect, total_vertical_bars)
+function [gcode] = gen_voxel(x_origin, y_origin, length, width, has_defect, total_vertical_bars)
 %This function generates the voxel pattern. In this case, we are generating
 %a 0 degree pattern. Here is an illustration of the pattern this function 
 %is generating, it is the top left diagram:
@@ -29,10 +29,6 @@ function [gcode] = gen_voxel(x_origin, y_origin, length, width, height, has_defe
     end
     if width <= 0
         disp("Illegal Argument for width in gen_voxel(), width must be > 0");
-        return;
-    end
-    if height <= 0
-        disp("Illegal Argument for height in gen_voxel(), height must be > 0");
         return;
     end
     if total_vertical_bars < 3

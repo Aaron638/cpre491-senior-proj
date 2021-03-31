@@ -1,4 +1,4 @@
-function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, height, has_defect, total_horizontal_bars)
+function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, has_defect, total_horizontal_bars)
 %This function generates the voxel pattern. In this case, we are generating
 %a 90 degree rasterization pattern. Here is an illustration of the pattern this function 
 %is generating, it is the bottom left diagram:
@@ -31,10 +31,6 @@ function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, heigh
         disp("Illegal Argument for width in gen_voxel_90_degrees(), width must be > 0");
         return;
     end
-    if height <= 0
-        disp("Illegal Argument for height in gen_voxel_90_degrees(), height must be > 0");
-        return;
-    end
     if total_horizontal_bars < 2
         disp("Illegal Argument for total_horizontal_bars in gen_voxel_90_degrees(), must be >= 2");
         return;
@@ -63,16 +59,16 @@ function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, heigh
         gcode = gcode + up_gcode;
         y_value = y;
         
-        [left_gcode, x] = leftward(x_value, y_value, bar_heights);
-        gcode = gcode + left_gcode;
+        [right_gcode, x] = rightward(x_value, y_value, bar_heights);
+        gcode = gcode + right_gcode;
         x_value = x;
         
         [down_gcode, y] = downward(x_value, y_value, length);
         gcode = gcode + down_gcode;
         y_value = y;
         
-        [left_gcode, x] = leftward(x_value, y_value, bar_heights);
-        gcode = gcode + left_gcode;
+        [right_gcode, x] = rightward(x_value, y_value, bar_heights);
+        gcode = gcode + right_gcode;
         x_value = x;
         
         i = i+1;
@@ -93,12 +89,12 @@ function [gcode] = gen_voxel_90_degrees(x_origin, y_origin, length, width, heigh
         upward_gcode = "G01 X" + sprintf('%.4f',x_start) + " Y" + sprintf('%.4f',y_coord) + "\n";
     end
 
-    %Function returns leftward sweep gcode in infill pattern and updated x
+    %Function returns rightward sweep gcode in infill pattern and updated x
     %coord value
-    function [leftward_gcode, x_coord] = leftward(x_start, y_start, bar_heights)
-        leftward_gcode = "";
-        x_coord = x_start - bar_heights;
-        leftward_gcode = "G01 X" + sprintf('%.4f',x_coord) + " Y" + sprintf('%.4f',y_start) + "\n";
+    function [rightward_gcode, x_coord] = rightward(x_start, y_start, width)
+        rightward_gcode = "";
+        x_coord = x_start + width;
+        rightward_gcode = "G01 X" + sprintf('%.4f',x_coord) + " Y" + sprintf('%.4f',y_start) + "\n";  
     end
 
     %Function returns downward sweep gcode in infill pattern and updated y
