@@ -101,15 +101,15 @@ function gcodeReader(filename)
     disp("Finished Reading gcode file");
     
     % Write commands from array to txt files
-    vxmCMDFile = fopen("vxmCMDs.txt", "w");
+    vxmCMDFile = fopen("../test_files/com/vxmCMDs.txt", "w");
     vxmCMDArr = compose(vxmCMDArr);
     fprintf(vxmCMDFile, "%s", vxmCMDArr);
 
-    bedCMDFile = fopen("bedCMDs.txt", "w");
+    bedCMDFile = fopen("../test_files/com/bedCMDs.txt", "w");
     bedCMDArr = compose(bedCMDArr);
     fprintf(bedCMDFile, "%s", bedCMDArr);
 
-    lzrCMDFile = fopen("lzrCMDs.txt", "w");
+    lzrCMDFile = fopen("../test_files/com/lzrCMDs.txt", "w");
     lzrCMDArr = compose(lzrCMDArr);
     fprintf(lzrCMDFile, "%s", lzrCMDArr);
 
