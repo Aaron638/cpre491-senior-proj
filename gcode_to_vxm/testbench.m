@@ -13,7 +13,7 @@
 %readline(ThreeAxisRollerCOM)
 
 device = serialport("COM5",9600);
-writeline(device, "E")
-writeline(device, "V")
+% writeline(device, "E")
+% writeline(device, "V")
 % writeline(device,"F, PM-1, S3M 0 I3M 0, R\r\n");
 readline(device);

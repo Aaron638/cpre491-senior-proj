@@ -1,3 +1,3 @@
 function L = LoadDriver
-    LoadDriver = loadlibrary('VxmDriver', 'VxmDriver.h')
+    LoadDriver = loadlibrary('./VxmDriver', 'VxmDriver.h')
 end

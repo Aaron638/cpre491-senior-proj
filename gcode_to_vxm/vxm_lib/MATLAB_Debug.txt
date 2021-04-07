@@ -1,0 +1,656 @@
+ShowTerminalSimple(0)
+     LoadTerminalSimple(0)
+     End LoadTerminalSimple     Time: 7.6 MilliSeconds     
+     Terminal Loaded
+     Port Defaulted
+     TERMINALSIMPLECALLBACK(1903248,272,1903248,0)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (272) %WM_INITDIALOG
+           wParam: (1903248)     
+           lParam: (0)     
+          TERMINALSIMPLECALLBACK(1903248,273,104,133830)
+               Class: #32770     Caption: #32770     Hwnd: 1903248      Msg: (273) %WM_COMMAND      wParam: (104)           lParam: (133830)          
+               NotifyCode: 0     Id: 104     From: 133830     Class: Immediate Send     Caption: Immediate Send     
+               %ChkImmediateMode
+          End TERMINALSIMPLECALLBACK     Time: 2.4 MilliSeconds     
+          TERMINALSIMPLECALLBACK(1903248,273,104,133830)
+               Class: #32770     Caption: #32770     Hwnd: 1903248      Msg: (273) %WM_COMMAND      wParam: (104)           lParam: (133830)          
+               NotifyCode: 0     Id: 104     From: 133830     Class: Immediate Send     Caption: Immediate Send     
+               %ChkImmediateMode
+          End TERMINALSIMPLECALLBACK     Time: 3.3 MilliSeconds     
+     End TERMINALSIMPLECALLBACK     Time: 10.7 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,5,0,30868206)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (5) %WM_SIZE
+           wParam: (0)     Resize Flag
+           lParam: (30868206)     LoWord = Width, HiWord = Height
+                Return: Zero if processed
+     End TERMINALSIMPLECALLBACK     Time: 5.6 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,24,1,0)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (24) %WM_SHOWWINDOW
+           wParam: (1)     
+           lParam: (0)     
+     End TERMINALSIMPLECALLBACK     Time: 5.7 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,70,0,11133264)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (70) %WM_WINDOWPOSCHANGING
+           wParam: (0)     
+           lParam: (11133264)     
+     End TERMINALSIMPLECALLBACK     Time: 4.8 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,133,1,0)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (133) %WM_NCPAINT
+           wParam: (1)     
+           lParam: (0)     
+     End TERMINALSIMPLECALLBACK     Time: 8.2 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,20,369171968,0)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (20) %WM_ERASEBKGND
+           wParam: (369171968)     
+           lParam: (0)     
+     End TERMINALSIMPLECALLBACK     Time: 4.6 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,310,369171968,1903248)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (310) %WM_CTLCOLORDLG
+           wParam: (369171968)     
+           lParam: (1903248)     
+     End TERMINALSIMPLECALLBACK     Time: 4.6 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,307,520167138,395906)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (307) %WM_CTLCOLOREDIT
+           wParam: (520167138)     
+           lParam: (395906)     
+     End TERMINALSIMPLECALLBACK     Time: 7.6 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,71,0,11133264)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (71) %WM_WINDOWPOSCHANGED
+           wParam: (0)     
+           lParam: (11133264)     
+     End TERMINALSIMPLECALLBACK     Time: 5.0 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,15,0,0)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (15) %WM_PAINT
+           wParam: (0)     
+           lParam: (0)     
+          TERMINALSIMPLECALLBACK(1903248,20,369171968,0)
+               Class: #32770     Caption: #32770
+               Hwnd: 1903248
+                Msg: (20) %WM_ERASEBKGND
+                wParam: (369171968)     
+                lParam: (0)     
+          End TERMINALSIMPLECALLBACK     Time: 5.1 MilliSeconds     
+          TERMINALSIMPLECALLBACK(1903248,310,369171968,1903248)
+               Class: #32770     Caption: #32770
+               Hwnd: 1903248
+                Msg: (310) %WM_CTLCOLORDLG
+                wParam: (369171968)     
+                lParam: (1903248)     
+          End TERMINALSIMPLECALLBACK     Time: 5.3 MilliSeconds     
+     End TERMINALSIMPLECALLBACK     Time: 17.8 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,-939451188,4196840)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (3355516108)     
+           lParam: (4196840)     
+     End TERMINALSIMPLECALLBACK     Time: 10.5 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,520167138,3344750)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (520167138)     
+           lParam: (3344750)     
+     End TERMINALSIMPLECALLBACK     Time: 5.5 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,133852)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (133852)     
+     End TERMINALSIMPLECALLBACK     Time: 6.7 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,461522)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (461522)     
+     End TERMINALSIMPLECALLBACK     Time: 6.2 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,520167138,3214046)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (520167138)     
+           lParam: (3214046)     
+     End TERMINALSIMPLECALLBACK     Time: 6.0 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,520167138,133836)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (520167138)     
+           lParam: (133836)     
+     End TERMINALSIMPLECALLBACK     Time: 3.7 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,307,520167138,395906)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (307) %WM_CTLCOLOREDIT
+           wParam: (520167138)     
+           lParam: (395906)     
+     End TERMINALSIMPLECALLBACK     Time: 3.4 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,307,520167138,395906)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (307) %WM_CTLCOLOREDIT
+           wParam: (520167138)     
+           lParam: (395906)     
+     End TERMINALSIMPLECALLBACK     Time: 12.5 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,520167138,199374)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (520167138)     
+           lParam: (199374)     
+     End TERMINALSIMPLECALLBACK     Time: 4.4 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,520167138,1510104)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (520167138)     
+           lParam: (1510104)     
+     End TERMINALSIMPLECALLBACK     Time: 6.1 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,520167138,4131546)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (520167138)     
+           lParam: (4131546)     
+     End TERMINALSIMPLECALLBACK     Time: 3.7 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,520167138,264904)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (520167138)     
+           lParam: (264904)     
+     End TERMINALSIMPLECALLBACK     Time: 4.2 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,520167138,133834)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (520167138)     
+           lParam: (133834)     
+     End TERMINALSIMPLECALLBACK     Time: 7.2 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,520167138,133828)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (520167138)     
+           lParam: (133828)     
+     End TERMINALSIMPLECALLBACK     Time: 3.9 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,520167138,133830)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (520167138)     
+           lParam: (133830)     
+     End TERMINALSIMPLECALLBACK     Time: 4.0 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,309,520167138,2427304)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (309) %WM_CTLCOLORBTN
+           wParam: (520167138)     
+           lParam: (2427304)     
+     End TERMINALSIMPLECALLBACK     Time: 5.1 MilliSeconds     
+     Dialog Shown
+     TERMINALSIMPLECALLBACK(1903248,15,0,0)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (15) %WM_PAINT
+           wParam: (0)     
+           lParam: (0)     
+          TERMINALSIMPLECALLBACK(1903248,20,369171968,0)
+               Class: #32770     Caption: #32770
+               Hwnd: 1903248
+                Msg: (20) %WM_ERASEBKGND
+                wParam: (369171968)     
+                lParam: (0)     
+          End TERMINALSIMPLECALLBACK     Time: 4.0 MilliSeconds     
+          TERMINALSIMPLECALLBACK(1903248,310,369171968,1903248)
+               Class: #32770     Caption: #32770
+               Hwnd: 1903248
+                Msg: (310) %WM_CTLCOLORDLG
+                wParam: (369171968)     
+                lParam: (1903248)     
+          End TERMINALSIMPLECALLBACK     Time: 7.8 MilliSeconds     
+     End TERMINALSIMPLECALLBACK     Time: 16.7 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,4196840)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (4196840)     
+     End TERMINALSIMPLECALLBACK     Time: 3.7 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,3344750)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (3344750)     
+     End TERMINALSIMPLECALLBACK     Time: 4.0 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,133852)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (133852)     
+     End TERMINALSIMPLECALLBACK     Time: 8.7 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,461522)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (461522)     
+     End TERMINALSIMPLECALLBACK     Time: 5.2 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,3214046)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (3214046)     
+     End TERMINALSIMPLECALLBACK     Time: 4.3 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,133836)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (133836)     
+     End TERMINALSIMPLECALLBACK     Time: 4.3 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,307,369171968,395906)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (307) %WM_CTLCOLOREDIT
+           wParam: (369171968)     
+           lParam: (395906)     
+     End TERMINALSIMPLECALLBACK     Time: 3.4 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,307,369171968,395906)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (307) %WM_CTLCOLOREDIT
+           wParam: (369171968)     
+           lParam: (395906)     
+     End TERMINALSIMPLECALLBACK     Time: 11.1 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,199374)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (199374)     
+     End TERMINALSIMPLECALLBACK     Time: 4.3 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,1510104)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (1510104)     
+     End TERMINALSIMPLECALLBACK     Time: 4.0 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,4131546)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (4131546)     
+     End TERMINALSIMPLECALLBACK     Time: 6.5 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,264904)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (264904)     
+     End TERMINALSIMPLECALLBACK     Time: 4.4 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,133834)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (133834)     
+     End TERMINALSIMPLECALLBACK     Time: 4.9 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,133828)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (133828)     
+     End TERMINALSIMPLECALLBACK     Time: 4.9 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,312,369171968,133830)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (312) %WM_CTLCOLORSTATIC
+           wParam: (369171968)     
+           lParam: (133830)     
+     End TERMINALSIMPLECALLBACK     Time: 4.2 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,309,369171968,2427304)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (309) %WM_CTLCOLORBTN
+           wParam: (369171968)     
+           lParam: (2427304)     
+     End TERMINALSIMPLECALLBACK     Time: 5.6 MilliSeconds     
+     Terminal Show State -3
+     TERMINALSIMPLECALLBACK(1903248,15,0,0)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (15) %WM_PAINT
+           wParam: (0)     
+           lParam: (0)     
+     End TERMINALSIMPLECALLBACK     Time: 5.5 MilliSeconds     
+     ApiResults: 0
+End ShowTerminalSimple     Time: 348.2 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,127,2,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (127) %WM_GETICON
+      wParam: (2)     Icon Type
+      lParam: (0)     %NULL
+           Return: If wParam = %ICON_BIG then return Handle to Large Icon, if wParam = %ICON_SMALL then return handle to Small Icon
+End TERMINALSIMPLECALLBACK     Time: 4.7 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,127,0,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (127) %WM_GETICON
+      wParam: (0)     Icon Type
+      lParam: (0)     %NULL
+           Return: If wParam = %ICON_BIG then return Handle to Large Icon, if wParam = %ICON_SMALL then return handle to Small Icon
+End TERMINALSIMPLECALLBACK     Time: 4.7 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,127,1,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (127) %WM_GETICON
+      wParam: (1)     Icon Type
+      lParam: (0)     %NULL
+           Return: If wParam = %ICON_BIG then return Handle to Large Icon, if wParam = %ICON_SMALL then return handle to Small Icon
+End TERMINALSIMPLECALLBACK     Time: 4.4 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,70,0,11120552)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (70) %WM_WINDOWPOSCHANGING
+      wParam: (0)     
+      lParam: (11120552)     
+End TERMINALSIMPLECALLBACK     Time: 3.8 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,131,1,11120512)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (131) %WM_NCCALCSIZE
+      wParam: (1)     
+      lParam: (11120512)     
+End TERMINALSIMPLECALLBACK     Time: 4.0 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,71,0,11120552)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (71) %WM_WINDOWPOSCHANGED
+      wParam: (0)     
+      lParam: (11120552)     
+     TERMINALSIMPLECALLBACK(1903248,3,0,26214988)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (3) %WM_MOVE
+           wParam: (0)     %NULL
+           lParam: (26214988)     LoWord = Horizontal position, HiWord = Vertical Position
+                Return: Zero if processed
+     End TERMINALSIMPLECALLBACK     Time: 4.4 MilliSeconds     
+     TERMINALSIMPLECALLBACK(1903248,5,0,29033192)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (5) %WM_SIZE
+           wParam: (0)     Resize Flag
+           lParam: (29033192)     LoWord = Width, HiWord = Height
+                Return: Zero if processed
+     End TERMINALSIMPLECALLBACK     Time: 4.2 MilliSeconds     
+End TERMINALSIMPLECALLBACK     Time: 13.6 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,3,0,26214988)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (3) %WM_MOVE
+      wParam: (0)     %NULL
+      lParam: (26214988)     LoWord = Horizontal position, HiWord = Vertical Position
+           Return: Zero if processed
+End TERMINALSIMPLECALLBACK     Time: 5.7 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,5,0,29033192)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (5) %WM_SIZE
+      wParam: (0)     Resize Flag
+      lParam: (29033192)     LoWord = Width, HiWord = Height
+           Return: Zero if processed
+End TERMINALSIMPLECALLBACK     Time: 4.5 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,70,0,11120552)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (70) %WM_WINDOWPOSCHANGING
+      wParam: (0)     
+      lParam: (11120552)     
+End TERMINALSIMPLECALLBACK     Time: 2.9 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,131,1,11120512)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (131) %WM_NCCALCSIZE
+      wParam: (1)     
+      lParam: (11120512)     
+End TERMINALSIMPLECALLBACK     Time: 3.8 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,133,1,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (133) %WM_NCPAINT
+      wParam: (1)     
+      lParam: (0)     
+End TERMINALSIMPLECALLBACK     Time: 5.4 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,20,520167138,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (20) %WM_ERASEBKGND
+      wParam: (520167138)     
+      lParam: (0)     
+End TERMINALSIMPLECALLBACK     Time: 3.8 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,310,520167138,1903248)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (310) %WM_CTLCOLORDLG
+      wParam: (520167138)     
+      lParam: (1903248)     
+End TERMINALSIMPLECALLBACK     Time: 3.7 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,307,369171968,395906)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (307) %WM_CTLCOLOREDIT
+      wParam: (369171968)     
+      lParam: (395906)     
+End TERMINALSIMPLECALLBACK     Time: 4.1 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,71,0,11120552)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (71) %WM_WINDOWPOSCHANGED
+      wParam: (0)     
+      lParam: (11120552)     
+     TERMINALSIMPLECALLBACK(1903248,5,0,29033192)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (5) %WM_SIZE
+           wParam: (0)     Resize Flag
+           lParam: (29033192)     LoWord = Width, HiWord = Height
+                Return: Zero if processed
+     End TERMINALSIMPLECALLBACK     Time: 4.4 MilliSeconds     
+End TERMINALSIMPLECALLBACK     Time: 8.7 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,5,0,29033192)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (5) %WM_SIZE
+      wParam: (0)     Resize Flag
+      lParam: (29033192)     LoWord = Width, HiWord = Height
+           Return: Zero if processed
+End TERMINALSIMPLECALLBACK     Time: 4.4 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,70,0,11120552)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (70) %WM_WINDOWPOSCHANGING
+      wParam: (0)     
+      lParam: (11120552)     
+End TERMINALSIMPLECALLBACK     Time: 2.7 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,131,1,11120512)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (131) %WM_NCCALCSIZE
+      wParam: (1)     
+      lParam: (11120512)     
+End TERMINALSIMPLECALLBACK     Time: 4.3 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,133,1,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (133) %WM_NCPAINT
+      wParam: (1)     
+      lParam: (0)     
+End TERMINALSIMPLECALLBACK     Time: 5.6 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,20,-989782411,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (20) %WM_ERASEBKGND
+      wParam: (3305184885)     
+      lParam: (0)     
+End TERMINALSIMPLECALLBACK     Time: 3.9 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,310,-989782411,1903248)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (310) %WM_CTLCOLORDLG
+      wParam: (3305184885)     
+      lParam: (1903248)     
+End TERMINALSIMPLECALLBACK     Time: 4.3 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,307,-234807681,395906)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (307) %WM_CTLCOLOREDIT
+      wParam: (4060159615)     
+      lParam: (395906)     
+End TERMINALSIMPLECALLBACK     Time: 3.8 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,71,0,11120552)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (71) %WM_WINDOWPOSCHANGED
+      wParam: (0)     
+      lParam: (11120552)     
+     TERMINALSIMPLECALLBACK(1903248,5,0,29033192)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (5) %WM_SIZE
+           wParam: (0)     Resize Flag
+           lParam: (29033192)     LoWord = Width, HiWord = Height
+                Return: Zero if processed
+     End TERMINALSIMPLECALLBACK     Time: 4.7 MilliSeconds     
+End TERMINALSIMPLECALLBACK     Time: 8.8 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,5,0,29033192)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (5) %WM_SIZE
+      wParam: (0)     Resize Flag
+      lParam: (29033192)     LoWord = Width, HiWord = Height
+           Return: Zero if processed
+End TERMINALSIMPLECALLBACK     Time: 5.5 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,70,0,11120552)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (70) %WM_WINDOWPOSCHANGING
+      wParam: (0)     
+      lParam: (11120552)     
+End TERMINALSIMPLECALLBACK     Time: 4.5 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,131,1,11120512)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (131) %WM_NCCALCSIZE
+      wParam: (1)     
+      lParam: (11120512)     
+End TERMINALSIMPLECALLBACK     Time: 3.9 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,133,1,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (133) %WM_NCPAINT
+      wParam: (1)     
+      lParam: (0)     
+End TERMINALSIMPLECALLBACK     Time: 5.3 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,20,369171968,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (20) %WM_ERASEBKGND
+      wParam: (369171968)     
+      lParam: (0)     
+End TERMINALSIMPLECALLBACK     Time: 4.5 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,310,369171968,1903248)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (310) %WM_CTLCOLORDLG
+      wParam: (369171968)     
+      lParam: (1903248)     
+End TERMINALSIMPLECALLBACK     Time: 3.5 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,307,-234807681,395906)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (307) %WM_CTLCOLOREDIT
+      wParam: (4060159615)     
+      lParam: (395906)     
+End TERMINALSIMPLECALLBACK     Time: 4.9 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,71,0,11120552)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (71) %WM_WINDOWPOSCHANGED
+      wParam: (0)     
+      lParam: (11120552)     
+     TERMINALSIMPLECALLBACK(1903248,5,0,29033192)
+          Class: #32770     Caption: #32770
+          Hwnd: 1903248
+           Msg: (5) %WM_SIZE
+           wParam: (0)     Resize Flag
+           lParam: (29033192)     LoWord = Width, HiWord = Height
+                Return: Zero if processed
+     End TERMINALSIMPLECALLBACK     Time: 5.3 MilliSeconds     
+End TERMINALSIMPLECALLBACK     Time: 10.8 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,5,0,29033192)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (5) %WM_SIZE
+      wParam: (0)     Resize Flag
+      lParam: (29033192)     LoWord = Width, HiWord = Height
+           Return: Zero if processed
+End TERMINALSIMPLECALLBACK     Time: 4.7 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,70,0,11120552)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (70) %WM_WINDOWPOSCHANGING
+      wParam: (0)     
+      lParam: (11120552)     
+End TERMINALSIMPLECALLBACK     Time: 4.8 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,131,1,11120512)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (131) %WM_NCCALCSIZE
+      wParam: (1)     
+      lParam: (11120512)     
+End TERMINALSIMPLECALLBACK     Time: 3.6 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,133,1,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (133) %WM_NCPAINT
+      wParam: (1)     
+      lParam: (0)     
+End TERMINALSIMPLECALLBACK     Time: 4.9 MilliSeconds     
+TERMINALSIMPLECALLBACK(1903248,20,520167138,0)
+     Class: #32770     Caption: #32770
+     Hwnd: 1903248
+      Msg: (20) %WM_ERASEBKGND
+      wParam: (520167138)     
+      lParam: (0)     
+End TERMINALSIMPLECALLBACK     Time: 4.1 MilliSeconds     
