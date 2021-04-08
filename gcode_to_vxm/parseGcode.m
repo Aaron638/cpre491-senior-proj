@@ -18,8 +18,8 @@ function parseGcode(filename)
     xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
     gcodeLineStrArr = [];
-    printerAction   = '';
-    printerDevice   = '';
+    printerAction   = "";
+    printerDevice   = "";
 
     % Read file line by line as a string array
     fileData = readlines(filename);
@@ -93,7 +93,7 @@ function parseGcode(filename)
         end
 
         % Write printer action to actionsFile
-        fprintf(actionsFile, '%s %s\r\n', printerDevice, printerAction);
+        fprintf(actionsFile, '%s, \t %s\r\n', printerDevice, printerAction);
 
         % Update previous (x,y,z)
         xPrev = xCur; yPrev = yCur; zPrev = zCur;
@@ -101,6 +101,6 @@ function parseGcode(filename)
     end
 
     fclose(actionsFile);
-    disp("Finished parsing gcode file");
+    disp("Finished parsing gcode file.");
     
 end
