@@ -31,13 +31,13 @@ function parseGcode(filename)
     % Check if file has width and height
     curLine = fileData(1);
     disp("Line [1]: " + curLine);
-    if (contains(curLine, 'Width: ') && contains(curLine, 'Height: '))
+    if (contains(curLine, 'Width: ') && contains(curLine, 'Length: '))
         gcodeLineStrArr = split(curLine);
         objWidth  = gcodeLineStrArr(2);
-        objHeight = gcodeLineStrArr(4);
+        objLength = gcodeLineStrArr(4);
     else
-        disp("ERROR: gcode file does not properly define width/height.");
-        disp("Line 1 must start with: 'Width: {x} Height: {y}'");
+        disp("ERROR: gcode file does not properly define width/length.");
+        disp("Line 1 must start with: 'Width: {x} Length: {y}'");
         return;
     end
 
@@ -45,7 +45,7 @@ function parseGcode(filename)
     for i = 2:size(fileData)
 
         curLine = fileData(i);
-        disp(compose(filename + " Line [%d]: ", i) + curLine);
+        disp(compose("Line [%d]: ", i) + curLine);
 
         % Move to (x,y)
         if startsWith(curLine, 'G01 X')
@@ -60,12 +60,12 @@ function parseGcode(filename)
             gcodeLineStrArr = split(curLine);
             zCur = getNumsFromStr(gcodeLineStrArr(2));
             printerDevice = 'pbed';
-            printerAction = bedMove(zPrev, zCur);
+            printerAction = bedMove(zCur);
 
         % Reset to absolute zero position
         elseif (contains(curLine, 'M200'))
-            fprintf(actionsFile, '%s %s\r\n', 'roll', rollerZero());
-            fprintf(actionsFile, '%s %s\r\n', 'pbed', bedZero());
+            fprintf(actionsFile, '%s, \t %s\r', 'roll', rollerZero());
+            fprintf(actionsFile, '%s, \t %s\r', 'pbed', bedZero());
             xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
             xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
             continue;
@@ -93,7 +93,7 @@ function parseGcode(filename)
         end
 
         % Write printer action to actionsFile
-        fprintf(actionsFile, '%s, \t %s\r\n', printerDevice, printerAction);
+        fprintf(actionsFile, '%s, \t %s\r', printerDevice, printerAction);
 
         % Update previous (x,y,z)
         xPrev = xCur; yPrev = yCur; zPrev = zCur;

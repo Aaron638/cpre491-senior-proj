@@ -33,12 +33,12 @@ function vxmCMD = rollerMove(x0, y0, x1, y1)
     % Write the vxm command
     % Only move motor 3 (y-axis)
     if str2double(deltaX) == 0
-        vxmCMD = compose("F, C, S3M %d, I3M %d, R,\r\n", speedY, deltaY);
+        vxmCMD = compose("F, C, S3M %d, I3M %d, R,", speedY, deltaY);
     % Only move motor 2 (x-axis)
     elseif str2double(deltaY) == 0
-        vxmCMD = compose("F, C, S2M %d, I2M %d, R,\r\n", speedX, deltaX);
+        vxmCMD = compose("F, C, S2M %d, I2M %d, R,", speedX, deltaX);
     % Move both motor 2 and 3
     else
-        vxmCMD = compose("F, C, S2M %d, S3M %d, (I2M %d, I3M %d), R,\r\n", speedX, speedY, deltaX, deltaY);
+        vxmCMD = compose("F, C, S2M %d, S3M %d, (I2M %d, I3M %d), R,", speedX, speedY, deltaX, deltaY);
     end
 end
