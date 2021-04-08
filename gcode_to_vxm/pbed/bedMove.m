@@ -1,31 +1,19 @@
-% Move the bed to be at a certain Z-elevation
-% Return a string of commands
+% Move the bed to be at a certain Z-elevation, where z is the elvation in mm.
+% Returns a string
 
-% M200 {z}: Layer Change
-% "F, PM-1, S1M 2000, I1M -{z}, R"
-% "F, PM-1, S2M 2000, I2M  {z}, R"
-% "F, PM-1, S1M 6000, I1M   0 , R"
-% "F, PM-1, S1M 6000, I1M  -0 , R"
+% "F, C, I1M {stepsMoved}, R"
+%   F = On-Line mode with echo off
+%   C = clear all commands from current program
+%   I1M{stepsMoved} = Move motor a certain number of steps
+%   R = run command
+% Uses the default speed of 2000 steps/s
 
-function vxmCMD = bedMove(z)
+function bedCMD = bedMove(z)
 
-    vxmCMD = "";
-    % Convert z to Steps (See VXM_STEP_SIZE.m)
-    stepsMoved = z / VXM_STEP_SIZE;
-
-    % Convert to int
-    stepsMoved = int32(stepsMoved);
+    % Convert z to integer number of Steps (See VXM_STEP_SIZE.m)
+    stepsMoved = int32(z / VXM_STEP_SIZE);
 
     % Convert to string
-    stepsMoved = compose("%d", stepsMoved);
-
-    % Write the vxm command's 4 lines
-    % Move the left bed up by stepsMoved
-    vxmCMD = vxmCMD + "F, PM-1, S1M 2000, I1M -" + stepsMoved + ", R,\r\n";
-    % Move the right bed down by stepsMoved
-    vxmCMD = vxmCMD + "F, PM-1, S2M 2000, I2M " + stepsMoved + ", R,\r\n";
-    % ???
-    vxmCMD = vxmCMD + "F, PM-1, S1M 6000, I1M   0, R,\r\n";
-    vxmCMD = vxmCMD + "F, PM-1, S1M 6000, I1M  -0, R,\r\n";
+    bedCMD = compose("F, C, I1M %d, R,\r\n", stepsMoved);
 
 end
