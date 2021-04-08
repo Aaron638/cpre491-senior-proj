@@ -5,7 +5,7 @@
 % Format: (see docs for details)
 % "F, PM-1, S2M {speedX}, S3M {speedY}, (I2M {deltaX}, I3M {deltaY}), R"
 
-function vxmCMD = vxmMove(x0, y0, x1, y1)
+function vxmCMD = rollerMove(x0, y0, x1, y1)
     
     % Calculate the distance to travel (mm)
     % "dist_" is used because "dist" is a built in matlab function

@@ -7,7 +7,7 @@
 % "F, PM-1, S1M 6000, I1M   0 , R"
 % "F, PM-1, S1M 6000, I1M  -0 , R"
 
-function vxmCMD = vxmLayer(z)
+function vxmCMD = bedMove(z)
 
     vxmCMD = "";
     % Convert z to Steps (See VXM_STEP_SIZE.m)
