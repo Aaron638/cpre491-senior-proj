@@ -7,8 +7,8 @@ function startPrint()
     fileData = readlines("printerActions.txt");
     disp("Reading printerActions.txt");
 
-    % LoadDriver();
-    % DriverTerminalShowState(1, 0)   %Show Terminal on Desktop
+    LoadDriver
+    DriverTerminalShowState(1, 0)   %Show Terminal on Desktop
 
     for i = 1:size(fileData)
 
@@ -24,13 +24,13 @@ function startPrint()
         disp(cmd);
 
         if startsWith(curLine, 'roll')
-            % PortOpen(2, 9600);   %Open Com2 at 9600 Baud
-            % PortOpen(3, 9600);   %Open Com3 at 9600 Baud
-            % PortSendCommands(cmd);
+            PortOpen(2, 9600);   %Open Com2 at 9600 Baud
+            PortOpen(3, 9600);   %Open Com3 at 9600 Baud
+            PortSendCommands(cmd);
 
         elseif startsWith(curLine, 'pbed')
-            % PortOpen(1, 9600);   %Open Com1 at 9600 Baud
-            % PortSendCommands(cmd);
+            PortOpen(1, 9600);   %Open Com1 at 9600 Baud
+            PortSendCommands(cmd);
 
 
         elseif startsWith(curLine, 'lasr')
@@ -40,8 +40,8 @@ function startPrint()
         
         end
 
-        % PortWaitForChar('^', 0);     %Halt program until VXM sends back a "^" indicating that it has completed its program
-        % PortClose();
+        PortWaitForChar('^', 0);     %Halt program until VXM sends back a "^" indicating that it has completed its program
+        PortClose();
 
     end
 
