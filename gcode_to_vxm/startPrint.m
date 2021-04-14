@@ -32,7 +32,6 @@ function startPrint()
             % PortOpen(1, 9600);   %Open Com1 at 9600 Baud
             % PortSendCommands(cmd);
 
-
         elseif startsWith(curLine, 'lasr')
             continue;
         else

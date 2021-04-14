@@ -26,9 +26,9 @@ flowchart LR
         pc3["com_writer() \n Write vxm comand to COM Port"]
     end
 
-    printerControl
-    -->
-    id3{{Velmex Motor Controller}}
+    printerControl-->id3{{Powder Bed}}
+    printerControl-->x{{3-Axis Motor}}
+    printerControl-->y{{Laser}}
 
     id4{{Oxygen Level Sensor}} --> ss1
     id5{{Temperature Sensor}} --> ss2
