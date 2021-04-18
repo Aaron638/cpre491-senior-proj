@@ -100,9 +100,9 @@ function [gcode] = gen_cube(length, width, height, layer_height, voxel_length_nu
             % every other layer will change orientation, as will every other
             % voxel
             if ((mod(row,2)==0 && mod(col,2)==0) || (mod(row,2)~=0 && mod(col,2)~=0) && mod(h,2)==0) || mod(h,2)~=0
-                gcode_voxel = gen_voxel(x + voxel_padding, y + voxel_padding, voxel_width, voxel_length, 0, 11);
+                gcode_voxel = ";0 degree voxel,"+ row +","+ col +","+ h + "\n" + gen_voxel(x + voxel_padding, y + voxel_padding, voxel_width, voxel_length, 0, 11);
             else
-                gcode_voxel = gen_voxel_90_degrees(x + voxel_padding, y + voxel_padding, voxel_width, voxel_length, 0, 10);
+                gcode_voxel = ";90 degree voxel," + row +","+ col +","+ h + "\n" + gen_voxel_90_degrees(x + voxel_padding, y + voxel_padding, voxel_width, voxel_length, 0, 10);
             end
 
             gcode = gcode + gcode_voxel;
