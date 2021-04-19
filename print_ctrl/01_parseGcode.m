@@ -55,7 +55,7 @@ function parseGcode(filename)
             printerDevice = 'roll';
             printerAction = rollerMove(xPrev, yPrev, xCur, yCur);
 
-        % Change elevation to (z)
+        % Layer Change to (z)
         elseif startsWith(curLine, 'G01 Z')
             gcodeLineStrArr = split(curLine);
             zCur = getNumsFromStr(gcodeLineStrArr(2));
@@ -63,12 +63,12 @@ function parseGcode(filename)
             printerAction = bedMove(zCur);
 
         % Reset to absolute zero position
-        elseif (contains(curLine, 'M200'))
-            fprintf(actionsFile, '%s, \t %s\r', 'roll', rollerZero());
-            fprintf(actionsFile, '%s, \t %s\r', 'pbed', bedZero());
-            xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
-            xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
-            continue;
+        % elseif (contains(curLine, 'M200'))
+        %     fprintf(actionsFile, '%s, \t %s\r', 'roll', rollerZero());
+        %     fprintf(actionsFile, '%s, \t %s\r', 'pbed', bedZero());
+        %     xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
+        %     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
+        %     continue;
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
