@@ -20,6 +20,7 @@ function vxmCMD = moveAxis(x0, y0, x1, y1)
     deltaY = int32(deltaY / VXM_STEP_SIZE);
     
     % Write the vxm command
+    % TODO need to redefine motor numbering convention.
     % Only move motor 3 (y-axis)
     if str2double(deltaX) == 0
         vxmCMD = compose("F, C, I3M %d, R,", deltaY);
