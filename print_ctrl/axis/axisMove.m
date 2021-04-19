@@ -10,7 +10,7 @@
 %   I2M 400 = Index motor 2, move 400 steps positive direction
 %   R = run command
 
-function vxmCMD = rollerMove(x0, y0, x1, y1)
+function vxmCMD = axisMove(x0, y0, x1, y1)
     
     % Calculate the distance to travel (mm)
     % "dist_" is used because "dist" is a built in matlab function

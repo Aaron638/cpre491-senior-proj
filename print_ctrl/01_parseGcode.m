@@ -4,12 +4,12 @@
 %   M200          = Reset roller and bed to absolute zero
 %   M201          = Laser On
 %   M202          = Laser Off
-
+%
 %   Outputs a txt file printerActions.txt with 2 columns separated by a space.
 %       First column indiciates device to send command to i.e. 'pbed', 'roll', 'lasr'.
 %       Second column indicates actual command to be sent.
 %   Returns early if gcode file is invalid
-
+%
 % gcode uses millimeters as units.
 % All positioning is absolute, not relative.
 
