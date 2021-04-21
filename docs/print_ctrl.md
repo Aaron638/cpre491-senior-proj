@@ -60,4 +60,39 @@ We start by assuming the depositor roller is in it's default state, as far left 
 
 ## 2. Send print actions to serial ports `02_startPrint.m` ##
 
+Note: Even though this is a class diagram, we are not using object oriented programming.
+```mermaid
+classDiagram
+    COM3 <-- sensor_system
+    COM4 <-- 3_axis
+    COM4 <-- roller
+    COM5 <-- bedmotor
+    COM6 <-- laser
+    class 3_axis{
+        Motor_1 spotsize
+        Motor_3 x_axis
+        Motor_4 y_axis
+        moveAxis()
+        zeroAxis()
+        setSpotsize()
+    }
+    class roller{
+        Motor_2 roller
+        moveRoller()
+        sweepRoller()
+    }
+    class bedmotor{
+        Motor_1 supplybed
+        Motor_2 printbed
+        moveBed()
+    }
+    class sensor_system{
+        checkPressure()
+    }
+    class laser{
+        laserOff()
+        laserOn()
+    }
+```
+
 ## 3. Log the output to the console `03_logAction.m` ##
