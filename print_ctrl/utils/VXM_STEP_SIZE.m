@@ -16,6 +16,9 @@
 function steps = VXM_STEP_SIZE()
 
     % 1 step = 0.00635mm
-    steps = 0.00635;
+    % steps = 0.00635;
+    
+    % 1 step = 0.0025mm
+    steps = 0.0025;
 
 end
