@@ -78,7 +78,6 @@ classDiagram
     }
     class roller{
         Motor_2 roller
-        moveRoller()
         sweepRoller()
     }
     class bedmotor{
