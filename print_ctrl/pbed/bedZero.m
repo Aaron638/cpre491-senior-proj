@@ -8,5 +8,7 @@
 % IA1M-0 = Set Zero position for motor 1
 % R = run command
 function bedCMD = bedZero()
-    bedCMD = 'F, C, S1M600, I1M-0, IA1M-0, R';
+    cmd1 = compose("F, C, I1M-0, IA1M-0, R\r");
+    cmd2 = compose("F, C, I2M 0, IA2M 0, R\r");
+    bedCMD = [cmd1, cmd2];
 end

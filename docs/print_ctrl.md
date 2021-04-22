@@ -55,8 +55,10 @@ We start by assuming the depositor roller is in it's default state, as far left 
 4. The roller then resets to it's zero position `(x = 0)`.
 
 ### Laser On/Off `/laser/` ###
+```
     M201          = Laser On
     M202          = Laser Off
+```
 
 ## 2. Send print actions to serial ports `02_startPrint.m` ##
 
