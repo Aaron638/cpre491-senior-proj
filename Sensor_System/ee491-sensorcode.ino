@@ -7,89 +7,105 @@
 
 /*
  *  HP206C (Barometer) to Arduino
- *  GND -> GND
- *  VCC -> 3.3V
- *  SDA -> A4
- *  SCL -> A5
+ *    GND -> GND
+ *    VCC -> 3.3V
+ *    SDA -> A4
+ *    SCL -> A5
+ *    
+ *  OLED Display to Arduino
+ *    GND -> GND
+ *    VCC -> 5V
+ *    SDA -> A4
+ *    SCL -> A5
  *  
- *  MIX8410 or ME2-O2-Ф20 (O2 Sensor) to Arduino
- *  GND -> GND
- *  VCC -> 3.3V
- *   NC -> A1
- *  SIG -> A0
+ *  MIX8410 (External O2 Sensor) to Arduino - N/A as of 4/18/2021
+ *    GND -> GND
+ *    VCC -> 5V
+ *     NC -> A1
+ *    SIG -> A0
+ *  
+ *  Gove Buzzer to Arduino - N/A as of 4/18/2021
+ *    GND -> GND
+ *    VCC -> 5V
+ *     NC -> A1
+ *    SIG -> A6
  */
 
 #include <HP20x_dev.h>
 #include <KalmanFilter.h>
+#include <SSD1306Ascii.h>
+#include <SSD1306AsciiAvrI2c.h>
 #include "Arduino.h"
 #include "Wire.h"
+
+// 0x3C or 0x3D
+#define I2C_ADDRESS 0x3C
+#define RST_PIN -1
 
 const float Vref = 3.3;
 const int pinADC = A0;
 
-KalmanFilter t_filter;    // temperature filter
-KalmanFilter p_filter;    // pressure filter
+// Temperature and pressure filters
+KalmanFilter t_filter;          
+KalmanFilter p_filter;    
+// OLED device    
+SSD1306AsciiAvrI2c oled;  
 
 void setup() 
 {
     // Start serial for output
-    Serial.begin(9600);       
-
-    // Power up, delay 150ms until voltage is stable
+    Serial.begin(9600);   
     delay(150);
-    
-    // Reset HP20x_dev
+
+    // OLED display settings
+    oled.begin(&Adafruit128x64, I2C_ADDRESS, RST_PIN);
+    oled.clear();
+    oled.setFont(System5x7);
+    oled.setCursor(0, 10);
+
+    // Barometer Initialization
     HP20x.begin();
     delay(100);
+    /*
+        // Buzzer Initialization
+        pinMode(6, OUTPUT);
+        delay(100);
+    */
 }
 
-// Calculating, and printing temperature value (in Celsius)
-void get_temp() 
-{
-    long Temper = HP20x.ReadTemperature();
-    Serial.print("Temperature:\t");
-    float t = Temper / 100.0;
-    Serial.print(t_filter.Filter(t));
-    Serial.println(" C");
-}
+void loop()
+{     
+    float temp = get_temp();
+    float pres = get_pres();
+    float ox_con = get_ox();
+    delay(100);
+    /*    
+        // If O2 is below 22%
 
-// Calculating, and printing pressure value (in Pascals)
-void get_pres
-{
-    long Pressure = HP20x.ReadPressure();
-    Serial.print("Pressure:\t");
-    t = Pressure / 10.0;
-    Serial.print(p_filter.Filter(t));
-    Serial.println(" Pa");
-}
-
-// Calculating and printing oxygen content in air
-void get_ox()
-{
-    // NOTE: 20-30 minute preheat time
-    float concPercent = readO2Concentration();
-    Serial.print("Oxygen:\t\t");
-    Serial.print(concPercent);
-    Serial.println(" %\n");
-
-    // Wait until next reading
-    delay(1000);
-}
-
-// Calculates O2 sensor voltage, and converts to O2 concentration
-float readO2Concentration()
-{
-    // Calculating voltage output
-    long sum = 0;
-    for(int i = 0; i < 32; i++)
-    {
-        sum += analogRead(pinADC);
-    }
-    sum >>= 5;
-    float measuredVout = sum * (Vref / 1023.0);
-
-    // Converts from voltage output to O2 concentration
-    float concentration = measuredVout * 0.21 / 2.0;
-    float concPercent = concentration * 100;
-    return concPercent;
+        while(ox_con < 22.0)
+        {
+            // Sound Alarm
+            digitalWrite(6, HIGH);
+            delay(500);
+            digitalWrite(6, LOW);
+            delay(500);
+        }
+    */
+    // Display values to OLED
+    oled.clear();
+    oled.println("EE 491 Powder Bed Printer Sensors\n");
+    
+    oled.print("Temperature: ");
+    oled.print(temp);
+    oled.println(" °C\n");
+    
+    oled.print("Pressure: ");
+    oled.print(pres);
+    oled.println(" Pa\n");
+    
+    oled.print("Oxygen: ");
+    oled.print(ox_con);
+    oled.println(" %\n");
+  
+    delay(500);
 }
