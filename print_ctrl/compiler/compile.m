@@ -13,7 +13,7 @@
 % gcode uses millimeters as units.
 % All positioning is absolute, not relative.
 
-function parseGcode(filename, motormap)
+function compile(filename, motormap)
 
     xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
