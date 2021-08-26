@@ -7,7 +7,7 @@ function vxmCMD = freeMove(port, motornum, dist_in_steps)
     write(device, string, "uint8");
     response = "";
     while response ~= '^'
-        read(device, 1, "uint8");
+        response = read(device, 1, "uint8");
     end
     flush(device);
     delete(device);
