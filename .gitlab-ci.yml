@@ -1,0 +1,23 @@
+# This file's purpose is to automatically deploy website updates using FTP.
+# https://savjee.be/2019/04/gitlab-ci-deploy-to-ftp-with-lftp/
+
+stages:
+    - verify
+    - deploy
+
+# Only run if -website/, it's contents or sub-directories are updated.
+verify:
+    stage: verify
+    only:
+        changes:
+            - website/**
+    script:
+        - echo "Detected changes in website/**. Uploading files with FTP..."
+
+deploy:
+    stage: deploy
+    only:
+        - master
+    script:
+        - apt-get update -qq && install -y -qq lftp
+        - lftp -e "open sftp://sdweb.ece.iastate.edu; user $FTP_USERNAME $FTP_PASSWORD; mirror -X .* -X .*/ --reverse --verbose --delete website/ var/www/users/sddec21-11/www/; bye"
