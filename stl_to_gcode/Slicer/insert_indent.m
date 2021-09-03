@@ -69,7 +69,7 @@ function [gcode] = insert_indent(gcode_file_name, x_start_indent, y_start_indent
                     %The current line is inside of the indent
                     if previous_x_coord >= x_start_indent && previous_x_coord <= x_size && previous_y_coord >= y_start_indent && previous_y_coord  <= y_size && x_coord >= x_start_indent && x_coord <= x_size && y_coord >= y_start_indent && y_coord  <= y_size
                         gcode_array = {gcode_array{1:i-2} "M202" gcode_array{i-2:end}};
-                        gcode_array = {gcode_array{1:i+1} "M202" gcode_array{i+2:end}};
+                        gcode_array = {gcode_array{1:i+1} "M201" gcode_array{i+2:end}};
                         %gcode_array(i-1) = [];
                         %gcode_array(i-1) = [];
                         previous_coords = "";
