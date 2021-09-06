@@ -7,8 +7,8 @@
 % I1M-0 = Move motor 1 CCW (down) until switch limit encountered
 % IA1M-0 = Set Zero position for motor 1
 % R = run command
-function bedCMD = bedZero()
-    cmd1 = compose("F, C, I1M-0, IA1M-0, R\r");
-    cmd2 = compose("F, C, I2M 0, IA2M 0, R\r");
+function bedCMD = zeroBeds(sbi, pbi)
+    cmd1 = compose("F, C, I%dM-0, IA%dM-0, R\r", sbi, sbi);
+    cmd2 = compose("F, C, I%dM 0, IA%dM 0, R\r", pbi, pbi);
     bedCMD = [cmd1, cmd2];
 end
