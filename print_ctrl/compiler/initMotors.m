@@ -1,23 +1,23 @@
-% TODO: CURRENTLY DOES NOT WORK.
+% TESTING REQUIRED
 % Initializes the serial port connections to the vxm motors.
 % Checks if the serial port is a VXM motor, and if it's in the mtr/slv
 % or solo configuration.
-
-% I could not find a more "proper" way to check if a port is valid, so
-% instead we use readline() to wait for a response. If we don't
-% get a response, then we assume the port is not valid.
+% 
+% Returns a motormap
+% Array of objects with a motor index number, and a port number.
 
 function motormap = initMotors()
     port_a = "";
     port_b = "";
 
-    % Motor Map:
-    m1.name = "spot"; % Spotsize
-    m2.name = "roll"; % Roller
-    m3.name = "xmov"; % X-axis movement (left/right)
-    m4.name = "ymov"; % Y-axis movement (forward/back)
-    m5.name = "sbed"; % Supply Bed
-    m6.name = "pbed"; % Powder Bed
+    % Motor Indexing Map:
+    % MANUALLY CHANGE IF NECESSARY
+    m1.index = 1; % Spotsize
+    m2.index = 4; % Roller
+    m3.index = 2; % X-axis movement (left/right)
+    m4.index = 3; % Y-axis movement (forward/back)
+    m5.index = 1; % Supply Bed
+    m6.index = 2; % Powder Bed
 
     disp(serialportlist);
 
