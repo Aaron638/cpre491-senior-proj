@@ -112,22 +112,52 @@ stateDiagram-v2
 
 ```
 
+## Simple Software Flow ##
 ```mermaid
 flowchart TB
 
-    id1([3cm_cube.stl \n CAD file of a 3cm^3 cube]);
-    id2([3cm_cube.gcode \n List of printer actions]);
-    id3(["printerActions.txt \n Text file lists ASCII cmd & COM port#"]);
+    id1([.gcode]);
+    
     
     subgraph slicer
+
     end
 
-    subgraph print_ctrl_parse
+    subgraph print_ctrl
+
+        pc1["initMotors.m \n Serial port connections are scanned \n and mapped to motor controllers"];
+
+        subgraph compiler
+            pc2["compile.m \n Each line of gcode is compiled down into ASCII cmds"];
+            pc2 --> bedMove.m;
+            pc2 --> moveAxis.m;
+            pc2 --> setSpotsize.m;
+            pc2 --> sweepRoller.m;
+            pc2 --> zeroAxis.m;
+            pc2 --> zeroBeds.m;
+        end
+
+        pc3(["printerActions.txt \n Text file lists ASCII cmd & COM port#"]);
+
+        pc4["csm.m \n Command Sending Module \n Sends commands to hardware"];
+        pc5["lem \n Laser Emitting Module \n Controls Laser \n Comms with sensors \n Matlab and/or Labview?"];
+        pc4 <--> pc5;
+
+        pc1 --> compiler --> pc3 --> pc4;
+
     end
 
-    subgraph print_ctrl_action
+    subgraph hardware
+        hw1{{"3-axis motors \n roller"}};
+        hw2{{"Supply bed motor \n Print bed motor"}};
+        hw3{{"Laser"}};
+        hw4{{"Arduino"}};
     end
 
-    id1 --> slicer --> id2 --> print_ctrl_parse --> id3 --> print_ctrl_action --> hardware;
+    slicer --> id1 --> print_ctrl;
+    pc4 --> hw1;
+    pc4 --> hw2;
+    pc5 --> hw3;
+    pc5 --> hw4;
     
 ```
