@@ -102,7 +102,7 @@ function [gcode] = insert_defect(gcode_file_name, x_start_defect, y_start_defect
                         gcode_array_length = gcode_array_length + 3;
 
                     %The current line starts outside of the defect and goes rightward through the defect and stops somewhere outside the defect
-                    else if previous_x_coord < x_start_defect && previous_y_coord >= y_start_defect && previous_y_coord <= y_size && x_coord >= x_size && y_coord >= y_start_defect && y_coord <= y_size
+                    else if previous_x_coord < x_start_defect && previous_y_coord >= y_start_defect && previous_y_coord <= y_size && x_coord > x_size && y_coord >= y_start_defect && y_coord <= y_size
                         previous_coords = gcode_array{i};
                         formatSpec = "G01 X%.4f Y%.4f\n";
                         left_border_coord = sprintf(formatSpec, x_start_defect, previous_y_coord);
@@ -111,6 +111,19 @@ function [gcode] = insert_defect(gcode_file_name, x_start_defect, y_start_defect
                         gcode_array = {gcode_array{1:i} left_border_coord gcode_array{i+1:end}};
                         gcode_array = {gcode_array{1:i+1} "M202" gcode_array{i+2:end}};
                         gcode_array = {gcode_array{1:i+2} right_border_coord gcode_array{i+3:end}};
+                        gcode_array = {gcode_array{1:i+3} "M201" gcode_array{i+4:end}};
+                        gcode_array_length = gcode_array_length + 5;
+
+                    %The current line starts outside of the defect and goes leftward through the defect and stops somewhere outside the defect
+                    else if previous_x_coord > x_size && previous_y_coord >= y_start_defect && previous_y_coord <= y_size && x_coord < x_size && y_coord >= y_start_defect && y_coord <= y_size
+                        previous_coords = gcode_array{i};
+                        formatSpec = "G01 X%.4f Y%.4f\n";
+                        right_border_coord = sprintf(formatSpec, x_size, previous_y_coord);
+                        left_border_coord = sprintf(formatSpec, x_start_defect, previous_y_coord);
+                        gcode_array = {gcode_array{1:i-2} "M201" gcode_array{i-1:end}};
+                        gcode_array = {gcode_array{1:i} right_border_coord gcode_array{i+1:end}};
+                        gcode_array = {gcode_array{1:i+1} "M202" gcode_array{i+2:end}};
+                        gcode_array = {gcode_array{1:i+2} left_border_coord gcode_array{i+3:end}};
                         gcode_array = {gcode_array{1:i+3} "M201" gcode_array{i+4:end}};
                         gcode_array_length = gcode_array_length + 5;
 
@@ -128,6 +141,19 @@ function [gcode] = insert_defect(gcode_file_name, x_start_defect, y_start_defect
 
                     end
 
+                    %The current line starts outside the defect and goes upwards and stops somewhere inside the defect
+                    else if previous_x_coord >= x_start_defect && previous_x_coord <= x_size && previous_y_coord < y_start_defect && x_coord >= x_start_defect && x_coord <= x_size && y_coord >= y_start_defect && y_coord <= y_size
+                        previous_coords = gcode_array{i};
+                        formatSpec = "G01 X%.4f Y%.4f\n";
+                        border_coord = sprintf(formatSpec, previous_x_coord, y_start_defect);
+                        gcode_array = {gcode_array{1:i-2} "M201" gcode_array{i-1:end}};
+                        gcode_array = {gcode_array{1:i} border_coord gcode_array{i+1:end}};
+                        gcode_array = {gcode_array{1:i+1} "M202" gcode_array{i+2:end}};
+                        previous_x_coord = x_coord;
+                        previous_y_coord = y_coord;
+                        gcode_array_length = gcode_array_length + 3;
+
+                    %TODO add two more conditionals to check for when a line goes downwards or upwards and stops somewhere on the other side of the defect
 
                 end
 
