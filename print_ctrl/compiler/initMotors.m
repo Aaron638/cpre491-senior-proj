@@ -12,8 +12,8 @@ function motormap = initMotors()
 
     % Motor Indexing Map:
     % MANUALLY CHANGE IF NECESSARY
-    m1.index = 1; % Spotsize
-    m2.index = 4; % Roller
+    m1.index = 4; % Spotsize
+    m2.index = 1; % Roller
     m3.index = 2; % X-axis movement (left/right)
     m4.index = 3; % Y-axis movement (forward/back)
     m5.index = 1; % Supply Bed
