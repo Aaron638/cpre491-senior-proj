@@ -1,4 +1,20 @@
-function [gcode] = insert_defect(gcode_file_name, x_start_defect, y_start_defect, z_start_defect, x_size, y_size, z_size, cube_length, cube_width, cube_height)
+function [gcode_array] = insert_defect(gcode_file_name, x_start_defect, y_start_defect, z_start_defect, x_size, y_size, z_size, cube_length, cube_width, cube_height)
+    %This function is used to make sure the laser does not activate when encountering a defect during the printing process
+    %Inputs:
+    %gcode_file_name (string) - name of gcode file that is generated 
+    %x_start_defect (float) - x coordinate origin of the defect, if you are looking at the top side of the defect, it is the point at the bottom left on the bottom face  
+    %y_start_defect (float) - y coordinate origin of the defect, if you are looking at the top side of the defect, it is the point at the bottom left on the bottom face  
+    %z_start_defect (float) - z coordinate origin of the defect, if you are looking at the top side of the defect, it is the point at the bottom left on the bottom face  
+    %x_size (float) - the dimension size of the defect in the x direction, the width of the defect
+    %y_size (float) - the dimension size of the defect in the y direction, the length of the defect
+    %z_size (float) - the dimension size of the defect in the z direction, the height of the defect
+    %Next inputs are only used for defensive coding purposes...
+    %cube_length (float) - the length of the cube being printed
+    %cube_width (float) - the width of the cube being printed
+    %cube_height (float) - the height of the cube being printed
+    %Output:
+    %gcode_array (array) - array represents the gcode file after modifying it for encountering the defect
+
 
     %Check for illegal arguments
     if x_start_defect == 0 || y_start_defect == 0 || z_start_defect == 0
@@ -18,6 +34,7 @@ function [gcode] = insert_defect(gcode_file_name, x_start_defect, y_start_defect
         return;
     end
 
+    %Open gcode file and write each line of the file to an array
     file_id = fopen(gcode_file_name);
     line = fgetl(file_id);
     i = 1;
@@ -31,15 +48,17 @@ function [gcode] = insert_defect(gcode_file_name, x_start_defect, y_start_defect
 
     i = 1;
     gcode_array_length = length(gcode_array);
-    previous_coords = "";
+    previous_coords = ""; %Used to keep track of the previous coordinate point since we care about previous and current point since two points make a line
     previous_x_coord;
     previous_y_coord;
 
-    is_at_defect_layer_flag = 0;
+    is_at_defect_layer_flag = 0; %Used to signal if the current height in the gcode is at a height that the defect is at
 
+    %Loop through the array and modify it depending on if a defect layer is encountered
     while i <= gcode_array_length
+        %Used to see if we are currently at a defect layer
         if startWith(gcode_array{i}, "G01 Z")
-            previous_coords = "";
+            previous_coords = ""; %Set previous coordinate point to null since we are at a new layer
             z_coord = strsplit(gcode_array{i}, "Z");
             z_coord = zcoord{2};
             if z_coord >= z_start_defect && z_coord <= (z_start_defect + z_size)
@@ -48,8 +67,8 @@ function [gcode] = insert_defect(gcode_file_name, x_start_defect, y_start_defect
                 is_at_defect_layer_flag = 0;
             end
         else
-            if is_at_defect_layer_flag == 1 && startWith(gcode_array{i}, "G01 X")
-                if previous_coords == ""
+            if is_at_defect_layer_flag == 1 && startWith(gcode_array{i}, "G01 X") %We are at a defect layer and we are encountering a coordinate point
+                if previous_coords == "" %Check if this is the first coordinate point we are encountering since entering this defect layer
                     previous_coords = gcode_array{i};
                     previous_coords = strsplit(gcode_array{i});
                     previous_coords(1) = [];
@@ -58,7 +77,7 @@ function [gcode] = insert_defect(gcode_file_name, x_start_defect, y_start_defect
                     previous_x_coord = str2double(previous_x_coord);
                     previous_y_coord = str2double(previous_y_coord);
 
-                else
+                else %This is at least the second coordinate point being encountered since entering a defect layer
                     coords = strsplit(gcode_array{i});
                     coords(1) = [];
                     x_coord = strip(coords{1}, "left", "X");
@@ -180,9 +199,22 @@ function [gcode] = insert_defect(gcode_file_name, x_start_defect, y_start_defect
                 end
 
             end
+
         i = i + 1;
 
         end
-        
+
+        gcode_str = ""; %Used to convert the gcode_array back into a string
+
+        %Convert gcode_array to string
+        for file_line = 1:length(gcode_array)
+            gcode_str = gcode_str + file_line;
+        end
+
+        %Write new gcode string to a file
+        str = compose(gcode_str);
+        file_id = fopen('defect.gcode', 'w');
+        fprintf(file_id, '%s', str);
+        fclose(file_id);
 
     end
