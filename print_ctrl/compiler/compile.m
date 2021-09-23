@@ -94,12 +94,12 @@ function compile(filename)
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
-            printerDevice = compose("LASR"); 
+            printerDevice = "LASR"; 
             printerAction = laserOn();
 
         % Turn the laser off
         elseif startsWith(curLine, 'M202')
-            printerDevice = compose("LASR"); 
+            printerDevice = "LASR"; 
             printerAction = laserOff();
         
         % Empty line, ignore
