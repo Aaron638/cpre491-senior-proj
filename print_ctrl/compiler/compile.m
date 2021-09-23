@@ -13,8 +13,9 @@
 % gcode uses millimeters as units.
 % All positioning is absolute, not relative.
 
-function compile(filename, motormap)
+function compile(filename)
 
+    map = VXM_MOTOR_MAP;
     xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
     gcodeLineStrArr = [];
@@ -53,9 +54,8 @@ function compile(filename, motormap)
             xCur = getNumsFromStr(gcodeLineStrArr(2));
             yCur = getNumsFromStr(gcodeLineStrArr(3));
 
-            % Assume that Motor 3 & 4 have the same port
-            printerDevice = compose("COM%d", motormap(3).port); 
-            printerAction = moveAxis(xPrev, yPrev, xCur, yCur, motormap(3).index, motormap(4).index);
+            printerDevice = map.port_a; % see VXM_MOTOR_MAP
+            printerAction = moveAxis(xPrev, yPrev, xCur, yCur);
 
         % Layer Change to (z)
         elseif startsWith(curLine, 'G01 Z')
@@ -64,14 +64,14 @@ function compile(filename, motormap)
 
             % First, Move Print and Supply Bed
             % Assume Motor 5 & 6 have the same port
-            printerDevice = compose("COM%d", motormap(5).port); 
-            printerAction = bedMove(zCur, motormap(5).index, motormap(6).index);
+            printerDevice = map.port_b;
+            printerAction = bedMove(zCur);
             % Write to file
             fprintf(actionsFile, '%s, \t %s\r', printerDevice, printerAction);
 
             % Next, Sweep the Roller
-            printerDevice = compose("COM%d", motormap(2).port);
-            printerAction = sweepRoller(motormap(2).index);
+            printerDevice = map.port_a;
+            printerAction = sweepRoller();
 
         % Reset to absolute zero position
         elseif (contains(curLine, 'M200'))
@@ -79,18 +79,18 @@ function compile(filename, motormap)
             xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
 
             % Zero the Axis motors
-            printerDevice = compose("COM%d", motormap(3).port); 
-            printerAction = zeroAxis(motormap(3).index, motormap(4).index);
+            printerDevice = map.port_a; 
+            printerAction = zeroAxis();
             fprintf(actionsFile, '%s, \t %s\r', printerDevice, printerAction);
             
             % Zero the Roller by sweeping it
-            printerDevice = compose("COM%d", motormap(2).port);
-            printerAction = sweepRoller(motormap(2).index);
+            printerDevice = map.port_a;
+            printerAction = sweepRoller();
             fprintf(actionsFile, '%s, \t %s\r', printerDevice, printerAction);
             
             % Zero the Beds
-            printerDevice = compose("COM%d", motormap(5).port); 
-            printerAction = zeroBeds(motormap(5).index, motormap(6).index);
+            printerDevice = map.port_b; 
+            printerAction = zeroBeds();
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')

@@ -1,6 +1,14 @@
+% The purpose of this global constant struct is to abstract away the confusing indexing.
+% The user/programmer can access each motor controller: 
+%   m1-m4 under port_a
+%   m5-m6 under port_b
+% 
+% To use, place near the start of your function like so
+%   map = VXM_MOTOR_MAP
+
 function map = VXM_MOTOR_MAP() 
 
-    map.port_a = "COM5"; % Maps to motors 1-4
+    map.port_a = "COM5";  % Maps to motors 1-4
     map.port_b = "COM11"; % Maps to motors 5 and 6
 
     % Motor Indexing Map:
