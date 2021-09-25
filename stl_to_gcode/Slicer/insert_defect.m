@@ -236,11 +236,11 @@ function [gcode_array] = insert_defect(gcode_file_name, x_start_defect, y_start_
         i = i + 1;
 
     end
-        gcode_array_lengh
+
         gcode_str = ""; %Used to convert the gcode_array back into a string
         %Convert gcode_array to string
-        for file_line = 1:length(gcode_array)
-            gcode_str = gcode_str + file_line;
+        for k = 1:length(gcode_array)
+            gcode_str = gcode_str + gcode_array{k} + "\n";
         end
 
         %Write new gcode string to a file
