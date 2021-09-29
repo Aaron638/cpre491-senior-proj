@@ -1,7 +1,7 @@
 % Reads in a .gcode file, and maps each line to a printer action:
 %   G01 X{x} Y{y} = Move 3-axis roller to x,y
 %   G01 Z{z}      = Increment Print Bed and Decrement Supply Bed by z
-%   M200          = Reset roller and bed to absolute zero
+%   M200          = Reset roller b3d, and 3-axis motors to absolute zero
 %   M201          = Laser On
 %   M202          = Laser Off
 %
@@ -65,7 +65,7 @@ function compile(filename)
             % First, Move Print and Supply Bed
             % Assume Motor 5 & 6 have the same port
             printerDevice = map.port_b;
-            printerAction = bedMove(zCur);
+            printerAction = moveBed(zCur);
             % Write to file
             fprintf(actionsFile, '%s, \t %s\r', printerDevice, printerAction);
 
@@ -94,12 +94,12 @@ function compile(filename)
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
-            printerDevice = "LASR"; 
+            printerDevice = LASER_PORT; 
             printerAction = laserOn();
 
         % Turn the laser off
         elseif startsWith(curLine, 'M202')
-            printerDevice = "LASR"; 
+            printerDevice = LASER_PORT; 
             printerAction = laserOff();
         
         % Empty line, ignore

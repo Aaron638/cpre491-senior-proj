@@ -8,7 +8,7 @@
 %   R = run command
 % Uses the default speed of 2000 steps/s
 
-function bedCMD = bedMove(z)
+function bedCMD = moveBed(z)
 
     map = VXM_MOTOR_MAP;
 
