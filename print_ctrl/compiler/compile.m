@@ -1,7 +1,7 @@
 % Reads in a .gcode file, and maps each line to a printer action:
 %   G01 X{x} Y{y} = Move 3-axis roller to x,y
 %   G01 Z{z}      = Increment Print Bed and Decrement Supply Bed by z
-%   M200          = Reset roller b3d, and 3-axis motors to absolute zero
+%   M200          = Reset roller bed, and 3-axis motors to absolute zero
 %   M201          = Laser On
 %   M202          = Laser Off
 %
