@@ -10,7 +10,9 @@
 %   I2M 400 = Index motor 2, move 400 steps positive direction
 %   R = run command
 
-function vxmCMD = moveAxis(x0, y0, x1, y1, xi, yi)
+function vxmCMD = moveAxis(x0, y0, x1, y1)
+
+    map = VXM_MOTOR_MAP;
     
     % Calculate the distance to travel (mm)
     deltaX = x1 - x0;
@@ -23,12 +25,12 @@ function vxmCMD = moveAxis(x0, y0, x1, y1, xi, yi)
     % Write the vxm command
     % Only move motor number yi (y-axis)
     if deltaX == 0
-        vxmCMD = [compose("F, C, I%dM %d, R,", yi, deltaY)];
+        vxmCMD = [compose("F, C, I%dM %d, R,", map.m4, deltaY)];
     % Only move motor number xi (x-axis)
     elseif deltaY == 0
-        vxmCMD = [compose("F, C, I%dM %d, R,", xi, deltaX)];
+        vxmCMD = [compose("F, C, I%dM %d, R,", map.m3, deltaX)];
     % Move both motor xi and yi (usually 2 and 3?)
     else
-        vxmCMD = [compose("F, C, (I%dM %d, I%dM %d), R,", xi, yi, deltaX, deltaY)];
+        vxmCMD = [compose("F, C, (I%dM %d, I%dM %d), R,", map.m3, map.m4, deltaX, deltaY)];
     end
 end

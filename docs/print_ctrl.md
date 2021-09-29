@@ -23,7 +23,7 @@ Note: right now these parameters are not used by printer control
 
 ### Move Axis Motor `/axis/` ###
 The motors that control the movement of the laser are called _axis motors_.
-![3-axis motor](./XYZRender.JPG)
+![3-axis motor](./images/XYZRender.JPG)
 
 We define left and right as `-x` and `+x`.
 We define forward and back as `-y` and `+y`.
@@ -33,7 +33,7 @@ The `G01` command moves the current position to `(x, y)` and a constant speed. T
 G01 X{x} Y{y} = Move 3-axis roller to x,y
 ```
 ### Change Layer `/pbed/` ###
-![Powder Bed](./printbeds.png)
+![Powder Bed](./images/printbeds.png)
 
 There are 3 motors that need to be managed to conduct a layer change:
 1. Supply Bed Motor
