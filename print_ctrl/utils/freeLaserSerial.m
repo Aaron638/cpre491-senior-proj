@@ -8,11 +8,11 @@ function freeLaserSerial(port, baud, command)
     disp(resp);
 
     % Display it again in hex
-    for r in resp
-        formatted = compose("%X ", r);
-        disp(formatted);
-    end
+    % for r in resp
+    %     formatted = compose("%X ", r);
+    %     disp(formatted);
+    % end
     
-    flush(device);
-    delete(device);
+    % flush(device);
+    % delete(device);
 end

@@ -1,17 +1,13 @@
 function cmd = formLaserCMD()
 
-    start_byte = 0x1B;
-    num_cmd_bytes = 
-    num_data_bytes = 
-    cmd_value = 
-    data_byte_1 = 
-    data_byte_2 = 
-    stop_byte = 0x0D;
-    CRC_byte = 0;
-
-
-    
-    
+    % start_byte = 0x1B;
+    % num_cmd_bytes = 
+    % num_data_bytes = 
+    % cmd_value = 
+    % data_byte_1 = 
+    % data_byte_2 = 
+    % stop_byte = 0x0D;
+    % CRC_byte = 0;
 
     % Get Status
     % Get Digital I/O
