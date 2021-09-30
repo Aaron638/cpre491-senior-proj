@@ -9,12 +9,12 @@ function freeLaserTCP(ip, port, command)
     disp("Num bytes available:" + t.numBytesAvailable);
 
     % Display it again in hex
-    for r in resp
-        formatted = compose("%X ", r);
-        disp(formatted);
-    end
+    % for r in resp
+    %     formatted = compose("%X ", r);
+    %     disp(formatted);
+    % end
 
-    %TODO Verify CRC by adding bytes 1-6
+    % %TODO Verify CRC by adding bytes 1-6
 
-    delete(device);
+    % delete(device);
 end

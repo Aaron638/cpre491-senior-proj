@@ -15,8 +15,6 @@ function bedCMD = moveBed(z)
     % Convert z to integer number of Steps (See VXM_STEP_SIZE.m)
     stepsMoved = int32(z / VXM_STEP_SIZE);
 
-    % Convert to string (placing strings into array concats)
-    cmd1 = compose("F, C, I%dM  %d, R,\r", map.m5, stepsMoved);
-    cmd2 = compose("F, C, I%dM -%d, R,\r", map.m6, stepsMoved);
-    bedCMD = [cmd1, cmd2];
+    % Convert to string 
+    bedCMD = compose("F, C, I%dM  %d, I%dM -%d, R,", map.m5, stepsMoved, map.m6, stepsMoved);
 end
