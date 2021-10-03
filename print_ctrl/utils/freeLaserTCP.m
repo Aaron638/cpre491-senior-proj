@@ -1,20 +1,18 @@
 function freeLaserTCP(ip, port, command)
-   
     t = tcpclient(ip, port);
+
     write(t, command, "uint8");
+    while true
+        read(t, 1, "uint8");
+        disp("%0X ", resp);
 
-    resp = readLaser(device);
-    disp(resp);
+        if resp == uint8(0x0D)
+            read(t, 1, "uint8");
+            disp("%0X ", resp);
+            break;
+        end
+    end
 
-    disp("Num bytes available:" + t.numBytesAvailable);
-
-    % Display it again in hex
-    % for r in resp
-    %     formatted = compose("%X ", r);
-    %     disp(formatted);
-    % end
-
-    % %TODO Verify CRC by adding bytes 1-6
-
-    % delete(device);
+    delete(t);
+    
 end

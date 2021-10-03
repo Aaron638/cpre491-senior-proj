@@ -1,6 +1,15 @@
-function res = getLaserError(val)
+function res = getLaserError(response)
 
-    switch val
+    respArr = split(response);
+    % respArr(1)
+
+    % TOODO:
+    % Rename to checkResponse
+    % CRC check the prev bits by summing them
+    % if theres an error, return the error
+    err;
+
+    switch err
     case 0x00
         res = "Command not supported";
     case 0x01
