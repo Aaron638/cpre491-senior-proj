@@ -1,19 +1,20 @@
-% Reads in a .gcode file, and maps each line to a printer action(s):
-%   G01 X{x} Y{y} = Move 3-axis roller to x,y
-%   G01 Z{z}      = Increment Print Bed and Decrement Supply Bed by z
-%   M200          = Reset roller bed, and 3-axis motors to absolute zero
+% Reads in a .gcode file, and maps each line to a command for the motor controllers or the laser:
+%   G01 X{x} Y{y} = Move 3-axis motors to x,y
+%   G01 Z{z}      = Increment Print Bed and Decrement Supply Bed by z, then sweep the roller
+%   M200          = Reset all motors to defined zero
 %   M201          = Laser On
 %   M202          = Laser Off
 %
-%   Outputs a txt file printerActions.txt with 3 columns
+% The commands are first stored into a cell array object 'cellarray'.
+% We use a cell array because some g-code instructions map into multiple commands for different ports.
+% The function should return early if gcode file is invalid.
+% After the function is finished parsing the gcode, the results are written to an output file.
+%
+% Output is a txt file: printerActions.txt with 3 columns separated by a bar "|"
 %       First column indiciates the port to send the command to
 %       Second column indicates actual command to be sent
 %       Third column prints out the line of gcode for debugging
-%   Should return early if gcode file is invalid
 %
-% gcode uses millimeters as units.
-% All positioning is absolute, not relative.
-
 function compile(filename)
 
     map = VXM_MOTOR_MAP;

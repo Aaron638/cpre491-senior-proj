@@ -5,4 +5,7 @@ function result = readLaser(device)
     while resp ~= 0x0D
         resp = [resp, read(device, 1, "uint8")];
     end
+
+    sprintf("%02X ", resp);
+
 end
