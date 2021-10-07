@@ -12,7 +12,7 @@
 
 function vxmCMD = moveAxis(x0, y0, x1, y1)
 
-    map = VXM_MOTOR_MAP;
+    VXM = VXM_MOTOR_VXM;
     
     % Calculate the distance to travel (mm)
     deltaX = x1 - x0;
@@ -25,12 +25,12 @@ function vxmCMD = moveAxis(x0, y0, x1, y1)
     % Write the vxm command
     % Only move motor number yi (y-axis)
     if deltaX == 0
-        vxmCMD = [compose("F, C, I%dM %d, R,", map.m4, deltaY)];
+        vxmCMD = [compose("F, C, I%dM %d, R,", VXM.m4, deltaY)];
     % Only move motor number xi (x-axis)
     elseif deltaY == 0
-        vxmCMD = [compose("F, C, I%dM %d, R,", map.m3, deltaX)];
+        vxmCMD = [compose("F, C, I%dM %d, R,", VXM.m3, deltaX)];
     % Move both motor xi and yi (usually 2 and 3?)
     else
-        vxmCMD = [compose("F, C, (I%dM %d, I%dM %d), R,", map.m3, map.m4, deltaX, deltaY)];
+        vxmCMD = [compose("F, C, (I%dM %d, I%dM %d), R,", VXM.m3, VXM.m4, deltaX, deltaY)];
     end
 end

@@ -10,11 +10,11 @@
 
 function bedCMD = moveBed(z)
 
-    map = VXM_MOTOR_MAP;
+    VXM = VXM_MOTOR_VXM;
 
     % Convert z to integer number of Steps (See VXM_STEP_SIZE.m)
     stepsMoved = int32(z / VXM_STEP_SIZE);
 
     % Convert to string 
-    bedCMD = compose("F, C, I%dM  %d, I%dM -%d, R,", map.m5, stepsMoved, map.m6, stepsMoved);
+    bedCMD = compose("F, C, I%dM  %d, I%dM -%d, R,", VXM.m5, stepsMoved, VXM.m6, stepsMoved);
 end

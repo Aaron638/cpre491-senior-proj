@@ -1,4 +1,4 @@
-% Reads in a .gcode file, and maps each line to a command for the motor controllers or the laser:
+% Reads in a .gcode file, and VXMs each line to a command for the motor controllers or the laser:
 %   G01 X{x} Y{y} = Move 3-axis motors to x,y
 %   G01 Z{z}      = Increment Print Bed and Decrement Supply Bed by z, then sweep the roller
 %   M200          = Reset all motors to defined zero
@@ -6,7 +6,7 @@
 %   M202          = Laser Off
 %
 % The commands are first stored into a cell array object 'cellarray'.
-% We use a cell array because some g-code instructions map into multiple commands for different ports.
+% We use a cell array because some g-code instructions VXM into multiple commands for different ports.
 % The function should return early if gcode file is invalid.
 % After the function is finished parsing the gcode, the results are written to an output file.
 %
@@ -17,7 +17,7 @@
 %
 function compile(filename)
 
-    map = VXM_MOTOR_MAP;
+    VXM = VXM_MOTOR_VXM;
     xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
     gcodeLineStrArr = [];
@@ -55,7 +55,7 @@ function compile(filename)
             yCur = getNumsFromStr(gcodeLineStrArr(3));
 
             printerAction = moveAxis(xPrev, yPrev, xCur, yCur);
-            resCellArr = {map.port_a, printerAction, curLine};
+            resCellArr = {VXM.port_a, printerAction, curLine};
 
         % Layer Change to (z)
         elseif startsWith(curLine, 'G01 Z')
@@ -64,12 +64,12 @@ function compile(filename)
 
             % First, Move Print and Supply Bed
             printerAction = moveBed(zCur);
-            resCellArr(1,:) = {map.port_b, printerAction, curLine};
+            resCellArr(1,:) = {VXM.port_b, printerAction, curLine};
 
             % Next, Sweep the Roller
             printerAction = sweepRoller();
-            resCellArr(2,:) = {map.port_a, printerAction(1), curLine};
-            resCellArr(3,:) = {map.port_a, printerAction(2), curLine};
+            resCellArr(2,:) = {VXM.port_a, printerAction(1), curLine};
+            resCellArr(3,:) = {VXM.port_a, printerAction(2), curLine};
 
         % Reset to absolute zero position
         elseif (contains(curLine, 'M200'))
@@ -78,14 +78,14 @@ function compile(filename)
 
             % Zero the Axis motors
             printerAction = homeAxisRoller();
-            resCellArr(1,:) = {map.port_a, printerAction(1), curLine};
-            resCellArr(2,:) = {map.port_a, printerAction(2), curLine};
-            resCellArr(3,:) = {map.port_a, printerAction(3), curLine};
-            resCellArr(4,:) = {map.port_a, printerAction(4), curLine};
+            resCellArr(1,:) = {VXM.port_a, printerAction(1), curLine};
+            resCellArr(2,:) = {VXM.port_a, printerAction(2), curLine};
+            resCellArr(3,:) = {VXM.port_a, printerAction(3), curLine};
+            resCellArr(4,:) = {VXM.port_a, printerAction(4), curLine};
             
             % Zero the Beds
             printerAction = homeBeds();
-            resCellArr(5,:) = {map.port_b, printerAction(1), curLine};
+            resCellArr(5,:) = {VXM.port_b, printerAction(1), curLine};
             resCellArr
 
         % Turn the laser on

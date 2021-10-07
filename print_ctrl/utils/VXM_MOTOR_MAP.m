@@ -4,21 +4,21 @@
 %   m5-m6 under port_b
 % 
 % To use, place near the start of your function like so
-%   map = VXM_MOTOR_MAP
+%   VXM = VXM_MOTOR_VXM
 
-function map = VXM_MOTOR_MAP()
+function VXM = VXM_MOTOR_VXM()
 
-    % Motor Indexing Map:
+    % Motor Indexing VXM:
     % Our index = vxm index
     % MANUALLY CHANGE IF NEEDED
-    map.port_a = "COM5";  % Maps to motors 1-4
-    map.m1 = 1; % Spotsize
-    map.m2 = 4; % Roller
-    map.m3 = 2; % X-axis movement (left/right)
-    map.m4 = 3; % Y-axis movement (forward/back)
+    VXM.port_a = "COM5";  % VXMs to motors 1-4
+    VXM.m1 = 1; % Spotsize
+    VXM.m2 = 4; % Roller
+    VXM.m3 = 2; % X-axis movement (left/right)
+    VXM.m4 = 3; % Y-axis movement (forward/back)
 
-    map.port_b = "COM11"; % Maps to motors 5 & 6
-    map.m5 = 1; % Supply Bed
-    map.m6 = 2; % Powder Bed
+    VXM.port_b = "COM11"; % VXMs to motors 5 & 6
+    VXM.m5 = 1; % Supply Bed
+    VXM.m6 = 2; % Powder Bed
 
 end
