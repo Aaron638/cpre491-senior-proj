@@ -1,3 +1,5 @@
+% UNTESTED
+% 
 function freeLaserTCP(ip, port, command)
     t = tcpclient(ip, port);
 

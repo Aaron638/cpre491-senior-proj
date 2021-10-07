@@ -1,6 +1,7 @@
+% Utility Function to move the axis and bed motors to the defined zero or home position.
+% Commands are hard coded for general use without the compiler.
+% 
 function printerHome()
-%HOME Summary of this function goes here
-%   Detailed explanation goes here
 
 % Zero Axis
 device = serialport("COM5", 9600);

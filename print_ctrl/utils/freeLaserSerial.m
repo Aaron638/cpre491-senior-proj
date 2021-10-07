@@ -1,3 +1,5 @@
+% UNTESTED
+% 
 function freeLaserSerial(port, baud, command)
     device = serialport(port, baud);
     flush(device);

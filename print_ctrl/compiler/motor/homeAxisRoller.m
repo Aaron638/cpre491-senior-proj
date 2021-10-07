@@ -1,8 +1,15 @@
+% UNTESTED
+% Compiler subfunction which moves motors 1-4 to the defined home position in ZERO_POS.m
+% Similar to Tary's printerHome, but uses global constants to prevent hard-coding the values.
+% 
+% Usage:
+%   printerAction = homeBeds();
+% 
+% Returns a single string with the command.
+% 
 function homecmd = homeAxisRoller()
-    % Compiler version of Tary's printerHome function for motors 1-4.
-    % Uses global constants rather than hard coding values
 
-    VXM = VXM_MOTOR_VXM;
+    VXM = VXM_MOTOR_MAP;
     zero = ZERO_POS;
 
     % Motor speed is 5400, 90% of max speed

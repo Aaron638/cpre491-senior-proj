@@ -1,8 +1,15 @@
+% UNTESTED
+% Compiler subfunction which moves the beds to the defined home position in ZERO_POS.m
+% Similar to Tary's printerHome, but uses global constants to prevent hard-coding the values.
+% 
+% Usage:
+%   printerAction = homeBeds();
+% 
+% Returns a single string with the command.
+% 
 function homecmd = homeBeds()
-    % Compiler version of Tary's printerHome function for motors 5 and 6.
-    % Uses global constants rather than hard coding values in the string
 
-    VXM = VXM_MOTOR_VXM;
+    VXM = VXM_MOTOR_MAP;
     zero = ZERO_POS;
     % Motor speed is 3000, 50% of max speed
 

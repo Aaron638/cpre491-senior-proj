@@ -2,10 +2,10 @@
 % 
 function sendCMDs()
 
-    VXM = VXM_MOTOR_VXM;
+    VXM = VXM_MOTOR_MAP;
 
-    twinVXM = serialport(VXM.port_a, 9600);
-    soloVXM = serialport(VXM.port_b, 9600);
+    twinVXM = serialport(VXM.PORT_M1234, 9600);
+    soloVXM = serialport(VXM.PORT_M56, 9600);
     laser   = serialport(LASER_PORT, 9600);
     prntAxnStrArr;
     string = "";
@@ -23,7 +23,7 @@ function sendCMDs()
 
         % TODO: Rename port_a and port_b to be ALL_CAPS to indicate that it's a global constant
         % port_a indicates that the cmd is for the axis and roller motors
-        if startsWith(curline, VXM.port_a)
+        if startsWith(curline, VXM.PORT_M1234)
             string = compose("%s\r", prntAxnStrArr(2));
             write(twinVXM, string, "uint8");
             response = "";
@@ -33,7 +33,7 @@ function sendCMDs()
             flush(twinVXM);
             
         % port_b indicates that the cmd is for the beds
-        elseif startsWith(curline, VXM.port_b)
+        elseif startsWith(curline, VXM.PORT_M56)
 
             string = compose("%s\r", prntAxnStrArr(2));
             write(soloVXM, string, "uint8");

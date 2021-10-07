@@ -1,23 +1,29 @@
-% Reads in a .gcode file, and VXMs each line to a command for the motor controllers or the laser:
-%   G01 X{x} Y{y} = Move 3-axis motors to x,y
-%   G01 Z{z}      = Increment Print Bed and Decrement Supply Bed by z, then sweep the roller
-%   M200          = Reset all motors to defined zero
-%   M201          = Laser On
-%   M202          = Laser Off
+% Function that takes in the location to a .gcode file, and an output text file location.
+% Maps each line of g-code to a command for the motor controllers or the laser.
+% 
+% Usage: 
+%   compile("./test_files/small.gcode", "./test_files/printerActions.txt");
+% 
+% Possible g-code commands:
+%   G01 X{x} Y{y} => Move 3-axis motors to x,y
+%   G01 Z{z}      => Increment Print Bed and Decrement Supply Bed by z, then sweep the roller
+%   M200          => Reset all motors to defined zero
+%   M201          => Laser On
+%   M202          => Laser Off
 %
 % The commands are first stored into a cell array object 'cellarray'.
-% We use a cell array because some g-code instructions VXM into multiple commands for different ports.
+% We use a cell array because some g-code instructions map into multiple commands for different ports.
 % The function should return early if gcode file is invalid.
 % After the function is finished parsing the gcode, the results are written to an output file.
 %
-% Output is a txt file: printerActions.txt with 3 columns separated by a bar "|"
-%       First column indiciates the port to send the command to
-%       Second column indicates actual command to be sent
-%       Third column prints out the line of gcode for debugging
+% Output is a txt file with 3 columns separated by a bar "|":
+%   First column indiciates the port to send the command to.
+%   Second column indicates actual command to be sent.
+%   Third column prints out the line of gcode for debugging.
 %
-function compile(filename)
+function compile(inputfile, outputfile)
 
-    VXM = VXM_MOTOR_VXM;
+    VXM = VXM_MOTOR_MAP;
     xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
     gcodeLineStrArr = [];
@@ -25,8 +31,8 @@ function compile(filename)
     cellarray = {"Port", "Command", "G-Code"};
 
     % Read file line by line as a string array
-    fileData = readlines(filename);
-    disp("Reading file: " + filename);
+    fileData = readlines(inputfile);
+    disp("Reading file: " + inputfile);
 
     % Check if file has width and height
     curLine = fileData(1);
@@ -36,8 +42,8 @@ function compile(filename)
         objWidth  = gcodeLineStrArr(2);
         objLength = gcodeLineStrArr(4);
     else
-        disp("ERROR: gcode file does not properly define width/length.");
-        disp("Line 1 must start with: 'Width: {x} Length: {y}'");
+        error("ERROR: gcode file does not properly define width/length.\n 
+            Line 1 must start with: 'Width: {x} Length: {y}'");
         return;
     end
 
@@ -46,7 +52,7 @@ function compile(filename)
 
         resCellArr = {};
         curLine = fileData(i);
-        disp(compose("Line [%d]: ", i) + curLine);
+        disp("Line [%d]: %s", i, curLine);
 
         % Axis Move to (x,y)
         if startsWith(curLine, 'G01 X')
@@ -55,7 +61,7 @@ function compile(filename)
             yCur = getNumsFromStr(gcodeLineStrArr(3));
 
             printerAction = moveAxis(xPrev, yPrev, xCur, yCur);
-            resCellArr = {VXM.port_a, printerAction, curLine};
+            resCellArr = {VXM.PORT_M1234, printerAction, curLine};
 
         % Layer Change to (z)
         elseif startsWith(curLine, 'G01 Z')
@@ -63,13 +69,13 @@ function compile(filename)
             zCur = getNumsFromStr(gcodeLineStrArr(2));
 
             % First, Move Print and Supply Bed
-            printerAction = moveBed(zCur);
-            resCellArr(1,:) = {VXM.port_b, printerAction, curLine};
+            printerAction = moveBeds(zCur);
+            resCellArr(1,:) = {VXM.PORT_M56, printerAction, curLine};
 
             % Next, Sweep the Roller
             printerAction = sweepRoller();
-            resCellArr(2,:) = {VXM.port_a, printerAction(1), curLine};
-            resCellArr(3,:) = {VXM.port_a, printerAction(2), curLine};
+            resCellArr(2,:) = {VXM.PORT_M1234, printerAction(1), curLine};
+            resCellArr(3,:) = {VXM.PORT_M1234, printerAction(2), curLine};
 
         % Reset to absolute zero position
         elseif (contains(curLine, 'M200'))
@@ -78,14 +84,14 @@ function compile(filename)
 
             % Zero the Axis motors
             printerAction = homeAxisRoller();
-            resCellArr(1,:) = {VXM.port_a, printerAction(1), curLine};
-            resCellArr(2,:) = {VXM.port_a, printerAction(2), curLine};
-            resCellArr(3,:) = {VXM.port_a, printerAction(3), curLine};
-            resCellArr(4,:) = {VXM.port_a, printerAction(4), curLine};
+            resCellArr(1,:) = {VXM.PORT_M1234, printerAction(1), curLine};
+            resCellArr(2,:) = {VXM.PORT_M1234, printerAction(2), curLine};
+            resCellArr(3,:) = {VXM.PORT_M1234, printerAction(3), curLine};
+            resCellArr(4,:) = {VXM.PORT_M1234, printerAction(4), curLine};
             
             % Zero the Beds
             printerAction = homeBeds();
-            resCellArr(5,:) = {VXM.port_b, printerAction(1), curLine};
+            resCellArr(5,:) = {VXM.PORT_M56, printerAction(1), curLine};
             resCellArr
 
         % Turn the laser on
@@ -117,8 +123,8 @@ function compile(filename)
         
     end
 
-    % Write cellarray to printerActions.txt
-    writecell(cellarray, "printerActions.txt", "Delimiter", "bar");
+    % Write cellarray to outputfile printerActions.txt
+    writecell(cellarray, outputfile, "Delimiter", "bar");
 
     disp("Finished parsing gcode file.");
     
