@@ -8,7 +8,7 @@ function sendCMDs()
     soloVXM = serialport(VXM.PORT_M56, 9600);
     laser   = serialport(LASER_PORT, 9600);
     prntAxnStrArr;
-    string = "";
+    command = "";
 
     % Read file line by line as a string array
     fileData = readlines("printerActions.txt");
@@ -21,28 +21,28 @@ function sendCMDs()
         prntAxnStrArr = split(curLine, '|');
         disp("Sending: %s\n", prntAxnStrArr(2));
 
-        % TODO: Rename port_a and port_b to be ALL_CAPS to indicate that it's a global constant
-        % port_a indicates that the cmd is for the axis and roller motors
+        % Axis and Roller
         if startsWith(curline, VXM.PORT_M1234)
-            string = compose("%s\r", prntAxnStrArr(2));
-            write(twinVXM, string, "uint8");
+            command = compose("%s\r", prntAxnStrArr(2));
+            write(twinVXM, command, "uint8");
             response = "";
             while response ~= '^'
                 response = read(twinVXM, 1, "uint8");
             end
             flush(twinVXM);
             
-        % port_b indicates that the cmd is for the beds
+        % Print Beds
         elseif startsWith(curline, VXM.PORT_M56)
 
-            string = compose("%s\r", prntAxnStrArr(2));
-            write(soloVXM, string, "uint8");
+            command = compose("%s\r", prntAxnStrArr(2));
+            write(soloVXM, command, "uint8");
             response = "";
             while response ~= '^'
                 response = read(soloVXM, 1, "uint8");
             end
             flush(soloVXM);
             
+        % Laser
         elseif startsWith(curline, LASER_PORT)
 
             write(soloVXM, getLaserStatus(), "uint8");
