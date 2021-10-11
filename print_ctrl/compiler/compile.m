@@ -92,7 +92,7 @@ function compile(inputfile, outputfile)
             % Zero the Beds
             printerAction = homeBeds();
             resCellArr(5,:) = {VXM.PORT_M56, printerAction(1), curLine};
-            resCellArr
+            resCellArr(6,:) = {VXM.PORT_M56, printerAction(2), curLine};
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
