@@ -42,8 +42,7 @@ function compile(inputfile, outputfile)
         objWidth  = gcodeLineStrArr(2);
         objLength = gcodeLineStrArr(4);
     else
-        error("ERROR: gcode file does not properly define width/length.\n 
-            Line 1 must start with: 'Width: {x} Length: {y}'");
+        error("ERROR: gcode file does not properly define width/length.\nLine 1 must start with: 'Width: {x} Length: {y}'");
         return;
     end
 

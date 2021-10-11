@@ -1,20 +1,18 @@
 % UNTESTED
 % 
-function freeLaserTCP(ip, port, command)
+function freeLaserTCP(ip, port)
     t = tcpclient(ip, port);
-
+    %command = [0x1b, 0x01, 0x01, 0x0d, 0x2a];
+    command = setLaserOff();
+    
     write(t, command, "uint8");
-    while true
-        read(t, 1, "uint8");
-        disp("%0X ", resp);
-
-        if resp == uint8(0x0D)
-            read(t, 1, "uint8");
-            disp("%0X ", resp);
-            break;
-        end
+    %while true
+    resp = read(t);
+    while isempty(resp)
+        resp = read(t);
     end
-
-    delete(t);
+    disp(compose("%02x", resp));
+    
+    clear t;
     
 end
