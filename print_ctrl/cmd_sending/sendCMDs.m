@@ -45,10 +45,21 @@ function sendCMDs()
         % Laser
         elseif startsWith(curline, LASER_PORT)
 
-            write(soloVXM, getLaserStatus(), "uint8");
-            response = "";
-            while response ~= uint8(0x0D)
-                response = read(soloVXM, 1, "uint8");
+            command = prntAxnStrArr(2);
+            if strcmp(command, "LASER_ON")
+                write(soloVXM, setLaserOn(), "uint8");
+            else if strcmp(command, "LASER_OFF")
+                write(soloVXM, setLaserOff(), "uint8");
+            else
+                error('Invalid Laser Command', command);
+            end
+            
+            % untested
+            temp;
+            response = [];
+            while temp ~= uint8(0x0D)
+                temp = read(soloVXM, 1, "uint8");
+                response = [response, temp];
             end
             flush(soloVXM);
 

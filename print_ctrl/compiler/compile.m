@@ -96,12 +96,12 @@ function compile(inputfile, outputfile)
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
-            printerAction = setLaserOn();
+            printerAction = "LASER_ON";
             resCellArr = {LASER_PORT, printerAction, curLine};
 
         % Turn the laser off
         elseif startsWith(curLine, 'M202')
-            printerAction = setLaserOff();
+            printerAction = "LASER_OFF";
             resCellArr = {LASER_PORT, printerAction, curLine};
         
         % Empty line, ignore
