@@ -13,6 +13,8 @@ function cmd = formLaserCMD()
     inParamSize = cmdDict(idx).inParamSize;
     outParamSize = cmdDict(idx).outParamSize; 
 
+    and 
+
     % Does cmdDict(2) have the id 0x01? == true
     % strcmp(cmdDict(2).id, "0x01");
 

@@ -18,12 +18,6 @@
 		"outParamSize": 8
 	},
 	{
-		"name": "getAnalogInput",
-		"id": "0x03",
-		"inParamSize": 1,
-		"outParamSize": 4
-	},
-	{
 		"name": "getAlarms",
 		"id": "0x04",
 		"inParamSize": 0,

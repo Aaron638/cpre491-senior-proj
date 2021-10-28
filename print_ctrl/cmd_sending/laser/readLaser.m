@@ -9,6 +9,7 @@ function resp = readLaser(device)
     end
 
     sprintf("%02X ", resp);
+    disp(resp);
     flush(soloVXM);
 
 end

@@ -114,3 +114,4 @@ In the Cybox folder, theres an excel file describing pins along with some other 
 - `.xaml.cs`
   - Code involving creating a UI
 
+1.45mm wire
