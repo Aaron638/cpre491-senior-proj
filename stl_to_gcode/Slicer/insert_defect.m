@@ -232,9 +232,8 @@ function [gcode_array] = insert_defect(gcode_file_name, x_start_defect, y_start_
 
             end
         end
-
+        gcode_array{i}
         i = i + 1;
-
     end
 
         gcode_str = ""; %Used to convert the gcode_array back into a string
