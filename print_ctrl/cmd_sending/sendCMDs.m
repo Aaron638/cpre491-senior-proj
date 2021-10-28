@@ -3,11 +3,12 @@
 function sendCMDs()
 
     VXM = VXM_MOTOR_MAP;
+    LASER_IP = "169.254.198.107";
 
     twinVXM = serialport(VXM.PORT_M1234, 9600);
     soloVXM = serialport(VXM.PORT_M56, 9600);
-    %laser   = serialport(LASER_PORT, 9600); DEPRECATED. Make function for
-    %TCP
+    laser   = tcpclient(LASER_IP, LASER_PORT);
+    
     prntAxnStrArr = [];
     command = "";
 
@@ -47,11 +48,11 @@ function sendCMDs()
 
             command = prntAxnStrArr(2);
             if strcmp(command, "LASER_ON")
-%                 write(soloVXM, setLaserOn(), "uint8");
-                response = freeLaserTCP("169.254.198.108", LASER_PORT, setLaserOn());
+                write(laser, setLaserOn(), "uint8");
+                response = compose("%02X", read(laser));
             elseif strcmp(command, "LASER_OFF")
-%                 write(soloVXM, setLaserOff(), "uint8");
-                response = freeLaserTCP("169.254.198.108", LASER_PORT, setLaserOff());
+                write(laser, setLaserOff(), "uint8");
+                response = compose("%02X", read(laser));
             else
                 error('Invalid Laser Command', command);
             end

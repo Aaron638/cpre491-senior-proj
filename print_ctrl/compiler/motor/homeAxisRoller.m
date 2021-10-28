@@ -16,7 +16,7 @@ function homecmd = homeAxisRoller()
 
     % Zero Motors
     %   Spotsize (I1M-0)
-    homecmd = [compose("F, C, S%dM 5400, I%dM -0, R,", VXM.m1, VXM.m1)];
+    homecmd = [compose("F, C, S%dM 5400, I%dM 0, R,", VXM.m1, VXM.m1)];
     %   Roller (I4M0)
     homecmd = [homecmd, compose("F, C, S%dM 5400, I%dM -0, R,", VXM.m2, VXM.m2)];
     %   X and Y axis (I2M0, I3M-0)
