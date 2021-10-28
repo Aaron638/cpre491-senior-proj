@@ -4,13 +4,13 @@ By Aaron Martin
 
 
 ## Overview
->  The primary goal of this project is to print stainless steel cubes in our custom powder bed system.  Prior groups have done a lot of the work, but the software needs to be reworked and the control of the melt laser needs to beincorporated.  Being able to print any 3D object would be a secondary goal.
+  The primary goal of this project is to print stainless steel cubes in our custom powder bed system.  Prior groups have done a lot of the work, but the software needs to be reworked and the control of the melt laser needs to beincorporated.  Being able to print any 3D object would be a secondary goal.
 
 ![image](https://i.imgur.com/XoYcLUI.png)
 
 Given certain dimensions of an object, `CubeGenerator` will generate a set of instructions for the 3D printer in a `gcode` file. 
 
-`Printer Control` decodes the `gcode` file into commands that are sent to the Velmex Step control motors and the Laser.
+`PrinterControl` decodes the `gcode` file into commands that are sent to the Velmex Step control motors and the Laser.
 
 `Sensors` connected to an Arduino provide additional information of the conditions of the 3D printing chamber. Certain temperature, pressure, and oxygen levels must be satisfied before any printing is done.
 
@@ -18,7 +18,7 @@ Given certain dimensions of an object, `CubeGenerator` will generate a set of in
 ### CubeGenerator
 The entire software flow starts with the `CubeGenerator.cs` which generates a `.gcode` file. 
 
-- From what I understand, they implement their C# application using this library to read `.stl` files: https://github.com/QuantumConcepts/STLdotNET
+- From what I understand, their C# application uses this library to read `.stl` files: https://github.com/QuantumConcepts/STLdotNET
 
 - Heres a useful tool that can read gcode and draw the path: https://nraynaud.github.io/webgcode/
   
@@ -37,7 +37,7 @@ The entire software flow starts with the `CubeGenerator.cs` which generates a `.
   - Note that the previous groups used a diagonal raster scans like the one on the right, but Dr. Bigelow has asked us to do a horizontal raster scan instead:
     ![https://i.imgur.com/kAlSHld.png](https://i.imgur.com/kAlSHld.png)
 
-  - When drawing and filling in voxels, their orientation needs to alternate in a checkerboard-like pattern.
+  - When drawing and filling in voxels, their orientation needs to alternate in a checkerboard-like pattern. (Need more details on this)
   
 - `drawInfillSquare` writes instructions to the `.gcode` file.
   The values use nanometer measurements here (I think).
@@ -59,7 +59,7 @@ The entire software flow starts with the `CubeGenerator.cs` which generates a `.
 ### PrinterControl
 The goal of this file is to read in the `.gcode` file, and map each line to a series of actions that the printer has to do.
 
-`GCodeParser.cs` seems to act as a ["god object,"](https://en.wikipedia.org/wiki/God_object) because it ends up doing way too much: 
+`GCodeParser.cs` acts like a ["god object,"](https://en.wikipedia.org/wiki/God_object) because it ends up doing way too much: 
 - Initializes the printer's home position given a length and width.
 - Parses a line of `gcode` and extracts the relevant data
 - Handles the control flow of what action to do per line of `gcode`
@@ -112,5 +112,6 @@ In the Cybox folder, theres an excel file describing pins along with some other 
 - `.m`
   - Matlab Script or Function File
 - `.xaml.cs`
-  - Code involving creating a UI
+  - C# Code for creating a UI
 
+1.45mm wire

@@ -1,4 +1,7 @@
-% Set's the laser spotsize given it's radius.
+% UNTESTED
+% NEEDS REFACTORING
+% 
+% Compiler subfunction that set's the laser spotsize given it's radius.
 % First moves the laser as far down as possible to zero it.
 % Then moves the laser at the proper elevation.
 % https://www.lasercalculator.com/laser-spot-size-calculator/

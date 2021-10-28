@@ -1,18 +1,19 @@
+% UNTESTED
+% 
 function freeLaserSerial(port, baud, command)
     device = serialport(port, baud);
     flush(device);
 
     write(device, command, "uint8");
-    
-    resp = readLaser(device);
-    disp(resp);
+    while true
+        read(device, 1, "uint8");
+        disp("%0X ", resp);
 
-    % Display it again in hex
-    % for r in resp
-    %     formatted = compose("%X ", r);
-    %     disp(formatted);
-    % end
+        if resp == uint8(0x0D)
+            read(device, 1, "uint8");
+            disp("%0X ", resp);
+            break;
+        end
+    end
     
-    % flush(device);
-    % delete(device);
 end

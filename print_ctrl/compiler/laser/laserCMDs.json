@@ -1,0 +1,152 @@
+[
+	{
+		"name": "returnedError",
+		"id": "0x00",
+		"inParamSize": null,
+		"outParamSize": 1
+	},
+	{
+		"name": "getStatus",
+		"id": "0x01",
+		"inParamSize": 0,
+		"outParamSize": 2
+	},
+	{
+		"name": "getDigitalIO",
+		"id": "0x02",
+		"inParamSize": 0,
+		"outParamSize": 8
+	},
+	{
+		"name": "getAlarms",
+		"id": "0x04",
+		"inParamSize": 0,
+		"outParamSize": 4
+	},
+	{
+		"name": "resetAlarms",
+		"id": "0x05",
+		"inParamSize": 0,
+		"outParamSize": 1
+	},
+	{
+		"name": "calibrateLaser",
+		"id": "0x06",
+		"inParamSize": 0,
+		"outParamSize": 2
+	},
+	{
+		"name": "setCurrentMode",
+		"id": "0x07",
+		"inParamSize": 1,
+		"outParamSize": 2
+	},
+	{
+		"name": "setAccessLevel",
+		"id": "0x09",
+		"inParamSize": 4,
+		"outParamSize": 2
+	},
+	{
+		"name": "setReqPowerLevel",
+		"id": "0x10",
+		"inParamSize": 2,
+		"outParamSize": 1
+	},
+	{
+		"name": "getPowerLevel",
+		"id": "0x11",
+		"inParamSize": 0,
+		"outParamSize": 3
+	},
+	{
+		"name": "getModelVersion",
+		"id": "0x12",
+		"inParamSize": 0,
+		"outParamSize": 111
+	},
+	{
+		"name": "doMaintenance",
+		"id": "0x14",
+		"inParamSize": 2,
+		"outParamSize": 3
+	},
+	{
+		"name": "genPulse",
+		"id": "0x15",
+		"inParamSize": 10,
+		"outParamSize": 11
+	},
+	{
+		"name": "togglePilotLaser",
+		"id": "0x16",
+		"inParamSize": 1,
+		"outParamSize": 1
+	},
+	{
+		"name": "readLog",
+		"id": "0x19",
+		"inParamSize": 2,
+		"outParamSize": 19
+	},
+	{
+		"name": "getOnTime",
+		"id": "0x21",
+		"inParamSize": 0,
+		"outParamSize": 8
+	},
+	{
+		"name": "getPowPulse",
+		"id": "0x22",
+		"inParamSize": 0,
+		"outParamSize": 6
+	},
+	{
+		"name": "getSettings",
+		"id": "0x23",
+		"inParamSize": 1,
+		"outParamSize": 6
+	},
+	{
+		"name": "setSettings",
+		"id": "0x24",
+		"inParamSize": 5,
+		"outParamSize": 1
+	},
+	{
+		"name": "clearOutPowAlarm",
+		"id": "0x25",
+		"inParamSize": 0,
+		"outParamSize": 1
+	},
+	{
+		"name": "setPumpDriverPSE",
+		"id": "0x28",
+		"inParamSize": 3,
+		"outParamSize": 3
+	},
+	{
+		"name": "setXPRMode",
+		"id": "0x29",
+		"inParamSize": 1,
+		"outParamSize": 1
+	},
+	{
+		"name": "enableFeature",
+		"id": "0x30",
+		"inParamSize": 4,
+		"outParamSize": 3
+	},
+	{
+		"name": "getStringDesc",
+		"id": "0x31",
+		"inParamSize": 1,
+		"outParamSize": 6
+	},
+	{
+		"name": "clearAllAlarms",
+		"id": "0x32",
+		"inParamSize": 3,
+		"outParamSize": 2
+	}
+]

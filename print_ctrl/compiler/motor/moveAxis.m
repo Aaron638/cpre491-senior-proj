@@ -1,18 +1,23 @@
-% Move from previous point (x0, y0) to new point (x1, y1)
-%   gcode units are in mm. So the point (1, 1), is 1mm in the x and y direction.
-%   xi and yi indicate which motor to index.
-% Returns a string
+% TODO: Prevent out of bounds movement.
+% 
+% Compiler subfunction to move from previous point (x0, y0) to new point (x1, y1).
+%   g-code units are in mm. The point (1, 1), is 1mm in the x and y direction.
+% 
+% Usage:
+%   printerAction = moveAxis(2, 3, 8, 9); % Move from (2,3) to (8,9).
+% 
+% Returns a single string with the command.
 %
-% Formatted Example:
-% "F, C, I2M 400, R"
-%   F = On-Line mode with echo off
-%   C = clear all commands from current program
-%   I2M 400 = Index motor 2, move 400 steps positive direction
-%   R = run command
+% VXM Command breakdown:
+%   "F, C, I2M 400, R"
+%     F = On-Line mode with echo off
+%     C = clear all commands from current program
+%     I2M 400 = Index motor 2, move 400 steps positive direction
+%     R = run command
 
 function vxmCMD = moveAxis(x0, y0, x1, y1)
 
-    map = VXM_MOTOR_MAP;
+    VXM = VXM_MOTOR_MAP;
     
     % Calculate the distance to travel (mm)
     deltaX = x1 - x0;
@@ -25,12 +30,12 @@ function vxmCMD = moveAxis(x0, y0, x1, y1)
     % Write the vxm command
     % Only move motor number yi (y-axis)
     if deltaX == 0
-        vxmCMD = [compose("F, C, I%dM %d, R,", map.m4, deltaY)];
+        vxmCMD = [compose("F, C, I%dM %d, R,", VXM.m4, deltaY)];
     % Only move motor number xi (x-axis)
     elseif deltaY == 0
-        vxmCMD = [compose("F, C, I%dM %d, R,", map.m3, deltaX)];
+        vxmCMD = [compose("F, C, I%dM %d, R,", VXM.m3, deltaX)];
     % Move both motor xi and yi (usually 2 and 3?)
     else
-        vxmCMD = [compose("F, C, (I%dM %d, I%dM %d), R,", map.m3, map.m4, deltaX, deltaY)];
+        vxmCMD = [compose("F, C, (I%dM %d, I%dM %d), R,", VXM.m3, VXM.m4, deltaX, deltaY)];
     end
 end

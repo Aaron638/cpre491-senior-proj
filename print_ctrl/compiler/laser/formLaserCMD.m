@@ -1,38 +1,35 @@
 function cmd = formLaserCMD()
 
-    % start_byte = 0x1B;
-    % num_cmd_bytes = 
-    % num_data_bytes = 
-    % cmd_value = 
-    % data_byte_1 = 
-    % data_byte_2 = 
-    % stop_byte = 0x0D;
-    % CRC_byte = 0;
+    startByte = uint8(0x1B);
+    stopByte = uint8(0x0D);
 
-    % Get Status
-    % Get Digital I/O
-    % Get Analog Input
-    % Get Alarms and Warnings
-    % Reset Alarms
-    % Calibrate
-    % Set Current Mode
-    % Set Access Level
-    % Set Required Power Level
-    % Get Output Power Level
-    % Get Model and Version
-    % Maintenance
-    % Internal Pulse Generation
-    % Red Targeting Laser Control
-    % Read Log
-    % Get On Times
-    % Get Output Power and Pulse width
-    % Get Settings
-    % Set Settings
-    % Clear Output Power Alarm
-    % Set Pump Driver PSE Level
-    % Set XPR Mode
-    % Enable Feature
-    % Get string description
-    % User Clear All Alarms
-    
-end
+    filetext = fileread("./print_ctrl/compiler/laser/laserCMDs.json");
+    cmdDict = jsondecode(filetext);
+
+    idx = 0;
+    % Command ID to uint8:
+    cmdID = uint8(hex2dec(cmdDict(idx).id));
+
+    inParamSize = cmdDict(idx).inParamSize;
+    outParamSize = cmdDict(idx).outParamSize; 
+
+    and 
+
+    % Does cmdDict(2) have the id 0x01? == true
+    % strcmp(cmdDict(2).id, "0x01");
+
+    %%%
+    % {"0x00": "Command Not Supported"},
+    % {"0x01": "CRC Error"},
+    % {"0x02": "No Start Byte"},
+    % {"0x03": "No Stop Byte"},
+    % {"0x04": "Incorrect No Data Bytes"},
+    % {"0x05": "Overrun Error"},
+    % {"0x06": "Parity Error"},
+    % {"0x07": "Framing Error"},
+    % {"0x08": "Rx Buffer Overflow"},
+    % {"0x09": "Command Time Out"},
+    % {"0x0F": "Unknown Error"}
+    %%%
+
+% end

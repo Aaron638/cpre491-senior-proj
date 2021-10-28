@@ -9,14 +9,14 @@
 % 
 %   freeMove("COM5", 2, 500);               % Or do it manually
 % 
-function response = freeMove(port, motornum, dist_in_steps)
+function response = freeMoveCMD(port, cmdString)
     device = serialport(port, 9600);
     flush(device);
-    string = compose("F, C, I%dM%d, R,\r", motornum, dist_in_steps);
-    write(device, string, "uint8");
+    cmdString = compose("%s\r", cmdString);
+    write(device, cmdString, "uint8");
     response = "";
     while response ~= '^'
-        response = response + read(device, 1, "uint8");
+        response = read(device, 1, "uint8");
     end
     flush(device);
     delete(device);

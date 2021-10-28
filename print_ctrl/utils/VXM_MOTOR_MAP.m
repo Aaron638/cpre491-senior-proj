@@ -1,24 +1,33 @@
-% The purpose of this global constant struct is to abstract away the confusing indexing.
+% Global which changes the way motors are indexed to be from 1-6, rather than 1-4 and 1-2.
 % The user/programmer can access each motor controller: 
-%   m1-m4 under port_a
-%   m5-m6 under port_b
+%   m1-m4 under PORT_M1234
+%   m5-m6 under PORT_M56
 % 
-% To use, place near the start of your function like so
-%   map = VXM_MOTOR_MAP
+% Usage:
+%   VXM = VXM_MOTOR_MAP;    % Instantiate the struct as VXM
+%   port = VXM.PORT_M1234;  % Use the port for motors 1-4.
+% 
+%   % Use freemove function to move motor 3, 500 steps:
+%   freeMove(VXM.PORT_M1234, VXM.m3, 500);
+% 
+% Previously to move motor 5, the supply bed, you would index motor 1, port COM11.
+% Now you can index VXM.m5, port VXM.PORT_M56.
+% 
+% The user/programmer can manually change the ports here.
+% This may be necessary if the USB-to-Serial cables are unplugged and plugged back in.
+% 
+function VXM = VXM_MOTOR_MAP()
 
-function map = VXM_MOTOR_MAP()
-
-    % Motor Indexing Map:
+    % Motor Indexing VXM:
     % Our index = vxm index
-    % MANUALLY CHANGE IF NEEDED
-    map.port_a = "COM5";  % Maps to motors 1-4
-    map.m1 = 1; % Spotsize
-    map.m2 = 4; % Roller
-    map.m3 = 2; % X-axis movement (left/right)
-    map.m4 = 3; % Y-axis movement (forward/back)
+    VXM.PORT_M1234 = "COM5";  % VXMs to motors 1-4
+    VXM.m1 = 4; % Spotsize (neg up/pos down)
+    VXM.m2 = 1; % Roller (neg left/pos right)
+    VXM.m3 = 2; % X-axis movement (neg left/pos right)
+    VXM.m4 = 3; % Y-axis movement (neg away/pos towards)
 
-    map.port_b = "COM11"; % Maps to motors 5 & 6
-    map.m5 = 1; % Supply Bed
-    map.m6 = 2; % Powder Bed
+    VXM.PORT_M56 = "COM11"; % VXMs to motors 5 & 6
+    VXM.m5 = 1; % Supply Bed
+    VXM.m6 = 2; % Powder Bed
 
 end

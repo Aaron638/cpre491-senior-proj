@@ -1,20 +1,18 @@
-function freeLaserTCP(ip, port, command)
-   
+% UNTESTED
+% 
+function response = freeLaserTCP(ip, port, cmdArray)
     t = tcpclient(ip, port);
+    %command = [0x1b, 0x01, 0x01, 0x0d, 0x2a];
+    %command = setLaserOff();
+    command = cmdArray;
+    
     write(t, command, "uint8");
-
-    resp = readLaser(device);
-    disp(resp);
-
-    disp("Num bytes available:" + t.numBytesAvailable);
-
-    % Display it again in hex
-    % for r in resp
-    %     formatted = compose("%X ", r);
-    %     disp(formatted);
-    % end
-
-    % %TODO Verify CRC by adding bytes 1-6
-
-    % delete(device);
+    resp = read(t);
+    while isempty(resp)
+        resp = read(t);
+    end
+    response = compose("%02X", resp);
+    
+    clear t;
+    
 end
