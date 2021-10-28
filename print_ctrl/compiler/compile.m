@@ -42,8 +42,7 @@ function compile(inputfile, outputfile)
         objWidth  = gcodeLineStrArr(2);
         objLength = gcodeLineStrArr(4);
     else
-        error("ERROR: gcode file does not properly define width/length.\n 
-            Line 1 must start with: 'Width: {x} Length: {y}'");
+        error("ERROR: gcode file does not properly define width/length.\nLine 1 must start with: 'Width: {x} Length: {y}'");
         return;
     end
 
@@ -52,7 +51,7 @@ function compile(inputfile, outputfile)
 
         resCellArr = {};
         curLine = fileData(i);
-        disp("Line [%d]: %s", i, curLine);
+        disp(compose("Line [%d]: %s", i, curLine));
 
         % Axis Move to (x,y)
         if startsWith(curLine, 'G01 X')
@@ -92,7 +91,7 @@ function compile(inputfile, outputfile)
             % Zero the Beds
             printerAction = homeBeds();
             resCellArr(5,:) = {VXM.PORT_M56, printerAction(1), curLine};
-            resCellArr(6,:) = {VXM.PORT_M56, printerAction(2), curLine};
+            %resCellArr(6,:) = {VXM.PORT_M56, printerAction(2), curLine};
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')

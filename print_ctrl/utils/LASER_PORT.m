@@ -4,6 +4,7 @@
 % 
 function port = LASER_PORT()
 
-    port = "COM1";
+    %port = "COM1";
+    port = 58176;
 
 end

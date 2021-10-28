@@ -21,10 +21,10 @@ function VXM = VXM_MOTOR_MAP()
     % Motor Indexing VXM:
     % Our index = vxm index
     VXM.PORT_M1234 = "COM5";  % VXMs to motors 1-4
-    VXM.m1 = 1; % Spotsize
-    VXM.m2 = 4; % Roller
-    VXM.m3 = 2; % X-axis movement (left/right)
-    VXM.m4 = 3; % Y-axis movement (forward/back)
+    VXM.m1 = 4; % Spotsize (neg up/pos down)
+    VXM.m2 = 1; % Roller (neg left/pos right)
+    VXM.m3 = 2; % X-axis movement (neg left/pos right)
+    VXM.m4 = 3; % Y-axis movement (neg away/pos towards)
 
     VXM.PORT_M56 = "COM11"; % VXMs to motors 5 & 6
     VXM.m5 = 1; % Supply Bed
