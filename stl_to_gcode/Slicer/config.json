@@ -7,10 +7,23 @@
     "voxels_per_width":4,
     "voxel_margin":0.5,
     "voxel_padding":0.5,
-    "defect_x_origin":-1,
-    "defect_y_origin":-1,
-    "defect_z_origin":-1,
-    "defect_width":-1,
-    "defect_length":-1,
-    "defect_height":-1
+    "defects": [
+        {
+            "defect_x_origin":-1,
+            "defect_y_origin":-1,
+            "defect_z_origin":-1,
+            "defect_width":-1,
+            "defect_length":-1,
+            "defect_height":-1
+        },
+        {
+            "defect_x_origin":-1,
+            "defect_y_origin":-1,
+            "defect_z_origin":-1,
+            "defect_width":-1,
+            "defect_length":-1,
+            "defect_height":-1
+        }
+    ]
+    
 }
