@@ -28,7 +28,10 @@ function compile(inputfile, outputfile)
     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
     gcodeLineStrArr = [];
     printerAction   = "";
-    cellarray = {"Port", "Command", "G-Code"};
+
+    % Create a cell array of empty matrices of dimensions {# of lines in file} long, 3 wide
+    cellarray = cell([length(fileData), 3]);
+    cellarray(1,:) = {"Port", "Command", "G-Code"};
 
     % Read file line by line as a string array
     fileData = readlines(inputfile);
@@ -50,6 +53,7 @@ function compile(inputfile, outputfile)
     for i = 2:size(fileData)
 
         resCellArr = {};
+        
         curLine = fileData(i);
         disp(compose("Line [%d]: %s", i, curLine));
 
@@ -91,7 +95,6 @@ function compile(inputfile, outputfile)
             % Zero the Beds
             printerAction = homeBeds();
             resCellArr(5,:) = {VXM.PORT_M56, printerAction(1), curLine};
-            %resCellArr(6,:) = {VXM.PORT_M56, printerAction(2), curLine};
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
@@ -117,7 +120,6 @@ function compile(inputfile, outputfile)
 
         % Vertically concat cellarray with resCellArr
         cellarray = vertcat(cellarray, resCellArr);
-
         xPrev = xCur; yPrev = yCur; zPrev = zCur;
         
     end
