@@ -26,7 +26,7 @@ function vxmCMD = setSpotsize(spot_radius_um)
     
     height = ((wo * vpa(pi) * D * cosd(theta))/ (2 * wl)) - offset;
     height = unitConvert(simplify(height), u.mm);   % Convert to mm
-    height = int32(separateUnits(height) / VXM_STEP_SIZE); % Convert to steps
+    height = int32(separateUnits(height) / CFG.STEP_SIZE); % Convert to steps
 
     % TODO: Calculate maximum possible height, and check if invalid
     if height > 9000

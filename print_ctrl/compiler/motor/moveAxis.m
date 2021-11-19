@@ -17,25 +17,25 @@
 
 function vxmCMD = moveAxis(x0, y0, x1, y1)
 
-    VXM = VXM_MOTOR_MAP;
+    CFG = CONFIG();
     
     % Calculate the distance to travel (mm)
     deltaX = x1 - x0;
     deltaY = y1 - y0;
 
-    % Convert to integer number of steps (See VXM_STEP_SIZE.m)
-    deltaX = int32(deltaX / VXM_STEP_SIZE);
-    deltaY = int32(deltaY / VXM_STEP_SIZE);
+    % Convert to integer number of steps (See CFG.STEP_SIZE.m)
+    deltaX = int32(deltaX / CFG.STEP_SIZE);
+    deltaY = int32(deltaY / CFG.STEP_SIZE);
     
     % Write the vxm command
-    % Only move motor number yi (y-axis)
-    if deltaX == 0
-        vxmCMD = [compose("F, C, I%dM %d, R,", VXM.m4, deltaY)];
-    % Only move motor number xi (x-axis)
-    elseif deltaY == 0
-        vxmCMD = [compose("F, C, I%dM %d, R,", VXM.m3, deltaX)];
-    % Move both motor xi and yi (usually 2 and 3?)
+    % Only move y-axis motor
+    if (deltaX == 0 & deltaY ~= 0)
+        vxmCMD = [compose("F, C, I%dM %d, R,", CFG.VXM_YAXIS, deltaY)];
+    % Only move x-axis motor
+    elseif (deltaX ~= 0 & deltaY == 0)
+        vxmCMD = [compose("F, C, I%dM %d, R,", CFG.VXM_XAXIS, deltaX)];
+    % Move both motors
     else
-        vxmCMD = [compose("F, C, (I%dM %d, I%dM %d), R,", VXM.m3, VXM.m4, deltaX, deltaY)];
+        vxmCMD = [compose("F, C, (I%dM %d, I%dM %d), R,", CFG.VXM_XAXIS, CFG.VXM_YAXIS, deltaX, deltaY)];
     end
 end

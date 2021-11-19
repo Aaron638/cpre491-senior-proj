@@ -17,11 +17,11 @@
 %
 function bedCMD = moveBeds(z)
 
-    VXM = VXM_MOTOR_MAP;
+    CFG = CONFIG();
 
-    % Convert z to integer number of Steps (See VXM_STEP_SIZE.m)
-    stepsMoved = int32(z / VXM_STEP_SIZE);
+    % Convert z to integer number of Steps (See CFG.STEP_SIZE.m)
+    stepsMoved = int32(z / CFG.STEP_SIZE);
 
     % Convert to string 
-    bedCMD = compose("F, C, I%dM  %d, I%dM -%d, R,", VXM.m5, stepsMoved, VXM.m6, stepsMoved);
+    bedCMD = [compose("F, C, I%dM  %d, I%dM -%d, R,", CFG.VXM_SUPPLYBED, stepsMoved, CFG.VXM_PRINTBED, stepsMoved)];
 end

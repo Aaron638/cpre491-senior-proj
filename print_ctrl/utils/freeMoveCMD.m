@@ -5,7 +5,7 @@
 % 
 % Usage: 
 %   % Use freemove function to move motor 3, 500 steps:
-%   freeMove(VXM.PORT_M1234, VXM.m3, 500);  % Using the global constants
+%   freeMove(CFG.PORT_TWIN, CFG.VXM_XAXIS, 500);  % Using the global constants
 % 
 %   freeMove("COM5", 2, 500);               % Or do it manually
 % 

@@ -21,19 +21,16 @@
 %   Second column indicates actual command to be sent.
 %   Third column prints out the line of gcode for debugging.
 %
-function compile(inputfile, outputfile)
 
-    VXM = VXM_MOTOR_MAP;
+function r = compile(inputfile, outputfile)
+
+    CFG = CONFIG();
     xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
+    bedWidth = 0.0000; bedLength = 0.0000;
     gcodeLineStrArr = [];
-    printerAction   = "";
 
-    % Create a cell array of empty matrices of dimensions {# of lines in file} long, 3 wide
-    cellarray = cell([length(fileData), 3]);
-    cellarray(1,:) = {"Port", "Command", "G-Code"};
-
-    % Read file line by line as a string array
+    % Read inputfile line by line as a string array
     fileData = readlines(inputfile);
     disp("Reading file: " + inputfile);
 
@@ -42,17 +39,26 @@ function compile(inputfile, outputfile)
     disp("Line [1]: " + curLine);
     if (contains(curLine, 'Width: ') && contains(curLine, 'Length: '))
         gcodeLineStrArr = split(curLine);
-        objWidth  = gcodeLineStrArr(2);
-        objLength = gcodeLineStrArr(4);
+        bedWidth  = gcodeLineStrArr(2);
+        bedLength = gcodeLineStrArr(4);
     else
         error("ERROR: gcode file does not properly define width/length.\nLine 1 must start with: 'Width: {x} Length: {y}'");
-        return;
     end
+
+    % Preallocate space for printer action array
+    N = length(fileData) * 6;
+    parray(1:N) = struct("ports", [], "actions", [], "gcode", "");
+
+    % Headers;
+    parray(1).ports = "Port";
+    parray(1).actions = "Action";
+    parray(1).gcode = "G-Code";
+
+    % Open outputfile for writing
+    fileID = fopen(outputfile, "w");
 
     % For each line of gcode starting at line 2, call the corresponding command
     for i = 2:size(fileData)
-
-        resCellArr = {};
         
         curLine = fileData(i);
         disp(compose("Line [%d]: %s", i, curLine));
@@ -63,51 +69,54 @@ function compile(inputfile, outputfile)
             xCur = getNumsFromStr(gcodeLineStrArr(2));
             yCur = getNumsFromStr(gcodeLineStrArr(3));
 
-            printerAction = moveAxis(xPrev, yPrev, xCur, yCur);
-            resCellArr = {VXM.PORT_M1234, printerAction, curLine};
+            % Move axis motors relative to prev position
+            % parray(i).n = 1;
+            parray(i).ports = [CFG.PORT_TWIN];
+            parray(i).actions = moveAxis(xPrev, yPrev, xCur, yCur);
 
         % Layer Change to (z)
         elseif startsWith(curLine, 'G01 Z')
             gcodeLineStrArr = split(curLine);
             zCur = getNumsFromStr(gcodeLineStrArr(2));
 
-            % First, Move Print and Supply Bed
-            printerAction = moveBeds(zCur);
-            resCellArr(1,:) = {VXM.PORT_M56, printerAction, curLine};
-
-            % Next, Sweep the Roller
-            printerAction = sweepRoller();
-            resCellArr(2,:) = {VXM.PORT_M1234, printerAction(1), curLine};
-            resCellArr(3,:) = {VXM.PORT_M1234, printerAction(2), curLine};
+            % Move pbed and sbed, then sweep roller
+            % parray(i).n = 3;
+            parray(i).ports = [CFG.PORT_SOLO, CFG.PORT_TWIN, CFG.PORT_TWIN];
+            parray(i).actions = [moveBeds(zCur), sweepRoller()];
 
         % Reset to absolute zero position
         elseif (contains(curLine, 'M200'))
             xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
             xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
 
-            % Zero the Axis motors
-            printerAction = homeAxisRoller();
-            resCellArr(1,:) = {VXM.PORT_M1234, printerAction(1), curLine};
-            resCellArr(2,:) = {VXM.PORT_M1234, printerAction(2), curLine};
-            resCellArr(3,:) = {VXM.PORT_M1234, printerAction(3), curLine};
-            resCellArr(4,:) = {VXM.PORT_M1234, printerAction(4), curLine};
-            
+            % Zero the Axis motors           
             % Zero the Beds
-            printerAction = homeBeds();
-            resCellArr(5,:) = {VXM.PORT_M56, printerAction(1), curLine};
+            % parray(i).n = 5;
+            parray(i).ports = [CFG.PORT_TWIN, CFG.PORT_TWIN, CFG.PORT_TWIN, CFG.PORT_TWIN, CFG.PORT_SOLO];
+            parray(i).actions = [homeAxisRoller(), homeBeds()];
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
-            printerAction = "LASER_ON";
-            resCellArr = {LASER_PORT, printerAction, curLine};
+            % parray(i).n = 6;
+            parray(i).actions = setLaserOn();
+            for j = 1:6
+                parray(i).ports(j) = CFG.PORT_LASER;
+            end
 
         % Turn the laser off
         elseif startsWith(curLine, 'M202')
-            printerAction = "LASER_OFF";
-            resCellArr = {LASER_PORT, printerAction, curLine};
+            % parray(i).n = 6;
+            parray(i).actions = setLaserOff();
+            for j = 1:6
+                parray(i).ports(j) = CFG.PORT_LASER;
+            end
         
-        % Empty line, ignore
-        elseif startsWith(curLine, "")
+        % Empty line, skip
+        elseif (curLine == "")
+            continue;
+            
+        % Comment line, skip
+        elseif startsWith(curLine, ';')
             continue;
 
         % Encountered unexpected text, pause and wait for user
@@ -115,18 +124,41 @@ function compile(inputfile, outputfile)
             disp("ERROR: Encountered unexpected text.");
             disp("PAUSED. Press any key to unpause");
             pause;
-
         end
 
-        % Vertically concat cellarray with resCellArr
-        cellarray = vertcat(cellarray, resCellArr);
-        xPrev = xCur; yPrev = yCur; zPrev = zCur;
-        
+        % Make sure portsArr and printerAction have the same length
+        if (length(parray(i).ports) ~= length(parray(i).actions))
+            disp(parray(i).ports);
+            disp(parray(i).actions);
+            error("ERROR: Mismatching port and action array sizes");
+        end
+
+        parray(i).gcode = curLine;
+
+        % Write to file
+        % for pa = 1:length(parray(i).ports)
+        %     if isa(parray(i).ports, 'string')
+                
+        %     elseif isa(parray(i).ports, 'double')
+                
+        %     else
+                 
+        %     end
+
+
+        %     fprintf(fileID, );
+        % end
+
+        xPrev = xCur; yPrev = yCur; zPrev = zCur;    
     end
 
-    % Write cellarray to outputfile printerActions.txt
-    writecell(cellarray, outputfile, "Delimiter", "bar");
+    r = parray;
 
+    
+    % Write parray to outputfile
+    % writematrix(parray, outputfile, "Delimiter", "bar");
+
+    fclose(fileID);
     disp("Finished parsing gcode file.");
     
-end
+
