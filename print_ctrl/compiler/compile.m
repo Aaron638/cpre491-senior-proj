@@ -21,7 +21,6 @@
 %   Second column indicates actual command to be sent.
 %   Third column prints out the line of gcode for debugging.
 %
-
 function r = compile(inputfile, outputfile)
 
     CFG = CONFIG();
@@ -55,7 +54,7 @@ function r = compile(inputfile, outputfile)
     parray(1).gcode = "G-Code";
 
     % Open outputfile for writing
-    fileID = fopen(outputfile, "w");
+    % fileID = fopen(outputfile, "w");
 
     % For each line of gcode starting at line 2, call the corresponding command
     for i = 2:size(fileData)
@@ -98,18 +97,20 @@ function r = compile(inputfile, outputfile)
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
             % parray(i).n = 6;
-            parray(i).actions = setLaserOn();
-            for j = 1:6
-                parray(i).ports(j) = CFG.PORT_LASER;
-            end
+            % parray(i).actions = setLaserOn();
+            % for j = 1:6
+                % parray(i).ports(j) = CFG.PORT_LASER;
+            % end
+            continue;
 
         % Turn the laser off
         elseif startsWith(curLine, 'M202')
             % parray(i).n = 6;
-            parray(i).actions = setLaserOff();
-            for j = 1:6
-                parray(i).ports(j) = CFG.PORT_LASER;
-            end
+            % parray(i).actions = setLaserOff();
+            % for j = 1:6
+                % parray(i).ports(j) = CFG.PORT_LASER;
+            % end
+            continue;
         
         % Empty line, skip
         elseif (curLine == "")
@@ -126,29 +127,17 @@ function r = compile(inputfile, outputfile)
             pause;
         end
 
-        % Make sure portsArr and printerAction have the same length
+        % Make sure ports and actions arrays have the same length
         if (length(parray(i).ports) ~= length(parray(i).actions))
             disp(parray(i).ports);
             disp(parray(i).actions);
             error("ERROR: Mismatching port and action array sizes");
         end
 
-        parray(i).gcode = curLine;
-
-        % Write to file
-        % for pa = 1:length(parray(i).ports)
-        %     if isa(parray(i).ports, 'string')
-                
-        %     elseif isa(parray(i).ports, 'double')
-                
-        %     else
-                 
-        %     end
-
-
-        %     fprintf(fileID, );
-        % end
-
+        parray(i).ports = convertStringsToChars(parray(i).ports);
+        parray(i).actions = convertStringsToChars(parray(i).actions);
+        parray(i).gcode = convertStringsToChars(curLine);
+        
         xPrev = xCur; yPrev = yCur; zPrev = zCur;    
     end
 
@@ -156,9 +145,9 @@ function r = compile(inputfile, outputfile)
 
     
     % Write parray to outputfile
-    % writematrix(parray, outputfile, "Delimiter", "bar");
+    toml.write("test.toml", parray);
 
-    fclose(fileID);
+    % fclose(fileID);
     disp("Finished parsing gcode file.");
     
 

@@ -1,4 +1,3 @@
-% UNTESTED
 % Compiler subfunction which moves the beds to the defined home position in ZERO_POS.m
 % Similar to Tary's printerHome, but uses global constants to prevent hard-coding the values.
 % 

@@ -69,7 +69,7 @@ See docs for more details.
     - [x] User-Defined Defect Creation
 - [x] Re-write Printer Control Application in Matlab
     - [x] Communication with Sintering Laser through Matlab
-- [ ] Able to print 3cm cubes
+- ~~Ability to print 3cm cubes~~ Deliverable removed
 
 
 ## Contact
