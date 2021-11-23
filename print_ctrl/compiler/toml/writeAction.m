@@ -1,17 +1,37 @@
 % Writes action as a toml file
-function writeAction(filename)
-    device = "'Laser'";
-    port = string(25565);
-    actions = ["'F, C, S4 M5400, I4 M0, R'", "'F, C, S1 M5400, I1 M-0, R'", "'F, C, S2 M5400, S3 M 5400, I2 M0, I3 M-0, R'","'F, C, I2 M-1800, I3 M13000, R'","'F, C, S1M 3000, S2M 3000, I1M -1800, I2M -0, R'"];
-    gcode = "'M201'";
+% Usage:
+% % Laser Example
+%   fid = fopen(filename, "w");
+%   writeAction(fid, "Laser", CFG.PORT_LASER, setLaserOn(), "M201");
+%   fclose(fid);
+% % Motor Example
+%   fid = fopen(filename, "w");
+%   writeAction(fid, "Laser", CFG.PORT_TWIN, [moveBeds(...), sweepRoller(...)], "G01 X0.100");
+%   fclose(fid);
+% 
+function writeAction(fid, device, port, cmds, gcode)
 
-    fid = fopen(filename, 'wt');
     fprintf(fid, "[[printerAction]]\n");
-    fprintf(fid, "device = %s\n", device);
-    fprintf(fid, "port = %s\n", port);
-    fprintf(fid, "actions = [\n");
-    fprintf(fid, "\t%s,\n", actions);
+    fprintf(fid, "device = '%s'\n", device);
+    
+    if device == "Motor"
+        % "COMx" serial port for motor comms
+        fprintf(fid, "port = '%s'\n", port);
+        fprintf(fid, "actions = [\n");
+        % String array for VXM motor cmds
+        fprintf(fid, "\t'%s',\n", cmds);
+    elseif device == "Laser"
+        % numerical port for TCP Laser comms
+        fprintf(fid, "port = %d\n", port);
+        fprintf(fid, "actions = [\n");
+        % Hex Byte array for Laser commands
+        fprintf(fid, "\t0x%02X,\n", cmds);
+    elseif device == "FuncGen"
+        % TODO:
+        fprintf(fid, "\t,Function Generator\n");
+    end
     fprintf(fid, "]\n");
-    fprintf(fid, "gcode = %s\n", gcode);
-    fclose(fid);
+
+    fprintf(fid, "gcode = '%s'\n\n", gcode);
+
 end

@@ -16,18 +16,19 @@
 % The function should return early if gcode file is invalid.
 % After the function is finished parsing the gcode, the results are written to an output file.
 %
-% Output is a txt file with 3 columns separated by a bar "|":
-%   First column indiciates the port to send the command to.
-%   Second column indicates actual command to be sent.
-%   Third column prints out the line of gcode for debugging.
+% Output is a .toml file
 %
-function r = compile(inputfile, outputfile)
+function compile(inputfile, outputfile)
 
     CFG = CONFIG();
     xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
-    bedWidth = 0.0000; bedLength = 0.0000;
+    objWidth = 0.0000; objLength = 0.0000;
     gcodeLineStrArr = [];
+
+    if ~endsWith(outputfile, '.toml')
+        warning("WARN: File: {%s} does not end with '.toml'", outputfile);
+    end
 
     % Read inputfile line by line as a string array
     fileData = readlines(inputfile);
@@ -38,79 +39,75 @@ function r = compile(inputfile, outputfile)
     disp("Line [1]: " + curLine);
     if (contains(curLine, 'Width: ') && contains(curLine, 'Length: '))
         gcodeLineStrArr = split(curLine);
-        bedWidth  = gcodeLineStrArr(2);
-        bedLength = gcodeLineStrArr(4);
+        objWidth  = gcodeLineStrArr(2);
+        objLength = gcodeLineStrArr(4);
     else
-        error("ERROR: gcode file does not properly define width/length.\nLine 1 must start with: 'Width: {x} Length: {y}'");
+        error("ERROR: gcode file {%s} does not properly define width/length.\nLine 1 must start with: 'Width: {x} Length: {y}'", inputfile);
     end
 
-    % Preallocate space for printer action array
-    N = length(fileData) * 6;
-    parray(1:N) = struct("ports", [], "actions", [], "gcode", "");
-
-    % Headers;
-    parray(1).ports = "Port";
-    parray(1).actions = "Action";
-    parray(1).gcode = "G-Code";
-
-    % Open outputfile for writing
-    % fileID = fopen(outputfile, "w");
+    fileID = fopen(outputfile, 'w');
 
     % For each line of gcode starting at line 2, call the corresponding command
     for i = 2:size(fileData)
+
+        device = ""; port = "";
+        cmds = [];
         
         curLine = fileData(i);
         disp(compose("Line [%d]: %s", i, curLine));
 
-        % Axis Move to (x,y)
+        % Axis Move to {x,y}
         if startsWith(curLine, 'G01 X')
             gcodeLineStrArr = split(curLine);
             xCur = getNumsFromStr(gcodeLineStrArr(2));
             yCur = getNumsFromStr(gcodeLineStrArr(3));
 
-            % Move axis motors relative to prev position
-            % parray(i).n = 1;
-            parray(i).ports = [CFG.PORT_TWIN];
-            parray(i).actions = moveAxis(xPrev, yPrev, xCur, yCur);
+            device = "Motor";
+            % Move Axis motors
+            port = CFG.PORT_TWIN;
+            cmds = moveAxis(xPrev, yPrev, xCur, yCur);
 
-        % Layer Change to (z)
+        % Layer Change to {z} (2 commands)
         elseif startsWith(curLine, 'G01 Z')
             gcodeLineStrArr = split(curLine);
             zCur = getNumsFromStr(gcodeLineStrArr(2));
+            device = "Motor";
 
-            % Move pbed and sbed, then sweep roller
-            % parray(i).n = 3;
-            parray(i).ports = [CFG.PORT_SOLO, CFG.PORT_TWIN, CFG.PORT_TWIN];
-            parray(i).actions = [moveBeds(zCur), sweepRoller()];
+            % Move Beds
+            port = CFG.PORT_SOLO;
+            cmds = moveBeds(zCur);
+            writeAction(fileID, device, port, cmds, curLine);
 
-        % Reset to absolute zero position
+            % Sweep Roller
+            port = CFG.PORT_TWIN;
+            cmds = sweepRoller();
+
+        % Reset to absolute zero position (2 commands)
         elseif (contains(curLine, 'M200'))
             xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
             xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
+            device = "Motor";
 
-            % Zero the Axis motors           
+            % Zero the Axis motors
+            port = CFG.PORT_TWIN;
+            cmds = homeAxisRoller();
+            writeAction(fileID, device, port, cmds, curLine);
+
             % Zero the Beds
-            % parray(i).n = 5;
-            parray(i).ports = [CFG.PORT_TWIN, CFG.PORT_TWIN, CFG.PORT_TWIN, CFG.PORT_TWIN, CFG.PORT_SOLO];
-            parray(i).actions = [homeAxisRoller(), homeBeds()];
+            port = CFG.PORT_SOLO;
+            cmds = homeBeds();
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
-            % parray(i).n = 6;
-            % parray(i).actions = setLaserOn();
-            % for j = 1:6
-                % parray(i).ports(j) = CFG.PORT_LASER;
-            % end
-            continue;
+            device = "Laser";
+            port = CFG.PORT_LASER;
+            cmds = setLaserOn();
 
         % Turn the laser off
         elseif startsWith(curLine, 'M202')
-            % parray(i).n = 6;
-            % parray(i).actions = setLaserOff();
-            % for j = 1:6
-                % parray(i).ports(j) = CFG.PORT_LASER;
-            % end
-            continue;
+            device = "Laser";
+            port = CFG.PORT_LASER;
+            cmds = setLaserOff();
         
         % Empty line, skip
         elseif (curLine == "")
@@ -124,30 +121,14 @@ function r = compile(inputfile, outputfile)
         else
             disp("ERROR: Encountered unexpected text.");
             disp("PAUSED. Press any key to unpause");
-            pause;
+            pause();
         end
 
-        % Make sure ports and actions arrays have the same length
-        if (length(parray(i).ports) ~= length(parray(i).actions))
-            disp(parray(i).ports);
-            disp(parray(i).actions);
-            error("ERROR: Mismatching port and action array sizes");
-        end
-
-        parray(i).ports = convertStringsToChars(parray(i).ports);
-        parray(i).actions = convertStringsToChars(parray(i).actions);
-        parray(i).gcode = convertStringsToChars(curLine);
+        % Write printerAction to .toml file
+        writeAction(fileID, device, port, cmds, curLine);
         
         xPrev = xCur; yPrev = yCur; zPrev = zCur;    
     end
 
-    r = parray;
-
-    
-    % Write parray to outputfile
-    toml.write("test.toml", parray);
-
-    % fclose(fileID);
+    fclose(fileID);
     disp("Finished parsing gcode file.");
-    
-
