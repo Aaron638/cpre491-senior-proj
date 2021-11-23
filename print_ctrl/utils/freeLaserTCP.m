@@ -1,4 +1,4 @@
-% UNTESTED
+% TODO write doc
 % 
 function response = freeLaserTCP(ip, port, cmdArray)
     t = tcpclient(ip, port);

@@ -1,5 +1,6 @@
+% TODO rewrite doc
 % Utility function which opens a com port, then moves the given motor a given distance in steps.
-% Uses the standard move command ImMx, where m is the motor index, and x is the distance in steps.
+% Uses the standard move command Im Mx, where m is the motor index, and x is the distance in steps.
 % The function will continue to read until it recieves a '^' character, indicating termination or until it times out.
 % Returns the response from the VXM motor controller.
 % 

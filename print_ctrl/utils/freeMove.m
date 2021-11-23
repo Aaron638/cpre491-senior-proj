@@ -12,7 +12,7 @@
 function response = freeMove(port, motornum, dist_in_steps)
     device = serialport(port, 9600);
     flush(device);
-    string = compose("F, C, I%dM%d, R,\r", motornum, dist_in_steps);
+    string = compose("F, C, I%d M%d, R,\r", motornum, dist_in_steps);
     write(device, string, "uint8");
     response = "";
     while response ~= '^'
