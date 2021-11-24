@@ -1,19 +1,18 @@
-function cmd = formLaserCMD()
+% Temporarily deprecated
+% function cmd = formLaserCMD()
 
-    startByte = uint8(0x1B);
-    stopByte = uint8(0x0D);
+%     startByte = uint8(0x1B);
+%     stopByte = uint8(0x0D);
 
-    filetext = fileread("./print_ctrl/compiler/laser/laserCMDs.json");
-    cmdDict = jsondecode(filetext);
+    % filetext = fileread("./print_ctrl/compiler/laser/laserCMDs.json");
+    % cmdDict = jsondecode(filetext);
 
-    idx = 0;
+    % idx = 0;
     % Command ID to uint8:
-    cmdID = uint8(hex2dec(cmdDict(idx).id));
+    % cmdID = uint8(hex2dec(cmdDict(idx).id));
 
-    inParamSize = cmdDict(idx).inParamSize;
-    outParamSize = cmdDict(idx).outParamSize; 
-
-    and 
+    % inParamSize = cmdDict(idx).inParamSize;
+    % outParamSize = cmdDict(idx).outParamSize; 
 
     % Does cmdDict(2) have the id 0x01? == true
     % strcmp(cmdDict(2).id, "0x01");

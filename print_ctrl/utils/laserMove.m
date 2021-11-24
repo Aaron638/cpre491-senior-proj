@@ -14,7 +14,7 @@ function vxmCMD = laserMove(port)
     
     response = "";
     temp = 0;
-    while response ~= '0D';
+    while response ~= char(0x0D)
         %temp = readline(device);
         %response = compose("%s%c\n", response, temp);
         %disp(sprintf("%x", temp));

@@ -16,21 +16,21 @@
 % The function should return early if gcode file is invalid.
 % After the function is finished parsing the gcode, the results are written to an output file.
 %
-% Output is a txt file with 3 columns separated by a bar "|":
-%   First column indiciates the port to send the command to.
-%   Second column indicates actual command to be sent.
-%   Third column prints out the line of gcode for debugging.
+% Output is a .toml file
 %
 function compile(inputfile, outputfile)
 
-    VXM = VXM_MOTOR_MAP;
+    CFG = CONFIG();
     xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
+    objWidth = 0.0000; objLength = 0.0000;
     gcodeLineStrArr = [];
-    printerAction   = "";
-    cellarray = {"Port", "Command", "G-Code"};
 
-    % Read file line by line as a string array
+    if ~endsWith(outputfile, '.toml')
+        warning("WARN: File: {%s} does not end with '.toml'", outputfile);
+    end
+
+    % Read inputfile line by line as a string array
     fileData = readlines(inputfile);
     disp("Reading file: " + inputfile);
 
@@ -42,89 +42,105 @@ function compile(inputfile, outputfile)
         objWidth  = gcodeLineStrArr(2);
         objLength = gcodeLineStrArr(4);
     else
-        error("ERROR: gcode file does not properly define width/length.\nLine 1 must start with: 'Width: {x} Length: {y}'");
-        return;
+        error("ERROR: gcode file {%s} does not properly define width/length.\nLine 1 must start with: 'Width: {x} Length: {y}'", inputfile);
     end
+
+    fileID = fopen(outputfile, 'w');
 
     % For each line of gcode starting at line 2, call the corresponding command
     for i = 2:size(fileData)
 
-        resCellArr = {};
+        device = ""; port = "";
+        cmds = [];
+        
         curLine = fileData(i);
         disp(compose("Line [%d]: %s", i, curLine));
 
-        % Axis Move to (x,y)
+        % Axis Move to {x,y}
         if startsWith(curLine, 'G01 X')
             gcodeLineStrArr = split(curLine);
             xCur = getNumsFromStr(gcodeLineStrArr(2));
             yCur = getNumsFromStr(gcodeLineStrArr(3));
 
-            printerAction = moveAxis(xPrev, yPrev, xCur, yCur);
-            resCellArr = {VXM.PORT_M1234, printerAction, curLine};
+            if xCur > objWidth || xCur < 0 || yCur > objLength || yCur < objLength
+                warning("WARN: Potential out-of-bounds movement on line %d.", i);
+                disp("Paused. Press any button to continue, or Ctrl+C to stop.");
+                pause();
+            end
 
-        % Layer Change to (z)
+            device = "Motor";
+            % Move Axis motors
+            port = CFG.PORT_TWIN;
+            cmds = moveAxis(xPrev, yPrev, xCur, yCur);
+
+        % Layer Change to {z} (2 commands)
         elseif startsWith(curLine, 'G01 Z')
             gcodeLineStrArr = split(curLine);
             zCur = getNumsFromStr(gcodeLineStrArr(2));
 
-            % First, Move Print and Supply Bed
-            printerAction = moveBeds(zCur);
-            resCellArr(1,:) = {VXM.PORT_M56, printerAction, curLine};
+            if zCur > (abs(CFG.ZERO_S)/CFG.STEP_SIZE)
+                warning("WARN: Potential out-of-bounds movement on line %d.", i);
+                disp("Paused. Press any button to continue, or Ctrl+C to stop.");
+                pause();
+            end
 
-            % Next, Sweep the Roller
-            printerAction = sweepRoller();
-            resCellArr(2,:) = {VXM.PORT_M1234, printerAction(1), curLine};
-            resCellArr(3,:) = {VXM.PORT_M1234, printerAction(2), curLine};
+            device = "Motor";
+            % Move Beds
+            port = CFG.PORT_SOLO;
+            cmds = moveBeds(zCur);
+            writeAction(fileID, device, port, cmds, curLine);
 
-        % Reset to absolute zero position
+            % Sweep Roller
+            port = CFG.PORT_TWIN;
+            cmds = sweepRoller();
+
+        % Reset to absolute zero position (2 commands)
         elseif (contains(curLine, 'M200'))
             xCur  = 0.0000; yCur  = 0.0000; zCur  = 0.0000;
             xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
+            device = "Motor";
 
             % Zero the Axis motors
-            printerAction = homeAxisRoller();
-            resCellArr(1,:) = {VXM.PORT_M1234, printerAction(1), curLine};
-            resCellArr(2,:) = {VXM.PORT_M1234, printerAction(2), curLine};
-            resCellArr(3,:) = {VXM.PORT_M1234, printerAction(3), curLine};
-            resCellArr(4,:) = {VXM.PORT_M1234, printerAction(4), curLine};
-            
+            port = CFG.PORT_TWIN;
+            cmds = homeAxisRoller();
+            writeAction(fileID, device, port, cmds, curLine);
+
             % Zero the Beds
-            printerAction = homeBeds();
-            resCellArr(5,:) = {VXM.PORT_M56, printerAction(1), curLine};
-            %resCellArr(6,:) = {VXM.PORT_M56, printerAction(2), curLine};
+            port = CFG.PORT_SOLO;
+            cmds = homeBeds();
 
         % Turn the laser on
         elseif startsWith(curLine, 'M201')
-            printerAction = "LASER_ON";
-            resCellArr = {LASER_PORT, printerAction, curLine};
+            device = "Laser";
+            port = CFG.PORT_LASER;
+            cmds = setLaserOn();
 
         % Turn the laser off
         elseif startsWith(curLine, 'M202')
-            printerAction = "LASER_OFF";
-            resCellArr = {LASER_PORT, printerAction, curLine};
+            device = "Laser";
+            port = CFG.PORT_LASER;
+            cmds = setLaserOff();
         
-        % Empty line, ignore
-        elseif startsWith(curLine, "")
+        % Empty line, skip
+        elseif (curLine == "")
+            continue;
+            
+        % Comment line, skip
+        elseif startsWith(curLine, ';')
             continue;
 
         % Encountered unexpected text, pause and wait for user
         else
-            disp("ERROR: Encountered unexpected text.");
-            disp("PAUSED. Press any key to unpause");
-            pause;
-
+            warning("WARN: Encountered unexpected text on line %d.", i);
+            disp("Paused. Press any button to continue, or Ctrl+C to stop.");
+            pause();
         end
 
-        % Vertically concat cellarray with resCellArr
-        cellarray = vertcat(cellarray, resCellArr);
-
-        xPrev = xCur; yPrev = yCur; zPrev = zCur;
+        % Write printerAction to .toml file
+        writeAction(fileID, device, port, cmds, curLine);
         
+        xPrev = xCur; yPrev = yCur; zPrev = zCur;    
     end
 
-    % Write cellarray to outputfile printerActions.txt
-    writecell(cellarray, outputfile, "Delimiter", "bar");
-
+    fclose(fileID);
     disp("Finished parsing gcode file.");
-    
-end

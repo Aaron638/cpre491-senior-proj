@@ -6,7 +6,7 @@ function printerHome()
 % Zero Axis
 device = serialport("COM5", 9600);
 flush(device)
-string = compose("F, C, S1M5400, S2M5400, S3M5400, S4M5400, I1M-0, I2M0, I3M-0, I4M0, R,\r");
+string = compose("F, C, S1 M5400, S2 M5400, S3 M5400, S4 M5400, I1 M-0, I2 M0, I3 M-0, I4 M0, R,\r");
 write(device, string, "uint8");
 response = "";
 while response ~= '^'
@@ -14,7 +14,7 @@ while response ~= '^'
 end
 
 % Adjust Axis
-string = compose("F, C, I2M-1800, I3M13000, R,\r");
+string = compose("F, C, I2 M-1800, I3 M13000, R,\r");
 write(device, string, "uint8");
 response = "";
 while response ~= '^'
@@ -27,7 +27,7 @@ delete(device)
 % Zero Beds
 device = serialport("COM11", 9600);
 flush(device)
-string = compose("F, C, S1M3000, S2M3000, I1M0, I2M-0, R,\r");
+string = compose("F, C, S1 M3000, S2M 3000, I1 M0, I2 M-0, R,\r");
 write(device, string, "uint8");
 response = "";
 while response ~= '^'
@@ -35,7 +35,7 @@ while response ~= '^'
 end
 
 % Adjust Beds
-string = compose("F, C, I1M-1800, R,\r");
+string = compose("F, C, I1 M-1800, R,\r");
 write(device, string, "uint8");
 response = "";
 while response ~= '^'

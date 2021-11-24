@@ -2,12 +2,12 @@
 % 
 function sendCMDs()
 
-    VXM = VXM_MOTOR_MAP;
+    CFG = CONFIG();
     LASER_IP = "169.254.198.107";
 
-    twinVXM = serialport(VXM.PORT_M1234, 9600);
-    soloVXM = serialport(VXM.PORT_M56, 9600);
-    laser   = tcpclient(LASER_IP, LASER_PORT);
+    twinVXM = serialport(CFG.PORT_TWIN, 9600);
+    soloVXM = serialport(CFG.PORT_SOLO, 9600);
+    laser   = tcpclient(LASER_IP, CFG.PORT_LASER);
     
     prntAxnStrArr = [];
     command = "";
@@ -25,7 +25,7 @@ function sendCMDs()
         response = "";
 
         % Axis and Roller
-        if startsWith(curLine, VXM.PORT_M1234)
+        if startsWith(curLine, CFG.PORT_TWIN)
             command = compose("%s\r", prntAxnStrArr(2));
             write(twinVXM, command, "uint8");
             while response ~= '^'
@@ -34,7 +34,7 @@ function sendCMDs()
             flush(twinVXM);
             
         % Print Beds
-        elseif startsWith(curLine, VXM.PORT_M56)
+        elseif startsWith(curLine, CFG.PORT_SOLO)
 
             command = compose("%s\r", prntAxnStrArr(2));
             write(soloVXM, command, "uint8");
@@ -44,7 +44,7 @@ function sendCMDs()
             flush(soloVXM);
             
         % Laser
-        elseif startsWith(curLine, string(LASER_PORT))
+        elseif startsWith(curLine, string(CFG.PORT_LASER))
 
             command = prntAxnStrArr(2);
             if strcmp(command, "LASER_ON")
