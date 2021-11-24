@@ -6,6 +6,7 @@ function slicer_ctrl(config_file)
     fclose(fid); 
     data = jsondecode(str);
 
+    filename = data.filename;
     length = data.length;
     width = data.width;
     height = data.height;
@@ -14,7 +15,7 @@ function slicer_ctrl(config_file)
     voxels_per_width = data.voxels_per_width;
     voxel_margin = data.voxel_margin;
     voxel_padding = data.voxel_padding;
-    gen_cube(length, width, height, layer_height, voxels_per_length, voxels_per_width, voxel_margin, voxel_padding);
+    gen_cube(filename, length, width, height, layer_height, voxels_per_length, voxels_per_width, voxel_margin, voxel_padding);
 
     for n_defects=1:size(data.defects,1)
 
@@ -31,6 +32,6 @@ function slicer_ctrl(config_file)
         end
 
 
-     end
+    end
 
 end
