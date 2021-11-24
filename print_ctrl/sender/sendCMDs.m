@@ -3,11 +3,10 @@
 function sendCMDs()
 
     CFG = CONFIG();
-    LASER_IP = "169.254.198.107";
 
-    twinVXM = serialport(CFG.PORT_TWIN, 9600);
-    soloVXM = serialport(CFG.PORT_SOLO, 9600);
-    laser   = tcpclient(LASER_IP, CFG.PORT_LASER);
+    twinVXM = serialport(CFG.PORT_TWIN, CFG.BAUD_VXM);
+    soloVXM = serialport(CFG.PORT_SOLO, CFG.BAUD_VXM);
+    laser   = tcpclient(CFG.IP_LASER, CFG.PORT_LASER);
     
     prntAxnStrArr = [];
     command = "";

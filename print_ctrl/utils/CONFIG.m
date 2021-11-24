@@ -16,10 +16,10 @@
 %   port = CFG.PORT_TWIN;  % Use the port for motors 1-4.
 % 
 %   % Use freemove function to move motor 3, 500 steps:
-%   freeMove(CFG.PORT_TWIN, CFG.VXM_XAXIS, 500);
+%   freeMove(CFG.PORT_TWIN, CFG.XAXIS_VXM, 500);
 % 
 % Previously to move motor 5, the supply bed, you would index motor 1, port COM11.
-% Now you can index CFG.VXM_SUPPLYBED, port CFG.PORT_SOLO.
+% Now you can index CFG.SUPPLYBED_VXM, port CFG.PORT_SOLO.
 % 
 % The user/programmer can manually change the ports here.
 % This may be necessary if the USB-to-Serial cables are unplugged and plugged back in.
@@ -35,31 +35,35 @@
 
 function CFG = CONFIG()
     
-% EDIT IF PORTS CHANGED
+% EDIT IF NECESSARY
     % Serial Ports
+    CFG.BAUD_VXM = 9600;
     CFG.PORT_TWIN = "COM5";  % VXMs to motors 1-4
     CFG.PORT_SOLO = "COM11"; % VXMs to motors 5 & 6
-    % TCP Port
+    % TCP
+    CFG.IP_LASER = "169.254.198.107";
     CFG.PORT_LASER = 58176;
 
 % ONLY EDIT IF NECESSARY
 
-    % Motor indexing map
-    CFG.VXM_SPOTSIZE = 4;
-    CFG.VXM_ROLLER = 1;
-    CFG.VXM_XAXIS = 2;
-    CFG.VXM_YAXIS = 3;
-
-    CFG.VXM_SUPPLYBED = 1;
-    CFG.VXM_PRINTBED = 2;
+    % Motor indexing
+    % Twin Port
+    CFG.SPOTSIZE_VXM = 4;
+    CFG.ROLLER_VXM = 1;
+    CFG.XAXIS_VXM = 2;
+    CFG.YAXIS_VXM = 3;
+    % Solo Port
+    CFG.SUPPLYBED_VXM = 1;
+    CFG.PRINTBED_VXM = 2;
 
     % Defined VXM zero position
     CFG.ZERO_X = -1800; % x-axis
     CFG.ZERO_Y = 13000; % y-axis
     CFG.ZERO_S = -1800; % supply bed
-    CFG.ZERO_P =    -0; % powder bed
+    CFG.ZERO_P =-20000; % powder bed
 
-    % Defined VXM step size
+    % Defined VXM step size (mm)
+        % 1mm = 400steps
     CFG.STEP_SIZE = 0.0025;
 
 end

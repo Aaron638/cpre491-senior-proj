@@ -23,5 +23,5 @@ function bedCMD = moveBeds(z)
     stepsMoved = int32(z / CFG.STEP_SIZE);
 
     % Convert to string 
-    bedCMD = [compose("F, C, I%dM  %d, I%dM -%d, R,", CFG.VXM_SUPPLYBED, stepsMoved, CFG.VXM_PRINTBED, stepsMoved)];
+    bedCMD = [compose("F, C, I%dM  %d, I%dM -%d, R,", CFG.SUPPLYBED_VXM, stepsMoved, CFG.PRINTBED_VXM, stepsMoved)];
 end

@@ -39,8 +39,8 @@ function compile(inputfile, outputfile)
     disp("Line [1]: " + curLine);
     if (contains(curLine, 'Width: ') && contains(curLine, 'Length: '))
         gcodeLineStrArr = split(curLine);
-        objWidth  = gcodeLineStrArr(2);
-        objLength = gcodeLineStrArr(4);
+        objWidth  = str2num(gcodeLineStrArr(2));
+        objLength = str2num(gcodeLineStrArr(4));
     else
         error("ERROR: gcode file {%s} does not properly define width/length.\nLine 1 must start with: 'Width: {x} Length: {y}'", inputfile);
     end
@@ -62,8 +62,8 @@ function compile(inputfile, outputfile)
             xCur = getNumsFromStr(gcodeLineStrArr(2));
             yCur = getNumsFromStr(gcodeLineStrArr(3));
 
-            if xCur > objWidth || xCur < 0 || yCur > objLength || yCur < objLength
-                warning("WARN: Potential out-of-bounds movement on line %d.", i);
+            if xCur > objWidth | xCur < 0 | yCur > objLength | yCur < 0
+                warning("WARN: Potential out-of-bounds movement on line %d.", i);                
                 disp("Paused. Press any button to continue, or Ctrl+C to stop.");
                 pause();
             end
