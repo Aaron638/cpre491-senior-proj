@@ -161,3 +161,20 @@ flowchart TB
     pc5 --> hw4;
     
 ```
+
+Step 1: Generate a gcode file with the slicer
+	Input parameters using the mlapp
+	or
+	config.json
+	
+	(optional) Verify the gcode is correct using https://nraynaud.github.io/webgcode/
+
+Step 2: Compile the .gcode
+	Configure the parameters (ports, ip address, etc, in config.json)
+	Run: compile("./test_files/{file to test}", "printerActions.txt")
+
+	(optional) Verify printerActions.txt is correct
+
+Step 3: Run the command sender module (CSM)
+	Run: sendCMDs("printerActions.txt)
+		The CSM will send commands to the motor and laser.

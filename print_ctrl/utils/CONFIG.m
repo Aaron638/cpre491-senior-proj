@@ -53,13 +53,13 @@ function CFG = CONFIG()
     CFG.VXM_SUPPLYBED = 1;
     CFG.VXM_PRINTBED = 2;
 
-    % Defined zero position
+    % Defined VXM zero position
     CFG.ZERO_X = -1800; % x-axis
     CFG.ZERO_Y = 13000; % y-axis
     CFG.ZERO_S = -1800; % supply bed
     CFG.ZERO_P =    -0; % powder bed
 
-    % Defined step size
+    % Defined VXM step size
     CFG.STEP_SIZE = 0.0025;
 
 end

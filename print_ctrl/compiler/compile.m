@@ -62,6 +62,12 @@ function compile(inputfile, outputfile)
             xCur = getNumsFromStr(gcodeLineStrArr(2));
             yCur = getNumsFromStr(gcodeLineStrArr(3));
 
+            if xCur > objWidth || xCur < 0 || yCur > objLength || yCur < objLength
+                warning("WARN: Potential out-of-bounds movement on line %d.", i);
+                disp("Paused. Press any button to continue, or Ctrl+C to stop.");
+                pause();
+            end
+
             device = "Motor";
             % Move Axis motors
             port = CFG.PORT_TWIN;
@@ -71,8 +77,14 @@ function compile(inputfile, outputfile)
         elseif startsWith(curLine, 'G01 Z')
             gcodeLineStrArr = split(curLine);
             zCur = getNumsFromStr(gcodeLineStrArr(2));
-            device = "Motor";
 
+            if zCur > (abs(CFG.ZERO_S)/CFG.STEP_SIZE)
+                warning("WARN: Potential out-of-bounds movement on line %d.", i);
+                disp("Paused. Press any button to continue, or Ctrl+C to stop.");
+                pause();
+            end
+
+            device = "Motor";
             % Move Beds
             port = CFG.PORT_SOLO;
             cmds = moveBeds(zCur);
@@ -119,8 +131,8 @@ function compile(inputfile, outputfile)
 
         % Encountered unexpected text, pause and wait for user
         else
-            disp("ERROR: Encountered unexpected text.");
-            disp("PAUSED. Press any key to unpause");
+            warning("WARN: Encountered unexpected text on line %d.", i);
+            disp("Paused. Press any button to continue, or Ctrl+C to stop.");
             pause();
         end
 
