@@ -1,4 +1,6 @@
 Width: 30 Length: 30
+; This is a small snipet of gcode for testing basic functionality.
+; It calls M200, M201, M202, and G01 commands in all directions.
 M200
 G01 Z0.0000
 M201

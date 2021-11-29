@@ -46,12 +46,13 @@ function compile(inputfile, outputfile)
     end
 
     fileID = fopen(outputfile, 'w');
+    writeHeader(fid, inputfile, outputfile);
 
     % For each line of gcode starting at line 2, call the corresponding command
     for i = 2:size(fileData)
 
         device = ""; port = "";
-        cmds = [];
+        cmds = strings(1, 10);
         
         curLine = fileData(i);
         disp(compose("Line [%d]: %s", i, curLine));

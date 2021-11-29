@@ -19,7 +19,7 @@ function writeAction(fid, device, port, cmds, gcode)
         fprintf(fid, "port = '%s'\n", port);
         fprintf(fid, "actions = [\n");
         % String array for VXM motor cmds
-        fprintf(fid, "\t'%s',\n", cmds);
+        fprintf(fid, "\t'%s\\r',\n", cmds);
     elseif device == "Laser"
         % numerical port for TCP Laser comms
         fprintf(fid, "port = %d\n", port);
@@ -31,7 +31,6 @@ function writeAction(fid, device, port, cmds, gcode)
         fprintf(fid, "\t,Function Generator\n");
     end
     fprintf(fid, "]\n");
-
     fprintf(fid, "gcode = '%s'\n\n", gcode);
 
 end
