@@ -29,6 +29,8 @@ function writeAction(fid, device, port, cmds, gcode)
     elseif device == "FuncGen"
         % TODO:
         fprintf(fid, "\t,Function Generator\n");
+    else
+        error('Unsupported device: %s. Add device to writeAction.m', device);
     end
     fprintf(fid, "]\n");
     fprintf(fid, "gcode = '%s'\n\n", gcode);

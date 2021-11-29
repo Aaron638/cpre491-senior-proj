@@ -46,7 +46,7 @@ function compile(inputfile, outputfile)
     end
 
     fileID = fopen(outputfile, 'w');
-    writeHeader(fid, inputfile, outputfile);
+    writeHeader(fileID, inputfile, outputfile);
 
     % For each line of gcode starting at line 2, call the corresponding command
     for i = 2:size(fileData)
