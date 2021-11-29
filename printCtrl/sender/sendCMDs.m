@@ -1,9 +1,9 @@
 % Executes the instructions in printerActions.txt by sending commands to the motor controllers and the laser.
 % 
-function sendCMDs()
+function sendCMDs(inputfile)
 
+    % Change ports, baud, and/or IP address in CONFIG.m
     CFG = CONFIG();
-
     twinVXM = serialport(CFG.PORT_TWIN, CFG.BAUD_VXM);
     soloVXM = serialport(CFG.PORT_SOLO, CFG.BAUD_VXM);
     laser   = tcpclient(CFG.IP_LASER, CFG.PORT_LASER);
@@ -12,8 +12,8 @@ function sendCMDs()
     command = "";
 
     % Read file line by line as a string array
-    fileData = readlines("printerActions.txt");
-    disp("Reading printerActions.txt");
+    fileData = readlines(inputfile);
+    disp("Reading file: " + inputfile);
 
     for i = 2:size(fileData)
 
