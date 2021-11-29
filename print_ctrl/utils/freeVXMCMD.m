@@ -10,7 +10,7 @@
 % 
 %   freeMove("COM5", 2, 500);               % Or do it manually
 % 
-function response = freeMoveCMD(port, cmdString)
+function response = freeVXMCMD(port, cmdString)
     device = serialport(port, 9600);
     flush(device);
     cmdString = compose("%s\r", cmdString);
