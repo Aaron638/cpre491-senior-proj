@@ -1,4 +1,4 @@
-function [gcode] = gen_cube(length, width, height, layer_height, voxel_length_num, voxel_width_num, voxel_margin, voxel_padding)
+function [gcode] = gen_cube(filename, length, width, height, layer_height, voxel_length_num, voxel_width_num, voxel_margin, voxel_padding)
     %{
     This function generates a gcode file for printing a cube (or any rectangular
     prism for that matter). You can edit the paramters below to get different
@@ -116,7 +116,7 @@ function [gcode] = gen_cube(length, width, height, layer_height, voxel_length_nu
     % Print gcode in correct format
     str = compose(gcode);
 
-    fileID = fopen('test.gcode','w');
+    fileID = fopen(filename,'w');
     fprintf(fileID, '%s', str);
     fclose(fileID);
 end

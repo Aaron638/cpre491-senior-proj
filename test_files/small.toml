@@ -2,26 +2,26 @@
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, S4 M5400, I4 M0, R,',
-	'F, C, S1 M5400, I1 M-0, R,',
-	'F, C, S2 M5400, S3 M 5400, I2 M0, I3 M-0, R,',
-	'F, C, I2 M-1800, I3 M13000, R,',
+	'F, C, S4 M5400, I4 M0, R,\r',
+	'F, C, S1 M5400, I1 M-0, R,\r',
+	'F, C, S2 M5400, S3 M 5400, I2 M0, I3 M-0, R,\r',
+	'F, C, I2 M-1800, I3 M13000, R,\r',
 ]
-gcode = 'M200 0.1'
+gcode = 'M200'
 
 [[printerAction]]
 device = 'Motor'
 port = 'COM11'
 actions = [
-	'F, C, S1M 3000, S2M 3000, I1M -1800, I2M -0, R,',
+	'F, C, S1M 3000, S2M 3000, I1M -1800, I2M --20000, R,\r',
 ]
-gcode = 'M200 0.1'
+gcode = 'M200'
 
 [[printerAction]]
 device = 'Motor'
 port = 'COM11'
 actions = [
-	'F, C, I1M  0, I2M -0, R,',
+	'F, C, I1M  0, I2M -0, R,\r',
 ]
 gcode = 'G01 Z0.0000'
 
@@ -29,8 +29,8 @@ gcode = 'G01 Z0.0000'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, I1 M0, R,',
-	'F, C, I1 M-0, R,',
+	'F, C, I1 M0, R,\r',
+	'F, C, I1 M-0, R,\r',
 ]
 gcode = 'G01 Z0.0000'
 
@@ -51,7 +51,7 @@ gcode = 'M201'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, (I2M 3, I0M 0), R,',
+	'F, C, (I2M 3, I0M 0), R,\r',
 ]
 gcode = 'G01 X0.0000 Y0.0000'
 
@@ -59,7 +59,7 @@ gcode = 'G01 X0.0000 Y0.0000'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, I2M 5200, R,',
+	'F, C, I2M 5200, R,\r',
 ]
 gcode = 'G01 X13.0000 Y0.0000'
 
@@ -67,7 +67,7 @@ gcode = 'G01 X13.0000 Y0.0000'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, I3M 5200, R,',
+	'F, C, I3M 5200, R,\r',
 ]
 gcode = 'G01 X13.0000 Y13.0000'
 
@@ -75,7 +75,7 @@ gcode = 'G01 X13.0000 Y13.0000'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, I2M -5200, R,',
+	'F, C, I2M -5200, R,\r',
 ]
 gcode = 'G01 X0.0000 Y13.0000'
 
@@ -83,7 +83,7 @@ gcode = 'G01 X0.0000 Y13.0000'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, I3M -5200, R,',
+	'F, C, I3M -5200, R,\r',
 ]
 gcode = 'G01 X0.0000 Y0.0000'
 
@@ -91,7 +91,7 @@ gcode = 'G01 X0.0000 Y0.0000'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, (I2M 3, I3950M 1450), R,',
+	'F, C, (I2M 3, I3950M 1450), R,\r',
 ]
 gcode = 'G01 X9.8750 Y3.6250'
 
@@ -99,7 +99,7 @@ gcode = 'G01 X9.8750 Y3.6250'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, I2M 1050, R,',
+	'F, C, I2M 1050, R,\r',
 ]
 gcode = 'G01 X12.5000 Y3.6250'
 
@@ -107,7 +107,7 @@ gcode = 'G01 X12.5000 Y3.6250'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, I3M 1050, R,',
+	'F, C, I3M 1050, R,\r',
 ]
 gcode = 'G01 X12.5000 Y6.2500'
 
@@ -115,7 +115,7 @@ gcode = 'G01 X12.5000 Y6.2500'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, I2M -1050, R,',
+	'F, C, I2M -1050, R,\r',
 ]
 gcode = 'G01 X9.8750 Y6.2500'
 
@@ -123,7 +123,7 @@ gcode = 'G01 X9.8750 Y6.2500'
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, I3M -1050, R,',
+	'F, C, I3M -1050, R,\r',
 ]
 gcode = 'G01 X9.8750 Y3.6250'
 

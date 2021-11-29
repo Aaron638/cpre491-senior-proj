@@ -10,7 +10,10 @@ There are 3 things Printer Control has to do:
     c. Arduino
 3. Communicate whatever's going on to the user.
 
-## 1. Translate gcode into a printer action `01_parseGcode.m` ##
+
+
+
+## 1. Translate gcode into a printer action `compile.m` ##
 
 `01_parseGcode()` takes in the path to the `.gcode` file, and converts each line to an action the printer should take. The gcode file lists a series of points on a **milimeter** coordinate grid.
 
@@ -19,7 +22,8 @@ Valid gcode files should always start with a line specifying it's width and heig
 ```
 Width: 30 Length: 30
 ```
-Note: right now these parameters are not used by printer control
+
+Define rectangle ABCD, which represents the borders of the phone.
 
 ### Move Axis Motor `/axis/` ###
 The motors that control the movement of the laser are called _axis motors_.
@@ -60,7 +64,7 @@ We start by assuming the depositor roller is in it's default state, as far left 
     M202          = Laser Off
 ```
 
-## 2. Send print actions to serial ports `02_startPrint.m` ##
+## 2. Send print actions to serial ports `sendCMDs.m` ##
 
 Note: Even though this is a class diagram, we are not using object oriented programming.
 ```mermaid
