@@ -12,7 +12,7 @@ function homecmd = homeBeds()
     % Motor speed is 3000, 50% of max speed
 
     % Zero Beds to our defined zero position
-    homecmd = compose("F, C, S%dM 3000, S%dM 3000, ", CFG.SUPPLYBED_VXM, CFG.PRINTBED_VXM);
-    homecmd = homecmd + compose("I%dM %d, I%dM -%d, R,", CFG.SUPPLYBED_VXM, CFG.ZERO_S, CFG.PRINTBED_VXM, CFG.ZERO_P);
+    homecmd = compose("F, C, S%d M3000, S%d M3000, ", CFG.SUPPLYBED_VXM, CFG.PRINTBED_VXM);
+    homecmd = homecmd + compose("I%d M%d, I%d M-%d, R,", CFG.SUPPLYBED_VXM, CFG.ZERO_S, CFG.PRINTBED_VXM, CFG.ZERO_P);
 
 end

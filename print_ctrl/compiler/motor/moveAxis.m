@@ -30,12 +30,12 @@ function vxmCMD = moveAxis(x0, y0, x1, y1)
     % Write the vxm command
     % Only move y-axis motor
     if (deltaX == 0 & deltaY ~= 0)
-        vxmCMD = [compose("F, C, I%dM %d, R,", CFG.YAXIS_VXM, deltaY)];
+        vxmCMD = [compose("F, C, I%d M%d, R,", CFG.YAXIS_VXM, deltaY)];
     % Only move x-axis motor
     elseif (deltaX ~= 0 & deltaY == 0)
-        vxmCMD = [compose("F, C, I%dM %d, R,", CFG.XAXIS_VXM, deltaX)];
+        vxmCMD = [compose("F, C, I%d M%d, R,", CFG.XAXIS_VXM, deltaX)];
     % Move both motors
     else
-        vxmCMD = [compose("F, C, (I%dM %d, I%dM %d), R,", CFG.XAXIS_VXM, CFG.YAXIS_VXM, deltaX, deltaY)];
+        vxmCMD = [compose("F, C, (I%d M%d, I%d M%d), R,", CFG.XAXIS_VXM, CFG.YAXIS_VXM, deltaX, deltaY)];
     end
 end
