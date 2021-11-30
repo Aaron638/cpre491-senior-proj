@@ -6,64 +6,75 @@ function sendCMDs(inputfile)
     CFG = CONFIG();
     twinVXM = serialport(CFG.PORT_TWIN, CFG.BAUD_VXM);
     soloVXM = serialport(CFG.PORT_SOLO, CFG.BAUD_VXM);
-    laser   = tcpclient(CFG.IP_LASER, CFG.PORT_LASER);
-    
-    prntAxnStrArr = [];
-    command = "";
+    laserTCP = tcpclient(CFG.IP_LASER, CFG.PORT_LASER);
+
+    infoFlag = false;
+
+    pa.index = 0;
+    pa.device = '';
+    pa.port = '';
+    pa.actions = [];
+    pa.gcode = '';
 
     % Read file line by line as a string array
     fileData = readlines(inputfile);
     disp("Reading file: " + inputfile);
 
-    for i = 2:size(fileData)
-
+    % Parse each line of toml
+    for i = 1:length(fileData)
         curLine = fileData(i);
-        disp(compose("Line [%d]: ", i) + curLine);
-        prntAxnStrArr = split(curLine, '|');
-        disp(compose("Sending: %s\n", prntAxnStrArr(2)));
-        response = "";
 
-        % Axis and Roller
-        if startsWith(curLine, CFG.PORT_TWIN)
-            command = compose("%s\r", prntAxnStrArr(2));
-            write(twinVXM, command, "uint8");
-            while response ~= '^'
-                response = read(twinVXM, 1, "uint8");
-            end
-            flush(twinVXM);
-            
-        % Print Beds
-        elseif startsWith(curLine, CFG.PORT_SOLO)
-
-            command = compose("%s\r", prntAxnStrArr(2));
-            write(soloVXM, command, "uint8");
-            while response ~= '^'
-                response = read(soloVXM, 1, "uint8");
-            end
-            flush(soloVXM);
-            
-        % Laser
-        elseif startsWith(curLine, string(CFG.PORT_LASER))
-
-            command = prntAxnStrArr(2);
-            if strcmp(command, "LASER_ON")
-                write(laser, setLaserOn(), "uint8");
-                response = compose("%02X", read(laser));
-            elseif strcmp(command, "LASER_OFF")
-                write(laser, setLaserOff(), "uint8");
-                response = compose("%02X", read(laser));
-            else
-                error('Invalid Laser Command', command);
-            end
-            
-            response = strjoin(response, ', ');
-
+        % Read info header and print
+        if curLine == '[Info]'
+            infoFlag = true;
+        elseif infoFlag && curLine == '[[printerAction]]'
+            infoFlag = false;
         else
-            disp("Empty Line");
-            continue;
+            disp("%s", curLine);
         end
+           
+        % Execute commands once we encounter another [[printerAction]]
+        if curLine == '[[printerAction]]'
+            
+            % If this is the first [[printerAction]], read until the next [[printerAction]]
+            if pa.index == 0
+                continue;
 
-        disp(compose("Response: %s\n", response));
+            elseif device == 'Motor'
+                if pa.port == CFG.PORT_TWIN
+                    r = executeMotor(pa, twinVXM);
+                    disp(r);
+                elseif pa.port == CFG.PORT_SOLO
+                    r = executeMotor(pa, soloVXM);
+                    disp(r);
+                else
+                    error("ERROR: Invalid motor port %s at index %d", pa.port, pa.index);
+                end
+                
+                % TODO speicify difference between pilot and nonpilot laser
+            elseif device == 'Laser'
+                r = executeLaser(pa);
+                disp(r);
+
+            else
+                error("ERROR: Invalid device %s at index %d", pa.device, pa.index);
+            end
+
+        % Comment
+        elseif startsWith(curLine, '#')
+            disp(curLine);
+            continue;
+
+        % Empty line, skip
+        elseif curLine == ""
+            continue;
+        
+        else
+            % TODO: write code for reading lines into the struct.
+            error("ERROR: Encountered unexpected text on line %d.", i);
+            % disp("Paused. Press any button to continue, or Ctrl+C to stop.");
+            % pause();
+        end
 
     end
 
