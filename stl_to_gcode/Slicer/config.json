@@ -1,5 +1,5 @@
 {
-    "filename": "./test_files/test.gcode",
+    "filename": "./testFiles/test.gcode",
     "length":30,
     "width":30,
     "height":30,
