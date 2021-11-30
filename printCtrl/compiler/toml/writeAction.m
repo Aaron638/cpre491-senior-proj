@@ -2,16 +2,17 @@
 % Usage:
 % % Laser Example
 %   fid = fopen(filename, "w");
-%   writeAction(fid, "Laser", CFG.PORT_LASER, setLaserOn(), "M201");
+%   writeAction(fid, 1, "Laser", CFG.PORT_LASER, setLaserOn(), "M201");
 %   fclose(fid);
 % % Motor Example
 %   fid = fopen(filename, "w");
-%   writeAction(fid, "Laser", CFG.PORT_TWIN, [moveBeds(...), sweepRoller(...)], "G01 X0.100");
+%   writeAction(fid, 2, "Motor", CFG.PORT_TWIN, [moveBeds(...), sweepRoller(...)], "G01 X0.100");
 %   fclose(fid);
 % 
-function writeAction(fid, device, port, cmds, gcode)
+function writeAction(fid, idx, device, port, cmds, gcode)
 
     fprintf(fid, "[[printerAction]]\n");
+    fprintf(fid, "index = %d\n", idx);
     fprintf(fid, "device = '%s'\n", device);
     
     if device == "Motor"
@@ -19,7 +20,7 @@ function writeAction(fid, device, port, cmds, gcode)
         fprintf(fid, "port = '%s'\n", port);
         fprintf(fid, "actions = [\n");
         % String array for VXM motor cmds
-        fprintf(fid, "\t'%s\\r',\n", cmds);
+        fprintf(fid, "\t'%s',\n", cmds);
     elseif device == "Laser"
         % numerical port for TCP Laser comms
         fprintf(fid, "port = %d\n", port);
