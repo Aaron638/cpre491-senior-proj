@@ -1,4 +1,4 @@
-function response = executeMotor(pa, serialDevice)
+function executeMotor(pa, serialDevice)
     if pa.device ~= 'Motor'
         error("ERROR: Trying to execute a command meant for %s device", pa.device);
     end
@@ -10,10 +10,9 @@ function response = executeMotor(pa, serialDevice)
             sprintf("%s\r", cmd);
         end
         write(serialDevice, cmd, "uint8");
-        while response ~= '^'
+        while response ~= char('^')
             response = read(serialDevice, 1, "uint8");
         end
         flush(serialDevice);
     end
-
 end
