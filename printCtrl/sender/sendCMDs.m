@@ -1,15 +1,34 @@
-% Executes the instructions in printerActions.txt by sending commands to the motor controllers and the laser.
+% Executes the instructions in the compiler generated .toml file by sending commands to the motor controllers and the laser.
 % 
+% Potential optimizations:
+% Use regular expressions and a switch statement
+% Vectorize more things
+% Rearrange control flow for minor runtime improvements
+%   comment and emptyline detection before other if statements
+%
+%{
+    UNFINISHED:
+    As of right now, we don't actually properly parse toml. For example:
+        actions = ["cmd", "cmd", "cmd"]
+    is not valid syntax, as we expect a carriage return before the closing bracket.
+    
+%} 
+%
 function sendCMDs(inputfile)
 
     % Change ports, baud, and/or IP address in CONFIG.m
     CFG = CONFIG();
-    twinVXM = serialport(CFG.PORT_TWIN, CFG.BAUD_VXM);
-    soloVXM = serialport(CFG.PORT_SOLO, CFG.BAUD_VXM);
-    laserTCP = tcpclient(CFG.IP_LASER, CFG.PORT_LASER);
+    % twinVXMdevice = serialport(CFG.PORT_TWIN, CFG.BAUD_VXM);
+    % soloVXMdevice = serialport(CFG.PORT_SOLO, CFG.BAUD_VXM);
+    % laserTCPdevice = tcpclient(CFG.IP_LASER, CFG.PORT_LASER);
+    % VISAobj = = visa('keysight', 'USB::0x0957::0x0407::MY44034072::0::INSTR');
+    % funcGendevice = icdevice('agilent_33220a.mdd', VISAobj);
+    % connect(funcGendevice);
+    % devicereset(funcGendevice);
 
-    infoFlag = false;
-
+    isFirstAction = true;
+    stringBlock = "";
+    
     pa.index = 0;
     pa.device = '';
     pa.port = '';
@@ -20,66 +39,87 @@ function sendCMDs(inputfile)
     fileData = readlines(inputfile);
     disp("Reading file: " + inputfile);
 
-    % Parse each line of toml
     for i = 1:length(fileData)
         curLine = fileData(i);
+        % disp(compose("Line [%d]: %s", i, curLine));
 
-        % Read info header and print
-        if curLine == '[Info]'
-            infoFlag = true;
-        elseif infoFlag && curLine == '[[printerAction]]'
-            infoFlag = false;
-        else
-            disp("%s", curLine);
-        end
-           
-        % Execute commands once we encounter another [[printerAction]]
-        if curLine == '[[printerAction]]'
-            
-            % If this is the first [[printerAction]], read until the next [[printerAction]]
-            if pa.index == 0
+        if curLine == "[[printerAction]]" || i == length(fileData)
+
+            % Print [Info]
+            % Skip the first "[[printerAction]]" string
+            if isFirstAction
+                disp(stringBlock);
+                stringBlock = "";
+                isFirstAction = false;
                 continue;
+            end
 
-            elseif device == 'Motor'
+            % Completed reading printerAction
+            % Parse and execute commands
+            try
+                pa = toml.decode(stringBlock);
+            catch
+                % Potential error with invalid toml syntax.
+                error("ERROR: Issues parsing syntax at index %d", pa.index);
+            end
+
+            % Execute Motor Commands
+            if pa.device == 'Motor'
+                pa.actions = string(pa.actions);
+
                 if pa.port == CFG.PORT_TWIN
-                    r = executeMotor(pa, twinVXM);
-                    disp(r);
+                    % executeMotor(pa, twinVXMdevice);
+
                 elseif pa.port == CFG.PORT_SOLO
-                    r = executeMotor(pa, soloVXM);
-                    disp(r);
+                    % executeMotor(pa, soloVXMdevice);
                 else
                     error("ERROR: Invalid motor port %s at index %d", pa.port, pa.index);
                 end
+                disp("Sent to " + pa.port + ":");
+                disp(sprintf("%s\r", pa.actions));
                 
-                % TODO speicify difference between pilot and nonpilot laser
-            elseif device == 'Laser'
-                r = executeLaser(pa);
-                disp(r);
+            % Execute Laser Commands
+            elseif pa.device == 'Laser'
+                pa.actions = uint8(pa.actions);
+
+                % TODO: Verify proper syntax before sending
+                % executeLaser(pa, laserTCPdevice);
+                disp("Sent to Laser:");
+                disp(sprintf("%02X ", pa.actions));
+                % r = readLaser(laserTCPdevice);
+                % disp("Recieved: " + r);
+                % TODO: If r is an error, trigger error handling.
+
+            % Toggle the Function Generator
+            elseif pa.device == 'FuncGen'
+                if pa.actions == 'on'
+                    % set(funcGendevice, 'Output', 'on')
+                elseif pa.actions == 'off'
+                    % set(funcGendevice, 'Output', 'off')
+                else
+                    killMotors();
+                    killLaser();
+                    error("CRITICAL ERROR: Invalid function generator command %s at index %d", pa.actions, pa.index);
+                end
 
             else
                 error("ERROR: Invalid device %s at index %d", pa.device, pa.index);
             end
 
-        % Comment
-        elseif startsWith(curLine, '#')
-            disp(curLine);
-            continue;
+            % Clear the stringBlock
+            stringBlock = "";
 
-        % Empty line, skip
-        elseif curLine == ""
-            continue;
-        
+        % Append to stringBlock
         else
-            % TODO: write code for reading lines into the struct.
-            error("ERROR: Encountered unexpected text on line %d.", i);
-            % disp("Paused. Press any button to continue, or Ctrl+C to stop.");
-            % pause();
+           stringBlock = sprintf("%s%s\n", stringBlock, curLine);
         end
-
     end
 
-    flush(twinVXM); flush(soloVXM); %flush(laser);
-    delete(twinVXM); delete(soloVXM); %delete(laser);
+    % flush(twinVXMdevice); flush(soloVXMdevice); %flush(laser);
+    % delete(twinVXMdevice); delete(soloVXMdevice); delete(laserTCPdevice);
+    % disconnect(funcGendevice);
+    % delete(funcGendevice);
+    % delete(VISAobj);
 
     disp("Finished Reading File.");
 end

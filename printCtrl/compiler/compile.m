@@ -81,6 +81,7 @@ function compile(inputfile, outputfile)
             gcodeLineStrArr = split(curLine);
             zCur = getNumsFromStr(gcodeLineStrArr(2));
 
+            % FIXME: command output: (F, C, I1 M11840, I2 M-11840, R,\r)
             if zCur > (abs(CFG.ZERO_S)/CFG.STEP_SIZE)
                 warning("WARN: Potential out-of-bounds movement on line %d.", i);
                 disp("Paused. Press any button to continue, or Ctrl+C to stop.");

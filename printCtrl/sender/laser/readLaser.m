@@ -1,15 +1,13 @@
 % Read bytes from device until we see the response terminator 0x0D
 
 function resp = readLaser(device)
-    temp;
-    resp = [];
+    temp = uint8(0x00);
+    resp = zeros(1, 120, "uint8"); % Max resp size is 116, see CMD 0x0C
+    i = 0;
     while temp ~= uint8(0x0D)
-        temp = read(device, 1, "uint8");
-        resp = [resp, temp];
+        resp(i) = read(device, 1, "uint8");
+        i = i + 1;
     end
-
-    sprintf("%02X ", resp);
-    disp(resp);
-    flush(soloVXM);
-
+    % Trim extraneous zeroes
+    resp = nonzeros(resp);
 end
