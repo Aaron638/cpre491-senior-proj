@@ -10,16 +10,13 @@ function killMotors(serialTwin, serialSolo)
     disp("Sent kill command.");
 
     % Trys to get a response before flushing and deleting the device.
-    try
-        rT = read(serialTwin, 1, "uint8");
-        rS = read(serialSolo, 1, "uint8");
-    catch
-        if rT ~= '^'
-            warning("WARN: Did not receieve '^' response from twin motors.");
-        end
-        if rS ~= '^'
-            warning("WARN: Did not receieve '^' response from solo motors.");
-        end
+    rT = read(serialTwin, 1, "uint8");
+    rS = read(serialSolo, 1, "uint8");
+    if rT ~= '^'
+        warning("WARN: Did not receieve '^' response from twin motors.");
+    end
+    if rS ~= '^'
+        warning("WARN: Did not receieve '^' response from solo motors.");
     end
 
     flush(serialTwin); flush(serialSolo);

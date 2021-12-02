@@ -58,9 +58,13 @@ function compile(inputfile, outputfile)
 
         device = ""; port = "";
         cmds = strings(1, 10);
+
+        % Comment line, skip
+        if startsWith(curLine, ';')
+            continue;
         
         % Axis Move to {x,y}
-        if startsWith(curLine, 'G01 X')
+        elseif startsWith(curLine, 'G01 X')
             gcodeLineStrArr = split(curLine);
             xCur = getNumsFromStr(gcodeLineStrArr(2));
             yCur = getNumsFromStr(gcodeLineStrArr(3));
@@ -126,12 +130,19 @@ function compile(inputfile, outputfile)
             device = "Laser";
             port = CFG.PORT_LASER;
             cmds = setLaserOff();
-        
-        % Comment line, skip
-        elseif startsWith(curLine, ';')
-            disp(curLine);
-            continue;
 
+        % Turn Function generator on
+        elseif startsWith(curLine, 'M301')
+            device = "FuncGen";
+            port = CFG.RSRC_FG;
+            cmds = "on";
+
+        % Turn Function generator off
+        elseif startsWith(curLine, 'M302')
+            device = "FuncGen";
+            port = CFG.RSRC_FG;
+            cmds = "off";
+        
         % Empty line, skip
         elseif (curLine == "")
             continue;

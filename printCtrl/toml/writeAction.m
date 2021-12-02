@@ -28,8 +28,11 @@ function writeAction(fid, idx, device, port, cmds, gcode)
         % Hex Byte array for Laser commands
         fprintf(fid, "\t0x%02X,\n", cmds);
     elseif device == "FuncGen"
-        % TODO:
-        fprintf(fid, "\t,Function Generator\n");
+        % VISA USB port for Func Gen comms
+        fprintf(fid, "port = '%s'\n", port);
+        fprintf(fid, "actions = [\n");
+        % Should only be "on" or "off"
+        fprintf(fid, "\t'%s'\n", cmds);
     else
         error('Unsupported device: %s. Add device to writeAction.m', device);
     end

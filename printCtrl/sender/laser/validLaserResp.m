@@ -1,7 +1,5 @@
 % Validates the laser response.
-% UNFINISHED: 
-%   Parse the response to see what it means.
-%   Use bitmapping to map response bits to different meanings.
+
 
 function validLaserResp(respByteArr)
     numCmdDataBytes = length(respByteArr(2:end-2));
