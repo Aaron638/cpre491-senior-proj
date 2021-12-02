@@ -1,4 +1,6 @@
 Width: 30 Length: 30
+; Source: defect.json
+; 3cm cube with a 1mm^3 defect at (15,15,15)
 M200 0.1
 G01 Z0.0000
 G01 X0.0000 Y0.0000

@@ -114,52 +114,63 @@ stateDiagram-v2
 
 ## Simple Software Flow ##
 ```mermaid
+
 flowchart TB
+    linkStyle default interpolate linear
+    slicer["Slicer"];
 
-    id1([.gcode]);
-    
-    
-    subgraph slicer
+    subgraph printCtrl
+        direction LR
 
-    end
-
-    subgraph print_ctrl
-
-        pc1["initMotors.m \n Serial port connections are scanned \n and mapped to motor controllers"];
-
+        
         subgraph compiler
-            pc2["compile.m \n Each line of gcode is compiled down into ASCII cmds"];
-            pc2 --> bedMove.m;
-            pc2 --> moveAxis.m;
-            pc2 --> setSpotsize.m;
-            pc2 --> sweepRoller.m;
-            pc2 --> zeroAxis.m;
-            pc2 --> zeroBeds.m;
+            c["compile.m \n Translate G-Code to device cmds"];
+            cm["/motor/ \n"];
+            cl["/laser/ \n"];
+
+            c --- cl & cm;
         end
 
-        pc3(["printerActions.txt \n Text file lists ASCII cmd & COM port#"]);
+        subgraph utils     
+            cfg["CONFIG.m \n User configures ports and addresses \n ''Global Variables''"];
+        end
 
-        pc4["csm.m \n Command Sending Module \n Sends commands to hardware"];
-        pc5["lem \n Laser Emitting Module \n Controls Laser \n Comms with sensors \n Matlab and/or Labview?"];
-        pc4 <--> pc5;
+        subgraph sender
+            s["sendCMDs.m \n Parses .toml \n Sends commands to hardware"];
+            sm["/motor/ \n"];
+            sl["/laser/ \n"];
 
-        pc1 --> compiler --> pc3 --> pc4;
-
+            s --> sl & sm;
+        end
     end
+
+    slicer --.gcode--> compiler;
+    compiler --.toml--> sender;
 
     subgraph hardware
-        hw1{{"3-axis motors \n roller"}};
-        hw2{{"Supply bed motor \n Print bed motor"}};
+        direction TB
+        hw1{{"Motor \n TWIN"}};
+        hw2{{"Motor \n SOLO"}};
         hw3{{"Laser"}};
-        hw4{{"Arduino"}};
+        hw4{{"FuncGen"}};
     end
 
-    slicer --> id1 --> print_ctrl;
+    sl --> hw3 & hw4;
+    sm --> hw1 & hw2;
+
+    subgraph toolboxes
+        pc3["Instrument Control \n Matlab Add-On"];
+        pc2["matlab-toml-forked \n Matlab Add-On"];
+    end
+``` 
+
+
+    
     pc4 --> hw1;
     pc4 --> hw2;
     pc5 --> hw3;
     pc5 --> hw4;
-    
+
 ```
 
 Step 1: Generate a gcode file with the slicer

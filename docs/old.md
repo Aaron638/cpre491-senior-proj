@@ -1,7 +1,8 @@
 # A Quick Rundown of the Powder Bed Metal Printer C# Code
 By Aaron Martin
-<hr></hr>
 
+Written near the start of Spring 2021.
+<hr></hr>
 
 ## Overview
   The primary goal of this project is to print stainless steel cubes in our custom powder bed system.  Prior groups have done a lot of the work, but the software needs to be reworked and the control of the melt laser needs to beincorporated.  Being able to print any 3D object would be a secondary goal.
