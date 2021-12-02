@@ -54,8 +54,7 @@ This JSON file is used to pass cube parameters to the slicer_ctrl.m file. Parame
 
 **voxel_padding**: the padding beteen voxels in cm
 
-**defects**: 2D array of defects where each defect is an array coordinate points that describe where each defect is in the cube, if any of the
-
+**defects**: 2D array of defects where each defect is an array coordinate points that describe where each defect is in the cube. If any of the
 arrays have -1 as a value in the array, that defect array is ignored
 
 **defect_x_origin**: the origin x coordinate point of the defect
@@ -99,5 +98,3 @@ that it can only insert one defect in the cube, not multiple.
 
 ## Reference:
 https://www.sciencedirect.com/science/article/pii/S2238785419301905
-https://all3dp.com/2/infill-3d-printing-what-it-means-and-how-to-use-it/
-https://wiki.evilmadscientist.com/Creating_filled_regions
