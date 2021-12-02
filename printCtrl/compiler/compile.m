@@ -49,7 +49,7 @@ function compile(inputfile, outputfile)
     fileID = fopen(outputfile, 'w');
     % Right now gcode does not specify height, or number of defects.
     numDefects = 0;
-    writeHeader(fileID, inputfile, outputfile, objWidth, objLength, numDefects);
+    writeHeader(fileID, inputfile, objWidth, objLength, numDefects);
 
     % For each line of gcode starting at line 2, call the corresponding command
     for i = 2:length(fileData)
@@ -81,7 +81,7 @@ function compile(inputfile, outputfile)
             gcodeLineStrArr = split(curLine);
             zCur = getNumsFromStr(gcodeLineStrArr(2));
 
-            % FIXME: command output: (F, C, I1 M11840, I2 M-11840, R,\r)
+            % FIXME: command output: F, C, I1 M11840, I2 M-11840, R,\r)
             if zCur > (abs(CFG.ZERO_S)/CFG.STEP_SIZE)
                 warning("WARN: Potential out-of-bounds movement on line %d.", i);
                 disp("Paused. Press any button to continue, or Ctrl+C to stop.");
