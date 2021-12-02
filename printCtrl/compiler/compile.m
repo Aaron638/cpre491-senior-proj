@@ -25,6 +25,7 @@ function compile(inputfile, outputfile)
     xPrev = 0.0000; yPrev = 0.0000; zPrev = 0.0000;
     objWidth = 0.0000; objLength = 0.0000;
     gcodeLineStrArr = [];
+    actionNum = 0;
 
     if ~endsWith(outputfile, '.toml')
         warning("WARN: File: {%s} does not end with '.toml'", outputfile);
@@ -46,24 +47,29 @@ function compile(inputfile, outputfile)
     end
 
     fileID = fopen(outputfile, 'w');
-    writeHeader(fileID, inputfile, outputfile);
+    % Right now gcode does not specify height, or number of defects.
+    numDefects = 0;
+    writeHeader(fileID, inputfile, objWidth, objLength, numDefects);
 
     % For each line of gcode starting at line 2, call the corresponding command
-    for i = 2:size(fileData)
-
-        device = ""; port = "";
-        cmds = strings(1, 10);
-        
+    for i = 2:length(fileData)
         curLine = fileData(i);
         disp(compose("Line [%d]: %s", i, curLine));
 
+        device = ""; port = "";
+        cmds = strings(1, 10);
+
+        % Comment line, skip
+        if startsWith(curLine, ';')
+            continue;
+        
         % Axis Move to {x,y}
-        if startsWith(curLine, 'G01 X')
+        elseif startsWith(curLine, 'G01 X')
             gcodeLineStrArr = split(curLine);
             xCur = getNumsFromStr(gcodeLineStrArr(2));
             yCur = getNumsFromStr(gcodeLineStrArr(3));
 
-            if xCur > objWidth | xCur < 0 | yCur > objLength | yCur < 0
+            if xCur > objWidth || xCur < 0 || yCur > objLength || yCur < 0
                 warning("WARN: Potential out-of-bounds movement on line %d.", i);                
                 disp("Paused. Press any button to continue, or Ctrl+C to stop.");
                 pause();
@@ -79,6 +85,7 @@ function compile(inputfile, outputfile)
             gcodeLineStrArr = split(curLine);
             zCur = getNumsFromStr(gcodeLineStrArr(2));
 
+            % FIXME: command output: F, C, I1 M11840, I2 M-11840, R,\r)
             if zCur > (abs(CFG.ZERO_S)/CFG.STEP_SIZE)
                 warning("WARN: Potential out-of-bounds movement on line %d.", i);
                 disp("Paused. Press any button to continue, or Ctrl+C to stop.");
@@ -89,7 +96,8 @@ function compile(inputfile, outputfile)
             % Move Beds
             port = CFG.PORT_SOLO;
             cmds = moveBeds(zCur);
-            writeAction(fileID, device, port, cmds, curLine);
+            actionNum = actionNum + 1;
+            writeAction(fileID, actionNum, device, port, cmds, curLine);
 
             % Sweep Roller
             port = CFG.PORT_TWIN;
@@ -104,7 +112,8 @@ function compile(inputfile, outputfile)
             % Zero the Axis motors
             port = CFG.PORT_TWIN;
             cmds = homeAxisRoller();
-            writeAction(fileID, device, port, cmds, curLine);
+            actionNum = actionNum + 1;
+            writeAction(fileID, actionNum, device, port, cmds, curLine);
 
             % Zero the Beds
             port = CFG.PORT_SOLO;
@@ -121,15 +130,23 @@ function compile(inputfile, outputfile)
             device = "Laser";
             port = CFG.PORT_LASER;
             cmds = setLaserOff();
+
+        % Turn Function generator on
+        elseif startsWith(curLine, 'M301')
+            device = "FuncGen";
+            port = CFG.RSRC_FG;
+            cmds = "on";
+
+        % Turn Function generator off
+        elseif startsWith(curLine, 'M302')
+            device = "FuncGen";
+            port = CFG.RSRC_FG;
+            cmds = "off";
         
         % Empty line, skip
         elseif (curLine == "")
             continue;
-            
-        % Comment line, skip
-        elseif startsWith(curLine, ';')
-            continue;
-
+        
         % Encountered unexpected text, pause and wait for user
         else
             warning("WARN: Encountered unexpected text on line %d.", i);
@@ -138,7 +155,8 @@ function compile(inputfile, outputfile)
         end
 
         % Write printerAction to .toml file
-        writeAction(fileID, device, port, cmds, curLine);
+        actionNum = actionNum + 1;
+        writeAction(fileID, actionNum, device, port, cmds, curLine);
         
         xPrev = xCur; yPrev = yCur; zPrev = zCur;    
     end

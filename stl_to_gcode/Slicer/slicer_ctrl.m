@@ -28,7 +28,7 @@ function slicer_ctrl(config_file)
         defect_height =  n_array.defect_height;
    
         if defect_x_origin ~= -1 && defect_y_origin ~= -1 && defect_z_origin ~= -1 && defect_width ~= -1 && defect_length ~= -1 && defect_height ~= -1 
-            insert_defect('test.gcode', defect_x_origin, defect_y_origin, defect_z_origin, defect_width, defect_length, defect_height, length, width, height);
+            insert_defect(filename, defect_x_origin, defect_y_origin, defect_z_origin, defect_width, defect_length, defect_height, length, width, height);
         end
 
 

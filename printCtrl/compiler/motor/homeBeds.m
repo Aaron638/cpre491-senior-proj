@@ -13,6 +13,6 @@ function homecmd = homeBeds()
 
     % Zero Beds to our defined zero position
     homecmd = compose("F, C, S%d M3000, S%d M3000, ", CFG.SUPPLYBED_VXM, CFG.PRINTBED_VXM);
-    homecmd = homecmd + compose("I%d M%d, I%d M-%d, R,", CFG.SUPPLYBED_VXM, CFG.ZERO_S, CFG.PRINTBED_VXM, CFG.ZERO_P);
+    homecmd = homecmd + compose("I%d M%d, I%d M%d, R,", CFG.SUPPLYBED_VXM, CFG.ZERO_S, CFG.PRINTBED_VXM, CFG.ZERO_P);
 
 end

@@ -32,19 +32,22 @@
 %   800 steps     = (2mm) / (0.0025mm/step)
 % Usage:
 %   dist_in_steps = dist_in_mm / CFG.STEP_SIZE;
-
+% 
 function CFG = CONFIG()
     
-% EDIT IF NECESSARY
-    % Serial Ports
+    % Serial Ports for VXM motors
     CFG.BAUD_VXM = 9600;
     CFG.PORT_TWIN = "COM5";  % VXMs to motors 1-4
     CFG.PORT_SOLO = "COM11"; % VXMs to motors 5 & 6
-    % TCP
+    % TCP for Laser
     CFG.IP_LASER = "169.254.198.107";
     CFG.PORT_LASER = 58176;
-
-% ONLY EDIT IF NECESSARY
+    % VISA-USB for function generator
+    % TODO: Update Matlab and use visadev() instead of visa.
+    CFG.VISA_VENDOR_FG = "keysight";
+    CFG.RSRC_FG = "USB::0x0957::0x0407::MY44034072::0::INSTR";
+    % I think it's supposed to be a driver file, but not 100%
+    CFG.DRIVER_FG = "agilent_33220a.mdd";
 
     % Motor indexing
     % Twin Port
