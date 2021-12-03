@@ -6,7 +6,12 @@ function resp = readLaser(device)
     i = 0;
     while temp ~= uint8(0x0D)
         resp(i) = read(device, 1, "uint8");
+        temp = resp(i);
         i = i + 1;
+        if temp == uint8(0x0D)
+            % Read the CRC byte before exiting loop
+            resp(i) = read(device, 1, "uint8");
+        end
     end
     % Trim extraneous zeroes
     resp = nonzeros(resp);
