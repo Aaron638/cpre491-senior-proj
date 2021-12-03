@@ -1,4 +1,9 @@
-% TODO write doc
+% freeLaserTCP
+% Utility function for sending commands directly to the laser.
+% Returns the response from the VXM motor controller.
+% 
+% Usage:
+% freeLaserTCP()
 % 
 function response = freeLaserTCP(ip, port, cmdArray)
     t = tcpclient(ip, port);
