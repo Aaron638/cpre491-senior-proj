@@ -1,4 +1,66 @@
-# New Software Flow 2021 #
+# Final Software Flow 2021 #
+
+
+
+```mermaid
+flowchart TB
+    linkStyle default interpolate linear
+    
+    user("User inputs parameters");
+
+    user --config.json--> slicer;
+
+    subgraph slicer
+        direction TB;
+        slicer_ctrl["slicer_ctrl \n Parse config.json"];
+        gen_cube["gen_cube \n Algorithmically arranges voxel into cube"];
+        gen_voxel["gen_voxel \n Generates infill G-code"];
+        gen_voxel_90["gen_voxel_90 \n Generates infill G-code rotated"];
+        insert_defect["insert_defect \n Inserts simulated defect G-code"];
+
+        slicer_ctrl --> gen_cube;
+        gen_cube --- gen_voxel & gen_voxel_90 & insert_defect;
+    end
+
+    subgraph printCtrl
+        direction LR;
+        
+        subgraph compiler
+            c["compile.m \n Translate G-Code to device cmds"];
+            cm["/motor/ \n"];
+            cl["/laser/ \n"];
+
+            c --- cl & cm;
+        end
+
+        subgraph sender
+            s["sendCMDs.m \n Parses .toml \n Sends commands to hardware"];
+            sm["/motor/ \n"];
+            sl["/laser/ \n"];
+
+            s --> sl & sm;
+        end
+    end
+
+    slicer --.gcode--> compiler;
+    compiler --.toml--> sender;
+
+    subgraph hardware
+        direction TB;
+        hw1{{"Motor \n TWIN"}};
+        hw2{{"Motor \n SOLO"}};
+        hw3{{"Laser"}};
+        hw4{{"FuncGen"}};
+    end
+
+    sm --Serial--> hw1 & hw2;
+    sl --Ethernet TCP--> hw3;
+    s --USB VISA--> hw4;
+```
+
+
+
+
 ## Matlab Software Flow ##
 ```mermaid
 flowchart TB
@@ -172,20 +234,3 @@ flowchart TB
     pc5 --> hw4;
 
 ```
-
-Step 1: Generate a gcode file with the slicer
-	Input parameters using the mlapp
-	or
-	config.json
-	
-	(optional) Verify the gcode is correct using https://nraynaud.github.io/webgcode/
-
-Step 2: Compile the .gcode
-	Configure the parameters (ports, ip address, etc, in config.json)
-	Run: compile("./test_files/{file to test}", "printerActions.txt")
-
-	(optional) Verify printerActions.txt is correct
-
-Step 3: Run the command sender module (CSM)
-	Run: sendCMDs("printerActions.txt)
-		The CSM will send commands to the motor and laser.
