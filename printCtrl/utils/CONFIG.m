@@ -1,40 +1,45 @@
-% TODO: Replace ZERO_P with negative number limit.
-%   That way we can just use an int, rather than cast to string.
-% TODO: Clean up documentation
-% Global constant struct to define the zero position.
-% The zero position is the top-right of the print-bed.
-% The supply bed is at the lowest elevation that does not have a gap.
-% The print bed is at the higest elevation.
-% 
-% Global which changes the way motors are indexed to be from 1-6, rather than 1-4 and 1-2.
-% The user/programmer can access each motor controller: 
-%   m1-m4 under PORT_M1234
-%   m5-m6 under PORT_M56
-% 
-% Usage:
-%   CFG = CONFIG();    % Instantiate the struct as VXM
-%   port = CFG.PORT_TWIN;  % Use the port for motors 1-4.
-% 
-%   % Use freemove function to move motor 3, 500 steps:
-%   freeMove(CFG.PORT_TWIN, CFG.XAXIS_VXM, 500);
-% 
-% Previously to move motor 5, the supply bed, you would index motor 1, port COM11.
-% Now you can index CFG.SUPPLYBED_VXM, port CFG.PORT_SOLO.
-% 
-% The user/programmer can manually change the ports here.
-% This may be necessary if the USB-to-Serial cables are unplugged and plugged back in.
-% 
-% Global to define the size of a VXM step as 0.0025mm.
-% 1mm = 400 steps
-% One step is 1/400 of a motor revolution.
-%
-% Example:
-%   800 steps     = (2mm) / (0.0025mm/step)
-% Usage:
-%   dist_in_steps = dist_in_mm / CFG.STEP_SIZE;
-% 
+%{ 
+    CONFIG
+    "Global constants" to be edited by the user to set ports, addresses, step size, and other variables.
+    Developers should use this rather than explicitly stating port numbers and motor indexes.
+
+    Example usage in Matlab code:
+      CFG = CONFIG();    % Instantiate the struct as CFG
+
+    Previously to move the supply bed motor, you would index motor 1, port COM11.
+    This can be troublesome because COM ports tend to change when plugging in USB-Serial cables in different ports.
+      % Use freemove function to move supplybed 500 steps:
+      freeMove("COM11", 1, 500);
+
+    CONFIG gives these explicit names, so you can index CFG.SUPPLYBED_VXM, port CFG.PORT_SOLO instead.
+      % Use freemove function to move supplybed 500 steps:
+      freeMove(CFG.PORT_SOLO, CFG.SUPPLYBED_VXM, 500);
+
+    STEP_SIZE defines the size of one step.
+    As of the time of writing this, the size of one VXM step is 0.0025mm.
+    1mm = 400 steps
+    Example usage:
+      dist_in_mm = 2;
+      dist_in_steps = dist_in_mm / CFG.STEP_SIZE;
+    800 steps = (2mm) / (0.0025mm/step)
+
+    ZERO_X, ZERO_Y, ZERO_S, ZERO_P define absolute positions for the origin for usage in homeAxisRoller() and homeBeds().
+    From the perspective of the user looking into the chamber:
+    We place the origin at the bottom left of the print bed.
+
+    X-axis: left(-) and right(+) movement.
+    Y-axis: forward/away(-) and backward/towards(+) movement.
+    supply bed Z-axis: up(-) and down(+) movement.
+    print bed Z-axis: up(-) and down(+) movement.
+
+    ZERO_X - 1800 steps from the right limit switch. (x mm from the left border of print bed)
+    ZERO_Y - 13000 steps from the limit switch closest to the user. (y mm from the bottom border of print bed)
+    ZERO_S - 1800 steps above the limit switch position (any lower and powder could leak out) 
+    ZERO_P - Upper limit switch. (20cm up, but should stop at limit switch.)
+%}  
 function CFG = CONFIG()
-    
+
+% Users can edit:
     % Serial Ports for VXM motors
     CFG.BAUD_VXM = 9600;
     CFG.PORT_TWIN = "COM5";  % VXMs to motors 1-4
@@ -49,6 +54,7 @@ function CFG = CONFIG()
     % I think it's supposed to be a driver file, but not 100%
     CFG.DRIVER_FG = "agilent_33220a.mdd";
 
+% Only developers should edit:
     % Motor indexing
     % Twin Port
     CFG.SPOTSIZE_VXM = 4;
@@ -59,11 +65,11 @@ function CFG = CONFIG()
     CFG.SUPPLYBED_VXM = 1;
     CFG.PRINTBED_VXM = 2;
 
-    % Defined VXM zero position
-    CFG.ZERO_X = -1800; % x-axis
-    CFG.ZERO_Y = 13000; % y-axis
-    CFG.ZERO_S = -1800; % supply bed
-    CFG.ZERO_P =-20000; % powder bed
+    % Defined VXM zero position in steps
+    CFG.ZERO_X = -1800;
+    CFG.ZERO_Y = 13000;
+    CFG.ZERO_S = -1800;
+    CFG.ZERO_P =-50000;
 
     % Defined VXM step size (mm)
         % 1mm = 400steps

@@ -1,6 +1,4 @@
 % Validates the laser response.
-
-
 function validLaserResp(respByteArr)
     numCmdDataBytes = length(respByteArr(2:end-2));
     crc = sum(respByteArr(1:end-1));

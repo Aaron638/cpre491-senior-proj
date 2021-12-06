@@ -2,7 +2,7 @@
 % Maps each line of g-code to a command for the motor controllers or the laser.
 % 
 % Usage: 
-%   compile("./test_files/small.gcode", "./test_files/printerActions.txt");
+%   compile("./testFiles/small.gcode", "./testFiles/small.toml");
 % 
 % Possible g-code commands:
 %   G01 X{x} Y{y} => Move 3-axis motors to x,y
@@ -46,9 +46,9 @@ function compile(inputfile, outputfile)
         error("ERROR: gcode file {%s} does not properly define width/length.\nLine 1 must start with: 'Width: {x} Length: {y}'", inputfile);
     end
 
-    fileID = fopen(outputfile, 'w');
     % Right now gcode does not specify height, or number of defects.
     numDefects = 0;
+    fileID = fopen(outputfile, 'w');
     writeHeader(fileID, inputfile, objWidth, objLength, numDefects);
 
     % For each line of gcode starting at line 2, call the corresponding command
@@ -84,13 +84,6 @@ function compile(inputfile, outputfile)
         elseif startsWith(curLine, 'G01 Z')
             gcodeLineStrArr = split(curLine);
             zCur = getNumsFromStr(gcodeLineStrArr(2));
-
-            % FIXME: command output: F, C, I1 M11840, I2 M-11840, R,\r)
-            if zCur > (abs(CFG.ZERO_S)/CFG.STEP_SIZE)
-                warning("WARN: Potential out-of-bounds movement on line %d.", i);
-                disp("Paused. Press any button to continue, or Ctrl+C to stop.");
-                pause();
-            end
 
             device = "Motor";
             % Move Beds

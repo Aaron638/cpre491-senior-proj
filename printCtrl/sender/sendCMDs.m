@@ -1,11 +1,9 @@
-% Executes the instructions in the compiler generated .toml file by sending commands to the motor controllers and the laser.
-% 
+% Parses and executes the instructions in the TOML file by sending commands to the motor controllers and the laser. 
 % Potential optimizations:
 % Use regular expressions and a switch statement
 % Vectorize more things
 % Rearrange control flow for minor runtime improvements
 %   comment and emptyline detection before other if statements
-%
 %
 % UNFINISHED:
 %    As of right now, we don't actually parse toml properly. For example:

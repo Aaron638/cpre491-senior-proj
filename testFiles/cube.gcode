@@ -1,4 +1,5 @@
 Width: 30 Length: 30
+; Source: Default config.json
 ; 3cm cube.
 M200 0.1
 G01 Z0.0000

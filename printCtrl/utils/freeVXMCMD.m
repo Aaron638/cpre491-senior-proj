@@ -1,14 +1,7 @@
-% TODO rewrite doc
-% Utility function which opens a com port, then moves the given motor a given distance in steps.
-% Uses the standard move command Im Mx, where m is the motor index, and x is the distance in steps.
+% Utility function which opens a com port, then runs the VXM command.
+% Will send any ASCII command to the VXM motor controllers without any validation.
 % The function will continue to read until it recieves a '^' character, indicating termination or until it times out.
 % Returns the response from the VXM motor controller.
-% 
-% Usage: 
-%   % Use freemove function to move motor 3, 500 steps:
-%   freeMove(CFG.PORT_TWIN, CFG.XAXIS_VXM, 500);  % Using the global constants
-% 
-%   freeMove("COM5", 2, 500);               % Or do it manually
 % 
 function response = freeVXMCMD(port, cmdString)
     device = serialport(port, 9600);
