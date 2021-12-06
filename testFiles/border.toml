@@ -1,5 +1,5 @@
 [Info]
-datetime = '02-Dec-2021 12:17:44'
+datetime = '05-Dec-2021 21:26:01'
 gcodepath = './testFiles/border.gcode'
 width = '30'
 length = '30'
@@ -65,7 +65,7 @@ index = 6
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, (I2 M3, I0 M0), R,',
+	'F, C, (I2 M0, I3 M0), R,',
 ]
 gcode = 'G01 X0.0000 Y0.0000'
 
@@ -110,7 +110,7 @@ index = 11
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, (I2 M3, I200 M3150), R,',
+	'F, C, (I2 M200, I3 M3150), R,',
 ]
 gcode = 'G01 X0.5000 Y7.8750'
 

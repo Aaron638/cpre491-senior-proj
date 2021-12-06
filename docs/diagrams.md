@@ -59,16 +59,14 @@ flowchart TB
     s --USB VISA--> hw4;
 ```
 
-## Printer Control Block Diagram ##
+## Detailed Printer Control Block Diagram ##
 ```mermaid
-
 flowchart TB
     linkStyle default interpolate linear
     slicer["Slicer"];
 
     subgraph printCtrl
         direction LR
-
         
         subgraph compiler
             c["compile.m \n Translate G-Code to device cmds"];
@@ -88,6 +86,11 @@ flowchart TB
             sl["/laser/ \n"];
 
             s --> sl & sm;
+
+            subgraph toolboxes
+                pc3["Instrument Control \n Matlab Add-On"];
+                pc2["matlab-toml-forked \n Matlab Add-On"];
+            end
         end
     end
 
@@ -102,13 +105,9 @@ flowchart TB
         hw4{{"FuncGen"}};
     end
 
-    sl --> hw3 & hw4;
-    sm --> hw1 & hw2;
-
-    subgraph toolboxes
-        pc3["Instrument Control \n Matlab Add-On"];
-        pc2["matlab-toml-forked \n Matlab Add-On"];
-    end
+    sm --Serial--> hw1 & hw2;
+    sl --Ethernet TCP--> hw3;
+    s --USB VISA--> hw4;
 ``` 
 
 ## Hardware Diagram ##

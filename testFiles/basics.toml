@@ -1,5 +1,5 @@
 [Info]
-datetime = '02-Dec-2021 12:17:34'
+datetime = '05-Dec-2021 21:26:01'
 gcodepath = './testFiles/basics.gcode'
 width = '30'
 length = '30'
@@ -51,7 +51,7 @@ index = 5
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, (I2 M3, I0 M0), R,',
+	'F, C, (I2 M0, I3 M0), R,',
 ]
 gcode = 'G01 X0.0000 Y0.0000'
 
@@ -96,7 +96,7 @@ index = 10
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, (I2 M3, I12000 M12000), R,',
+	'F, C, (I2 M12000, I3 M12000), R,',
 ]
 gcode = 'G01 X30.0000 Y30.0000'
 
@@ -105,7 +105,7 @@ index = 11
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, (I2 M3, I-12000 M-12000), R,',
+	'F, C, (I2 M-12000, I3 M-12000), R,',
 ]
 gcode = 'G01 X0.0000 Y0.0000'
 
@@ -151,7 +151,7 @@ index = 15
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, (I2 M3, I-12000 M12000), R,',
+	'F, C, (I2 M-12000, I3 M12000), R,',
 ]
 gcode = 'G01 X0.0000 Y30.0000'
 
@@ -160,7 +160,7 @@ index = 16
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, (I2 M3, I12000 M-12000), R,',
+	'F, C, (I2 M12000, I3 M-12000), R,',
 ]
 gcode = 'G01 X30.0000 Y0.0000'
 

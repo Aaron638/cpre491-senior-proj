@@ -114,5 +114,3 @@ In the Cybox folder, theres an excel file describing pins along with some other 
   - Matlab Script or Function File
 - `.xaml.cs`
   - C# Code for creating a UI
-
-1.45mm wire
