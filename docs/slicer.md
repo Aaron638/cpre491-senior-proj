@@ -33,16 +33,9 @@ For example, this `.gcode` starts the laser at (0,0), turns it on, draws a line 
 ## Directories
 
 All slicer files live in the directory `stl_to_gcode/Slicer/`.
-`stl_to_gcode/EquationOfLine/` and `stl_to_gcode/LineSegment/` contain helper functions only.
 
 ```tree
 stl_to_gcode
-|
-├───EquationOfLine
-|   ...
-│
-├───LineSegment
-|   ...
 │
 └───Slicer
         config.json
