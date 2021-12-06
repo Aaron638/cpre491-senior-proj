@@ -9,10 +9,10 @@
 % Returns a single string with the command.
 %
 % VXM Command breakdown:
-%   "F, C, I2M 400, R"
+%   "F, C, I2 M400, R"
 %     F = On-Line mode with echo off
 %     C = clear all commands from current program
-%     I2M 400 = Index motor 2, move 400 steps positive direction
+%     I2 M400 = Index motor 2, move 400 steps positive direction
 %     R = run command
 
 function vxmCMD = moveAxis(x0, y0, x1, y1)
@@ -36,6 +36,6 @@ function vxmCMD = moveAxis(x0, y0, x1, y1)
         vxmCMD = [compose("F, C, I%d M%d, R,", CFG.XAXIS_VXM, deltaX)];
     % Move both motors
     else
-        vxmCMD = [compose("F, C, (I%d M%d, I%d M%d), R,", CFG.XAXIS_VXM, CFG.YAXIS_VXM, deltaX, deltaY)];
+        vxmCMD = [compose("F, C, (I%d M%d, I%d M%d), R,", CFG.XAXIS_VXM, deltaX, CFG.YAXIS_VXM, deltaY)];
     end
 end

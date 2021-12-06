@@ -1,10 +1,8 @@
-% Compiler subfunction which moves the beds to the defined home position in ZERO_POS.m
+% % Compiler subfunction which moves the beds to the defined home position in ZERO_POS.m
 % Similar to Tary's printerHome, but uses global constants to prevent hard-coding the values.
 % 
 % Usage:
 %   printerAction = homeBeds();
-% 
-% Returns a single string with the command.
 % 
 function homecmd = homeBeds()
 

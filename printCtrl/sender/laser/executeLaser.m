@@ -1,4 +1,4 @@
-% 
+% Sends a TCP packet with the byte array to the Laser.
 % UNFINISHED: May want to check that they aren't already uint8
 % 
 function executeLaser(pa, tcpDevice)
