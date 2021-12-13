@@ -1,6 +1,6 @@
 [Info]
-datetime = '05-Dec-2021 21:29:12'
-gcodepath = './testFiles/home.gcode'
+datetime = '13-Dec-2021 11:21:56'
+gcodepath = 'testfiles/home.gcode'
 width = '30'
 length = '30'
 numDefects = '0'
@@ -13,7 +13,7 @@ actions = [
 	'F, C, S4 M5400, I4 M0, R,',
 	'F, C, S1 M5400, I1 M-0, R,',
 	'F, C, S2 M5400, S3 M5400, I2 M0, I3 M-0, R,',
-	'F, C, I2 M-1800, I3 M13000, R,',
+	'F, C, I2 M-11000, I3 M50000, R,',
 ]
 gcode = 'M200'
 
