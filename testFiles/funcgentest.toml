@@ -1,0 +1,34 @@
+[Info]
+datetime = '13-Dec-2021 11:49:37'
+gcodepath = 'testFiles/funcgentest.gcode'
+width = '30'
+length = '30'
+numDefects = '0'
+
+[[printerAction]]
+index = 1
+device = 'FuncGen'
+port = 'USB::0x0957::0x0407::MY44034072::0::INSTR'
+actions = [
+	'on'
+]
+gcode = 'M301'
+
+[[printerAction]]
+index = 2
+device = 'Motor'
+port = 'COM5'
+actions = [
+	'F, C, I2 M12000, R,',
+]
+gcode = 'G01 X30.0000 Y0.0000'
+
+[[printerAction]]
+index = 3
+device = 'FuncGen'
+port = 'USB::0x0957::0x0407::MY44034072::0::INSTR'
+actions = [
+	'off'
+]
+gcode = 'M302'
+

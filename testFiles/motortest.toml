@@ -1,0 +1,89 @@
+[Info]
+datetime = '13-Dec-2021 11:49:37'
+gcodepath = 'testFiles/motortest.gcode'
+width = '30'
+length = '30'
+numDefects = '0'
+
+[[printerAction]]
+index = 1
+device = 'Motor'
+port = 'COM11'
+actions = [
+	'F, C, I1 M0, I2 M-0, R,',
+]
+gcode = 'G01 Z0.0000'
+
+[[printerAction]]
+index = 2
+device = 'Motor'
+port = 'COM5'
+actions = [
+	'F, C, S1 M5400 I1 M0, R,',
+	'F, C, S1 M5400 I1 M-0, R,',
+]
+gcode = 'G01 Z0.0000'
+
+[[printerAction]]
+index = 3
+device = 'Motor'
+port = 'COM5'
+actions = [
+	'F, C, (I2 M0, I3 M0), R,',
+]
+gcode = 'G01 X0.0000 Y0.0000'
+
+[[printerAction]]
+index = 4
+device = 'Motor'
+port = 'COM5'
+actions = [
+	'F, C, I2 M12000, R,',
+]
+gcode = 'G01 X30.0000 Y0.0000'
+
+[[printerAction]]
+index = 5
+device = 'Motor'
+port = 'COM5'
+actions = [
+	'F, C, I2 M-12000, R,',
+]
+gcode = 'G01 X0.0000 Y0.0000'
+
+[[printerAction]]
+index = 6
+device = 'Motor'
+port = 'COM5'
+actions = [
+	'F, C, I3 M12000, R,',
+]
+gcode = 'G01 X0.0000 Y30.0000'
+
+[[printerAction]]
+index = 7
+device = 'Motor'
+port = 'COM5'
+actions = [
+	'F, C, I3 M-12000, R,',
+]
+gcode = 'G01 X0.0000 Y0.0000'
+
+[[printerAction]]
+index = 8
+device = 'Motor'
+port = 'COM5'
+actions = [
+	'F, C, (I2 M12000, I3 M12000), R,',
+]
+gcode = 'G01 X30.0000 Y30.0000'
+
+[[printerAction]]
+index = 9
+device = 'Motor'
+port = 'COM5'
+actions = [
+	'F, C, (I2 M-12000, I3 M-12000), R,',
+]
+gcode = 'G01 X0.0000 Y0.0000'
+

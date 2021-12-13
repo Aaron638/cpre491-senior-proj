@@ -1,6 +1,6 @@
 [Info]
-datetime = '13-Dec-2021 11:18:17'
-gcodepath = 'testfiles/basics.gcode'
+datetime = '13-Dec-2021 11:48:26'
+gcodepath = 'testFiles/basics.gcode'
 width = '30'
 length = '30'
 numDefects = '0'
@@ -41,8 +41,8 @@ index = 4
 device = 'Motor'
 port = 'COM5'
 actions = [
-	'F, C, I1 M0, R,',
-	'F, C, I1 M-0, R,',
+	'F, C, S1 M5400 I1 M0, R,',
+	'F, C, S1 M5400 I1 M-0, R,',
 ]
 gcode = 'G01 Z0.0000'
 

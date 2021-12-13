@@ -1,6 +1,6 @@
 [Info]
-datetime = '13-Dec-2021 11:21:56'
-gcodepath = 'testfiles/home.gcode'
+datetime = '13-Dec-2021 11:49:37'
+gcodepath = 'testFiles/home.gcode'
 width = '30'
 length = '30'
 numDefects = '0'

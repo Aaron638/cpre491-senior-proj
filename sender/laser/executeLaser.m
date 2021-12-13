@@ -7,9 +7,9 @@ function executeLaser(pa, tcpDevice)
     end
 
     strArr = pa.actions;
-    byteArr = uint8(hex2dec(strArr));
+    %byteArr = uint8(hex2dec(strArr));
 
-    write(tcpDevice, byteArr, "uint8");
+    write(tcpDevice, strArr, "uint8");
     % response = compose("%02X", read(tcpDevice));
     
 end

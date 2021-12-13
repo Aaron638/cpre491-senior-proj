@@ -24,7 +24,7 @@ function sendCMDs(inputfile)
     VISAobj = visa(CFG.VISA_VENDOR_FG, CFG.RSRC_FG);
     funcGendevice = icdevice(CFG.DRIVER_FG, VISAobj);
     connect(funcGendevice);
-    devicereset(funcGendevice);
+    %devicereset(funcGendevice);
 
     isFirstAction = true;
     stringBlock = "";
@@ -85,11 +85,13 @@ function sendCMDs(inputfile)
                 executeLaser(pa, laserTCPdevice);
                 disp("Sent to Laser:");
                 fprintf("%02X ", pa.actions);
+                fprintf("\n");
 
-                r = readLaser(laserTCPdevice);
-                validLaserResp(r); % Validates laser response
-                disp("Recieved from Laser:")
-                fprintf("%02X ", r);
+                % UNFINISHED: Laser reading is potentially broken
+                %r = readLaser(laserTCPdevice);
+                %validLaserResp(r); % Validates laser response
+                %disp("Recieved from Laser:")
+                %fprintf("%02X ", r);
 
                 % UNFINISHED: Parse the laser response
 

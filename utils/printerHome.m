@@ -13,7 +13,7 @@ while response ~= '^'
 end
 
 % Adjust Axis
-string = compose("F, C, I2 M-1800, I3 M13000, R,\r");
+string = compose("F, C, I2 M-11000, I3 M50000, R,\r");
 write(device, string, "uint8");
 response = "";
 while response ~= '^'

@@ -1,0 +1,44 @@
+[Info]
+datetime = '13-Dec-2021 11:40:24'
+gcodepath = 'testFiles/lasertest.gcode'
+width = '30'
+length = '30'
+numDefects = '0'
+
+[[printerAction]]
+index = 1
+device = 'Laser'
+port = 58176
+actions = [
+	0x1B,
+	0x02,
+	0x10,
+	0x01,
+	0x0D,
+	0x3B,
+]
+gcode = 'M201'
+
+[[printerAction]]
+index = 2
+device = 'Motor'
+port = 'COM5'
+actions = [
+	'F, C, I2 M12000, R,',
+]
+gcode = 'G01 X30.0000 Y0.0000'
+
+[[printerAction]]
+index = 3
+device = 'Laser'
+port = 58176
+actions = [
+	0x1B,
+	0x02,
+	0x10,
+	0x00,
+	0x0D,
+	0x3A,
+]
+gcode = 'M202'
+
