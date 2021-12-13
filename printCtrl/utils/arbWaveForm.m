@@ -16,7 +16,7 @@ If you plan on updating the machine past 2020b, please review this:
 obj = visa('keysight', 'USB::0x0957::0x0407::MY44034072::0::INSTR');
 h = icdevice('agilent_33220a.mdd', obj);
 connect(h);
-devicereset(h);
+% devicereset(h);
 
 % TURN ON OUTPUT
 set(h, 'Output', 'on');
